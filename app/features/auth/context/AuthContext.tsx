@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { queryClient, clearPersistedQueryCache } from "@/lib/query-client";
 import { userKeys } from "@/features/auth/hooks/useMe";
 
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate } from "react-router";
 import { tokenStore } from "@/features/auth/services/token-store";
 import * as AuthAPI from "@/features/auth/services/auth";
 
@@ -41,27 +41,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setLoading(false);
                 // 2) Background revalidate (will auto-refresh access token if needed)
                 queryClient.invalidateQueries({ queryKey: userKeys.me });
-                const rsvps = queryClient.getQueryData(userKeys.rsvps(cached?.epccId))
+                const rsvps = queryClient.getQueryData(userKeys.rsvps(cached?.epccId));
                 if (rsvps) {
-                    console.log('tyes', rsvps)
-                    setUserRsvps(rsvps);
+                    setUserRsvps(rsvps as string[]);
                     setLoading(false);
                     // 2) Background revalidate (will auto-refresh access token if needed)
-                } else {
-                    console.log('naw', cached)
-
-                    if (cached?.epccId) {
-                        console.log('id', cached?.epccId)
-
-                        const rsvps = await AuthAPI.userRsvps(cached?.epccId)
-                        console.log('ids', rsvps)
-
-                        const ids = rsvps.userRsvps.map(obj => obj.eventId);
-                        console.log('ids', ids)
-
-                        queryClient.setQueryData(userKeys.rsvps(cached?.epccId), ids);
-                        setUserRsvps(ids)
-
+                } else if (cached?.epccId) {
+                    try {
+                        await AuthAPI.me();
+                        const rsvpsResp = await AuthAPI.userRsvps(cached.epccId);
+                        const ids = rsvpsResp.map((obj) => obj.eventId);
+                        queryClient.setQueryData(userKeys.rsvps(cached.epccId), ids);
+                        setUserRsvps(ids);
+                    } catch {
+                        tokenStore.clear();
+                        clearPersistedQueryCache();
+                        setToken(null);
+                        setUser(null);
                     }
                 }
                 return
