@@ -1,7 +1,7 @@
-import { Card, CardAction, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardAction, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/primitives/card';
 import { type Event } from '@/types';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/primitives/button';
+import { Separator } from '@/components/primitives/separator';
 import Admin from '@/components/layout/admin';
 import { MapPin, Calendar, UserCircle, PlusCircle } from "lucide-react";
 import RsvpButton from './rsvp-button';

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/primitives/button"
 import Dialog from "./dialog";
 import { Trash, Edit } from "lucide-react";
 import { useDeleteEvent } from "../useEvents";

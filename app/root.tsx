@@ -18,7 +18,7 @@ import { HeroUIProvider } from "@heroui/react";
 import { WithPersistedQueryClient } from "@/lib/query-client";
 import { EventProvider } from "./providers/events-context";
 
-import Circuit from "./components/ui/circuit";
+import Circuit from "./components/primitives/circuit";
 import Footer from "./components/navigation/Footer";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 

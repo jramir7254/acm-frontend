@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/primitives/button"
 import {
     Dialog,
     DialogClose,
@@ -8,7 +8,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/primitives/dialog"
 
 
 import EditForm from "./edit-form"

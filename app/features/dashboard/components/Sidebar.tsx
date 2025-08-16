@@ -1,5 +1,5 @@
 
-import { SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/primitives/sidebar"
 import { Calendar, Home, Inbox, Search, Settings, PersonStanding } from "lucide-react"
 import { useAuth } from "@/features/auth/context/AuthContext";
 import Admin from "@/components/layout/admin";
@@ -9,7 +9,7 @@ import {
     SidebarFooter,
     SidebarGroup,
     SidebarHeader,
-} from "@/components/ui/sidebar"
+} from "@/components/primitives/sidebar"
 
 const items = [
     {
@@ -27,7 +27,7 @@ const items = [
 import { User } from "@heroui/user";
 import { Button } from "@heroui/button"
 import LogoutButton from "./LogoutButton"
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/primitives/separator"
 export default function DashboardSidebar() {
     const { user } = useAuth()
     return (

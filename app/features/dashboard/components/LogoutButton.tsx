@@ -7,8 +7,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/primitives/alert-dialog"
+import { Button } from "@/components/primitives/button"
 import { useAuth } from "@/features/auth/context/AuthContext"
 
 export default function LogoutButton() {

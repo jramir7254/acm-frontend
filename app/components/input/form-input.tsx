@@ -4,8 +4,8 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form";
-import { Input } from "../ui/input";
+} from "@/components/primitives/form";
+import { Input } from "../primitives/input";
 
 import type {
     Control,

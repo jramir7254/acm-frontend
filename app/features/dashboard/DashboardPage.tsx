@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Page from '@/components/layout/page'
-import { SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/primitives/sidebar'
 import { useContext } from 'react'
 import DashboardSidebar from './components/Sidebar'
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
 import { Button } from '@heroui/button'
 import { API } from '@/lib/client';
 import { useAuth } from "@/features/auth/context/AuthContext";

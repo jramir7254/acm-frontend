@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { Form } from "@/components/primitives/form";
 import { DatePickerInput } from "./calendar-input";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/primitives/textarea";
 
 import FormInput from "@/components/input/form-input";
 import type { Event } from "@/types";

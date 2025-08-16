@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/primitives/button"
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { useRsvp } from "../useEvents";
 type Props = {
