@@ -4,19 +4,16 @@ import {
     Meta,
     Outlet,
     Scripts,
-    useNavigate,
-    useHref,
     ScrollRestoration,
     useLocation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import Header from "./components/navigation/Header";
-import { AuthProvider } from "./features/auth/context/AuthContext";
+import { AuthActionsProvider } from "./features/auth/context/AuthP";
 import "./app.css";
-import { HeroUIProvider } from "@heroui/react";
 import { WithPersistedQueryClient } from "@/lib/query-client";
-import { EventProvider } from "./providers/events-context";
+import { Toaster } from "sonner";
 
 import Circuit from "./components/primitives/circuit";
 import Footer from "./components/navigation/Footer";
@@ -41,29 +38,19 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-    const navigate = useNavigate();
-    const href = useHref; // pass the hook itself
     return (
         <html lang="en" className="dark">
             <head>
                 <title>EPCC ACM Club</title>
                 <meta charSet="utf-8" />
+                <link rel="icon" type="image/x-icon" href="/epcc.png" />
+
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <Meta />
                 <Links />
             </head>
             <body>
-                <HeroUIProvider
-                    navigate={(to, opts) => navigate(String(to), opts)}
-                    useHref={(to) => href(to)} // optional, useful if you have a basename
-                    locale="en-US"
-                    validationBehavior="aria"
-                    reducedMotion="user"
-
-                >
-
-                    {children}
-                </HeroUIProvider>
+                {children}
                 <ScrollRestoration />
                 <Scripts />
             </body>
@@ -77,38 +64,37 @@ export default function App() {
 
 
     const hideFooter =
-        location.pathname === "/auth" ||
+        location.pathname.startsWith("/auth") ||
         location.pathname.startsWith("/profile") ||
         location.pathname === "/admin";
 
     return (
         <WithPersistedQueryClient>
 
-            <AuthProvider>
-                <EventProvider>
+            <AuthActionsProvider>
 
-                    <div className="flex flex-col min-h-screen">
+                <div className="flex flex-col min-h-screen">
 
-                        <Circuit
-                            style={{
-                                position: "fixed",
-                                top: 0,
-                                left: 0,
-                                zIndex: -1,
-                                width: "100vw",
-                                height: "100%",
-                                pointerEvents: "none",
-                            }}
-                        />
-                        <Header />
-                        <main>
-                            <Outlet />
-                        </main>
-                        {!hideFooter && <Footer />}
-                    </div>
+                    <Circuit
+                        style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            zIndex: -1,
+                            width: "100vw",
+                            height: "100%",
+                            pointerEvents: "none",
+                        }}
+                    />
+                    <Header />
+                    <main>
+                        <Outlet />
+                    </main>
+                    <Toaster />
+                    {!hideFooter && <Footer />}
+                </div>
 
-                </EventProvider>
-            </AuthProvider>
+            </AuthActionsProvider>
             <ReactQueryDevtools initialIsOpen={false} />
 
         </WithPersistedQueryClient>

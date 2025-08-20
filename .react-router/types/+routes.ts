@@ -19,10 +19,23 @@ type Pages = {
   "/auth": {
     params: {};
   };
+  "/auth/verify": {
+    params: {};
+  };
   "/about": {
     params: {};
   };
   "/profile/:userId": {
+    params: {
+      "userId": string;
+    };
+  };
+  "/profile/:userId/settings": {
+    params: {
+      "userId": string;
+    };
+  };
+  "/profile/:userId/admin": {
     params: {
       "userId": string;
     };
@@ -32,26 +45,46 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/about" | "/profile/:userId";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/profile/:userId" | "/profile/:userId/settings" | "/profile/:userId/admin";
   };
   "features/home/Home.tsx": {
     id: "features/home/Home";
     page: "/";
   };
-  "features/events/EventsPage.tsx": {
-    id: "features/events/EventsPage";
+  "features/events/page/events-page.tsx": {
+    id: "features/events/page/events-page";
     page: "/events";
   };
-  "features/auth/AuthPage.tsx": {
-    id: "features/auth/AuthPage";
+  "features/auth/page/auth-page.tsx": {
+    id: "features/auth/page/auth-page";
+    page: "/auth" | "/auth/verify";
+  };
+  "features/auth/page/views/index-view.tsx": {
+    id: "features/auth/page/views/index-view";
     page: "/auth";
+  };
+  "features/auth/page/views/verify-view.tsx": {
+    id: "features/auth/page/views/verify-view";
+    page: "/auth/verify";
   };
   "features/about/AboutPage.tsx": {
     id: "features/about/AboutPage";
     page: "/about";
   };
-  "features/dashboard/DashboardPage.tsx": {
-    id: "features/dashboard/DashboardPage";
+  "features/dashboard/page/dashboard-page.tsx": {
+    id: "features/dashboard/page/dashboard-page";
+    page: "/profile/:userId" | "/profile/:userId/settings" | "/profile/:userId/admin";
+  };
+  "features/dashboard/page/views/profile-view.tsx": {
+    id: "features/dashboard/page/views/profile-view";
     page: "/profile/:userId";
+  };
+  "features/dashboard/page/views/settings-view.tsx": {
+    id: "features/dashboard/page/views/settings-view";
+    page: "/profile/:userId/settings";
+  };
+  "features/dashboard/page/views/admin-view.tsx": {
+    id: "features/dashboard/page/views/admin-view";
+    page: "/profile/:userId/admin";
   };
 };

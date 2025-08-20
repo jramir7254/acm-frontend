@@ -1,0 +1,9 @@
+export interface User {
+    epccId: string,
+    firstName: string,
+    lastName: string,
+    epccEmail: string,
+    points: number,
+    eventsAttended: number,
+    isAdmin: boolean,
+}

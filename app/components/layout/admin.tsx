@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth } from "@/features/auth/context/AuthContext";
+import { useMe } from '@/features/auth/hooks/useMe';
 
 type Props = {
     children: React.ReactNode,
@@ -7,7 +7,7 @@ type Props = {
 }
 
 export default function Admin({ children, className }: Props) {
-    const { user } = useAuth()
+    const { data: user } = useMe()
 
     return user?.isAdmin ? (
         <div className={className}>{children}</div>
