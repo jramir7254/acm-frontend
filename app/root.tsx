@@ -9,14 +9,14 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import Header from "./components/navigation/Header";
+import Header from "./components/navigation/header";
 import { AuthActionsProvider } from "./features/auth/context/AuthP";
 import "./app.css";
 import { WithPersistedQueryClient } from "@/lib/query-client";
 import { Toaster } from "sonner";
 
 import Circuit from "./components/primitives/circuit";
-import Footer from "./components/navigation/Footer";
+import Footer from "./components/navigation/footer";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 
@@ -65,7 +65,7 @@ export default function App() {
 
     const hideFooter =
         location.pathname.startsWith("/auth") ||
-        location.pathname.startsWith("/profile") ||
+        location.pathname.startsWith("/888") ||
         location.pathname === "/admin";
 
     return (
@@ -90,7 +90,7 @@ export default function App() {
                     <main>
                         <Outlet />
                     </main>
-                    <Toaster />
+                    <Toaster richColors position="top-center" />
                     {!hideFooter && <Footer />}
                 </div>
 

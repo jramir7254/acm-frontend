@@ -1,37 +1,49 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Events from "../api/events";
-import type { Event } from "@/types";
 
 export const eventsKeys = {
     all: ["events"] as const,
     list: () => [...eventsKeys.all, "list"] as const,
-    detail: (id: string | number) => [...eventsKeys.all, "detail", id] as const,
+    read: (id: string | number) => [...eventsKeys.all, "read", id] as const,
 };
 
-import { userKeys } from "../../auth/hooks/useMe";
+import { userKeys } from "../../auth/hooks/use-me";
 
 export function useEvents() {
     return useQuery({
         queryKey: eventsKeys.all,
         queryFn: Events.listEvents,
         staleTime: 5 * 60_000,
-        gcTime: 24 * 60 * 60_000
+        gcTime: 24 * 60 * 60_000,
     });
 }
 
-// Optional: combine RSVP info
-// export function useEventsWithRsvp() {
-//     const { data: me } = useMe();
-//     const { data: rsvps = [] } = useUserRsvps(me?.epccId);
-//     const q = useEvents();
+export function useEventsData() {
+    return useEvents().data ?? [];
+}
 
-//     const events = (q.data ?? []).map(e => ({
-//         ...e,
-//         isRsvpd: rsvps.some(r => r.eventId === e.id),
-//     }));
 
-//     return { ...q, data: events };
-// }
+export function useEvent(eventId: number) {
+    const qc = useQueryClient();
+
+    return useQuery({
+        queryKey: eventsKeys.read(eventId),
+        queryFn: () => Events.getEvent(eventId), // fetch if missing
+        staleTime: 5 * 60_000,
+        gcTime: 24 * 60 * 60_000,
+        enabled: !!eventId,
+
+        // 👇 If we already have the list, use that instead of refetching
+        initialData: () => {
+            const events = qc.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
+                eventsKeys.all
+            );
+            return events?.find(e => e.id === eventId);
+        },
+    });
+}
+
+
 
 export function useDeleteEvent(id: string | number) {
 
@@ -47,11 +59,11 @@ export function useDeleteEvent(id: string | number) {
 }
 
 
-export function useEditEvent(id: string | number) {
+export function useEditEvent() {
 
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: (form) => Events.updateEvent(id, form),
+        mutationFn: ({ id, form }: { id: string | number; form: any }) => Events.updateEvent(id, form),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
             qc.invalidateQueries({ queryKey: userKeys.rsvps() });
@@ -63,7 +75,7 @@ export function useCreateEvent() {
 
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: (form) => Events.createEvent(form),
+        mutationFn: (form: any) => Events.createEvent(form),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
             qc.invalidateQueries({ queryKey: userKeys.rsvps() });
@@ -72,26 +84,26 @@ export function useCreateEvent() {
     });
 }
 
-export function useRsvp(eventId: string | number, userId: string) {
+export function useRsvp() {
 
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: () => Events.rsvp(eventId, userId),
+        mutationFn: (eventId: string | number) => Events.rsvp(eventId),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps(userId) });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
 
         },
     });
 }
 
-export function useCancelRsvp(eventId: string | number, userId: string) {
+export function useCancelRsvp() {
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: () => Events.cancelRsvp(eventId, userId),
+        mutationFn: (eventId: string | number) => Events.cancelRsvp(eventId),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps(userId) });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
         },
     });
 }

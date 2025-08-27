@@ -1,0 +1,17 @@
+/* styles/variables.css */
+
+:root {
+    --sidebar-width: 20rem;
+}
+
+/* @media (min-aspect-ratio: 16/9) {
+    :root {
+        --sidebar-width: 15rem;
+    }
+} */
+
+@media (max-aspect-ratio: 16/10) {
+    :root {
+        --sidebar-width: 15rem;
+    }
+}

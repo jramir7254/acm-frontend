@@ -1,5 +1,5 @@
 // app/features/auth/services/token-store.ts
-const KEY = "authToken";
+const KEY = "token";
 const USER = "user";
 
 export const tokenStore = {

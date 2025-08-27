@@ -5,5 +5,8 @@ export interface User {
     epccEmail: string,
     points: number,
     eventsAttended: number,
+    accountComplete: boolean,
+    permissions: string[],
+    role: string,
     isAdmin: boolean,
 }

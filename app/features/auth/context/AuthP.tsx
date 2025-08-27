@@ -2,7 +2,7 @@ import { clearPersistedQueryCache } from "@/lib/query-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useContext, createContext } from "react";
 import { useNavigate } from "react-router";
-import { userKeys } from "../hooks/useMe";
+import { userKeys } from "../hooks/use-me";
 import { tokenStore } from "../services/token-store";
 
 import * as AuthAPI from '../services/auth'
@@ -33,7 +33,7 @@ export function AuthActionsProvider({ children }: { children: React.ReactNode })
             const me = await qc.fetchQuery({ queryKey: userKeys.me, queryFn: AuthAPI.me });
             if (me?.epccId) {
                 qc.prefetchQuery({ queryKey: userKeys.rsvps(me.epccId), queryFn: () => AuthAPI.userRsvps(me.epccId) });
-                navigate(`/profile/${me.epccId}`, { replace: true });
+                navigate(`/${me.epccId}`, { replace: true });
             }
         } catch (error) {
             throw error

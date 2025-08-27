@@ -10,7 +10,7 @@ import {
 } from "@/components/primitives/alert-dialog"
 import { Button } from "@/components/primitives/button"
 import { useCancelRsvp } from "@/features/events/hooks/use-events";
-import { useMe } from "@/features/auth/hooks/useMe";
+import { useMe } from "@/features/auth/hooks/use-me";
 export function CancelRsvpButton({ eventId }: { eventId: string }) {
     const { data: user } = useMe();
     const cancelRsvpMutation = useCancelRsvp(eventId, user?.epccId);

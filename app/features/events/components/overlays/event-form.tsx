@@ -1,86 +1,94 @@
+// event-form.tsx
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/primitives/form";
-import { DatePickerInput } from "@/components/input/calendar-input";
-import { Textarea } from "@/components/primitives/textarea";
+import { Form, FormInput, Textarea, DateTimePickerInput } from "@/components/input";
 import { useEditEvent, useCreateEvent } from "../../hooks/use-events";
-import FormInput from "@/components/input/form-input";
-import { eventSchema } from "../../types/schemas";
+import { eventSchema } from "../../types/schemas"; // assumes schema with startAt/endAt (Date)
+import { useEventContext } from "../../context/event-context";
 
 type EventFormValues = z.infer<typeof eventSchema>;
-import { useEventContext } from "../cards";
-
-
-
 
 export default function EventForm() {
-    const event = useEventContext()
-    const insideEvent = event !== null
+    const event = useEventContext();
+    const insideEvent = event !== null;
+    const updateEvent = useEditEvent()
+    const createEvent = useCreateEvent();
 
-    const defaultValues = insideEvent ? event : {
-        title: "",
-        host: "",
-        imageUrl: "",
-        location: "",
-        date: new Date(),
-        time: "",
-        description: ""
-    }
+    // Adjust these to your actual event shape
+    const defaultValues: Partial<EventFormValues> = insideEvent
+        ? {
+            ...event,
+            startAt: new Date(event.startAt), // migrate if needed
+            endAt: new Date(event.endAt),
+        }
+        : {
+            title: "",
+            host: "",
+            imageUrl: "",
+            location: "",
+            startAt: new Date(),
+            endAt: new Date(),
+            description: "",
+        };
 
-
-    const form = useForm({
+    const form = useForm<EventFormValues>({
         resolver: zodResolver(eventSchema),
         defaultValues,
-        mode: "onChange"
-    })
-
+        mode: "onChange",
+    });
 
     const submit = async (values: EventFormValues) => {
         if (insideEvent) {
-            const updateEvent = useEditEvent(event?.id)
-            await updateEvent.mutate(values)
-            return
+            await updateEvent.mutate({ id: event?.id, form: values });
+            return;
         }
-
-        const createEvent = useCreateEvent()
-        await createEvent.mutate(values)
-        // console.log(form.getValues())
+        await createEvent.mutate(values);
     };
 
-    const imgUrl = form.watch('imageUrl')
-
+    const imgUrl = form.watch("imageUrl");
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(submit)} id="event-form" className=" grid grid-cols-2 grid-rows-5">
-                <FormInput name="title" label="Title" />
-                <div className="col-span-1 row-span-3 border border-white/50 rounded">
-                    <img className="cover" src={imgUrl}></img>
+            <form onSubmit={form.handleSubmit(submit)} id="event-form" className="grid grid-cols-2">
+                <div className="col-span-1">
+                    <FormInput name="title" label="Title" />
+                    <FormInput name="host" label="Host or Presenter" placeholder="John Doe" />
+                    <FormInput name="location" label="Location" />
+
+                    <div className="flex gap-3">
+                        <FormInput name="startAt" label="Start Date">
+                            {(field) => (
+                                <DateTimePickerInput
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        </FormInput>
+
+                        <FormInput name="endAt" label="End Date">
+                            {(field) => (
+                                <DateTimePickerInput
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                />
+                            )}
+                        </FormInput>
+                    </div>
                 </div>
-                <FormInput name="host" label="Host or Presenter" placeholder="John Doe" />
-                <FormInput name="location" label="Location" />
 
-                <div className="col-span-1 flex">
-
-                    <FormInput name="date" label="Date">
-                        {field => (
-                            <DatePickerInput
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
-                        )}
-                    </FormInput>
-                    <FormInput name="time" type="time" label="Time" />
+                <div className="col-span-1 px-10">
+                    <div className="border border-white/50 rounded h-[35vh] max-h-[35vh] overflow-hidden">
+                        {/* add alt for a11y */}
+                        <img className="object-cover" src={imgUrl} alt="Event preview" />
+                    </div>
+                    <FormInput name="imageUrl" label="Image URL" />
                 </div>
-                <FormInput name="imageUrl" label="Image URL" />
 
-
-
-                <FormInput name="description" className="col-span-2" label="Description" >
-                    {field => <Textarea className="resize-none h-[10vh]" {...field} />}
+                <FormInput name="description" className="col-span-2" label="Description">
+                    {(field) => <Textarea className="resize-none h-[15vh]" {...field} />}
                 </FormInput>
             </form>
         </Form>
-    )
+    );
 }

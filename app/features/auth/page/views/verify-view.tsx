@@ -12,7 +12,7 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/comp
 import * as AuthAPI from "@/features/auth/services/auth";
 import { tokenStore } from "@/features/auth/services/token-store";
 import { useQueryClient } from "@tanstack/react-query";
-import { userKeys } from "@/features/auth/hooks/useMe";
+import { userKeys } from "@/features/auth/hooks/use-me";
 
 export default function VerifyPage() {
     const [sp] = useSearchParams();
@@ -47,11 +47,11 @@ export default function VerifyPage() {
             if (me?.epccId) {
                 qc.prefetchQuery({ queryKey: userKeys.rsvps(me.epccId), queryFn: () => AuthAPI.userRsvps(me.epccId) });
                 toast.success("Account verified!");
-                navigate(`/profile/${me.epccId}`, { replace: true });
+                navigate(`/${me.epccId}`, { replace: true });
             } else {
                 // Fallback if /me didn’t return epccId for some reason
                 toast.success("Account verified!");
-                navigate("/profile", { replace: true });
+                navigate("/", { replace: true });
             }
         } catch (err: any) {
             const msg = err?.response?.data?.error ?? err?.message ?? "Verification failed";

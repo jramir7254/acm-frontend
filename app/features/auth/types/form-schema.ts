@@ -23,7 +23,10 @@ export const AuthFormSchema = z.object({
         path: ["passwordConfirmed"], // attach error to confirmation field
     });
 
-const epccId = z.string().min(8).max(8).regex(/^\d+$/).startsWith("888", { message: "Must be valid" });
+const epccId = z.string().min(8, 'Cannot be empty').max(8, 'Cannot be more than 8 digits').regex(/^\d+$/).startsWith("888", { message: "Must be valid epcc id number" });
+const email = z.email({ error: "Must be a valid epcc email", pattern: /^[a-zA-Z0-9._%+-]+@(my\.)?\bepcc\b\.edu$/ }).min(0, "Email cannot be empty")
+const password = z.string().min(8, "Password must be at least 8 characters")
+
 
 export const loginSchema = z.object({
     epccId,
@@ -32,8 +35,8 @@ export const loginSchema = z.object({
 
 export const registerSchema = z.object({
     epccId,
-    email: z.email("Must be a valid email"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    email,
+    password,
     passwordConfirmed: z.string(),
 }).refine(d => d.password === d.passwordConfirmed, {
     message: "Passwords do not match",

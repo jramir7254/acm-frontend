@@ -33,7 +33,8 @@ type FormInputProps<
     className?: string
 };
 
-export default function FormInput<
+
+export function FormInput<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>
 >({
@@ -41,38 +42,44 @@ export default function FormInput<
     name,
     label,
     placeholder,
-    defaultValue,
     className,
     type,
-    children
+    children,
 }: FormInputProps<TFieldValues, TName>) {
     const ctx = useFormContext<TFieldValues>();
     const control = controlProp ?? ctx?.control;
+    const disabled = ctx?.formState?.disabled;   // 🔑 grab from RHF context
 
     if (!control) {
-        throw new Error(
-            "FormInput must be used inside a FormProvider (or pass a `control` prop)."
-        );
+        throw new Error("FormInput must be used inside a FormProvider (or pass a `control` prop).");
     }
+
     return (
         <FormField
-
             control={control}
             name={name}
-
             render={({ field }) => (
                 <FormItem className={className}>
                     <FormLabel>{label}</FormLabel>
-                    <FormControl >
+                    <FormControl>
                         {children ? (
-                            children(field)
+                            children({ ...field, disabled })       // pass disabled to render prop
                         ) : (
-                            <Input type={type} defaultValue={defaultValue} placeholder={placeholder} {...field} />
+                            <Input type={type} placeholder={placeholder} disabled={disabled} {...field} />
                         )}
                     </FormControl>
-                    <FormMessage />
+                    <StableFormMessage />
                 </FormItem>
             )}
         />
     );
+}
+
+
+export function StableFormMessage({ className = "min-h-fit leading-tight" }) {
+    return (
+        <div className={className}>
+            <FormMessage />
+        </div>
+    )
 }

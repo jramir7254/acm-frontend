@@ -1,73 +1,174 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
-import { Separator } from '@/components/primitives/separator';
-import Number from '@/components/ui/number'
+import React, { useEffect, useState } from 'react'
+import { Input } from '@/components/primitives/input'
+import { useMe, useUpdateMe } from '@/features/auth/hooks/use-me'
+import { Form, FormInput, MultiSelect } from '@/components/input';
 import Gradient from '@/components/layout/gradient';
-import { useEvents } from '../../../events/hooks/use-events'
-import { useUserRsvps, useMe } from "@/features/auth/hooks/useMe";
-import { CancelRsvpButton } from '../../components/buttons'
-import Centered from '@/components/layout/centered';
-export default function Main() {
-    const { data: events } = useEvents()
-    const { data: user } = useMe()
-    const { data: rsvps, isLoading: rsvpsLoading } = useUserRsvps(user?.epccId);
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/primitives/avatar';
+import { Separator } from '@/components/primitives/separator';
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type ProfileFormValues, profileSchema } from '../../types/profile-schema';
+import { Button } from '@/components/primitives/button';
+import { Label } from '@/components/primitives/label';
+import { Info, InfoIcon } from 'lucide-react';
+import { Points, Attendance } from '../../components/ui';
+import { UnderConstruction, Tape, UnderConstructionCard } from '@/components/layout';
+import { PublicApi } from '@/services/api/public';
+import { SelectInput } from '@/components/input/select';
+export default function ProfileSettings() {
+    const { data: user, isLoading } = useMe();
+    const updateMe = useUpdateMe()
+    const [changeProfile, setChangeProfile] = useState(false);
+    const [courses, setCourses] = useState([])
 
+    const form = useForm({
+        resolver: zodResolver(profileSchema),
+        mode: "onChange",
+        disabled: !changeProfile
+    });
 
+    useEffect(() => {
+        (async () => {
+            try {
+                const { data } = await PublicApi.get('/courses')
+                const { courses } = data
+                console.log(data)
+                setCourses(data)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+    }, [])
 
-    if (rsvpsLoading) return <p>No</p>
+    // when user data arrives (or changes), hydrate the form
+    useEffect(() => {
+        if (user) {
+            form.reset({
+                firstName: user.firstName ?? "",
+                lastName: user.lastName ?? "",
+                course: user.course ?? "" // or user.course ?? ""
+            }, { keepDirty: false }); // reset dirtiness since these are the source-of-truth values
+        }
+    }, [user, form]);
 
+    if (isLoading) return <p />;
 
-    // Merge based on id
-    const ids = rsvps?.map(obj => obj.eventId) || [];
-    const merged = (events || []).filter(e => ids.includes(e.id))
+    const accountComplete = Boolean(user?.accountComplete);
+
+    // handy helper to reuse for cancel/reset-to-user
+    const resetToUser = () =>
+        form.reset({
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
+            course: user.course ?? "" // or user.course ?? ""
+        });
+
+    const submit = async (values: ProfileFormValues) => {
+        console.log(values)
+        return
+        try {
+            updateMe.mutate(values); // <-- key fix
+            setChangeProfile(false);
+            // optional: ensure form values reflect the latest:
+            form.reset(values, { keepDirty: false });
+        } catch (e) {
+            console.log(e)
+        }
+    };
 
 
 
     return (
-        <section className='size-full p-10 grid gap-5 grid-cols-5 grid-rows-5 '>
-            <Gradient className='flex p-6 col-span-5 row-span-1 '>
-                <Centered className='w-[15%]'>
-                    <h3>Points</h3>
-                    <Number num={user?.points} className='text-3xl font-rubik' />
-                </Centered>
-                <Separator orientation='vertical' />
-                <Centered className='w-[15%]'>
-                    <h3>Events Attended</h3>
-                    <Number num={user?.eventsAttended} className='text-3xl font-rubik' />
-                </Centered>
+        <Gradient via="rgba(50,50,50,0.20)" className="m-10 p-10 w-full grid grid-cols-2">
+            <div className="space-y-4 flex flex-col screen">
+                <div>
+                    {!accountComplete && <h2>Finish setting up your profile to earn 5 points!</h2>}
+                    <Gradient via="rgba(50,50,50,0.20)" className="border border-white/20 p-5 flex">
+                        <Avatar>
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <Points />
+                    </Gradient>
+                </div>
 
-            </Gradient>
-            <div className='col-span-2 row-span-4 bg-accent rounded-[12px]'>
-                {/* <pre>
-                <code>
-                    {JSON.stringify(user, null, 4)}
-                </code>
-            </pre> */}
-            </div>
-            <div className='col-span-3 row-span-4 bg-accent rounded-[12px] p-5'>
-                <h2>My RSVP'd events</h2>
-                <Table>
-                    <TableCaption>A list of your rsvp'd events.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-2/4">Title</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {merged.map((er, i) => (
-                            <TableRow key={er.id * i + user.epccId}>
-                                <TableCell className="font-medium">{er.title}</TableCell>
-                                <TableCell>{new Date(er.date).toLocaleString()}</TableCell>
-                                <TableCell>
-                                    <CancelRsvpButton eventId={er.id} />
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                <Separator />
 
-                    </TableBody>
-                </Table>
+                <div className='space-y-2 '>
+                    <Label htmlFor="epccId" className='flex items-center'>
+                        EPCC ID <span title="asd"><InfoIcon className='cursor-pointer' size={15} /></span>
+                    </Label>
+                    <Input id="epccId" disabled defaultValue={user?.epccId} className="w-fit" />
+                </div>
+                <Separator />
+
+
+                <div>
+
+                    <Form {...form}>
+                        <form id='profile-form' onSubmit={form.handleSubmit(submit)}>
+                            <div className="flex gap-5">
+                                <FormInput
+                                    name="firstName"
+                                    placeholder={!user?.firstName ? "First Name" : ""}
+                                    label="First Name"
+                                />
+                                <FormInput
+                                    name="lastName"
+                                    placeholder={!user?.lastName ? "Last Name" : ""}
+                                    label="Last Name"
+                                />
+                            </div>
+
+
+                            <FormInput name="course" label="Course" disabled={!changeProfile}>
+                                {(field) => (
+                                    <SelectInput
+                                        className='w-fit'
+                                        placeholder="Select Your Course"
+                                        label="Courses"
+                                        values={courses}
+                                        field={field}
+                                    />
+                                )}
+                            </FormInput>
+                        </form>
+                    </Form>
+                </div>
+
+                <div className="mt-auto space-y-5">
+                    <Separator />
+                    <div className='flex justify-end gap-2'>
+                        <Button
+                            hidden={!changeProfile}
+                            variant="outline"
+                            onClick={() => {
+                                setChangeProfile(false);
+                                resetToUser(); // ← reset to current user values, not empty defaults
+                            }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            form="profile-form"
+                            type={changeProfile ? 'submit' : 'button'}
+                            disabled={changeProfile && !form.formState.isDirty}
+                            onClick={() => {
+                                if (!changeProfile) setChangeProfile(true); // only toggle, don't submit
+                            }}
+                        >
+                            {changeProfile ? 'Save' : 'Update'}
+                        </Button>
+                    </div>
+                </div>
             </div>
-        </section>
-    )
+            {/* <Separator orientation='vertical' /> */}
+            <UnderConstructionCard className='mx-10 bg-accent rounded-[12px] border-8' text=''>
+            </UnderConstructionCard>
+
+
+        </Gradient>
+    );
 }

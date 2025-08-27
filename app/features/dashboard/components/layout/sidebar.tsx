@@ -14,17 +14,17 @@ import {
     SidebarHeader,
 } from "@/components/primitives/sidebar"
 
-import { Home, Settings, PersonStanding } from "lucide-react"
-import { useMe } from "@/features/auth/hooks/useMe"
-import Admin from "@/components/layout/admin"
+import { Home, Settings, PersonStanding, UserCircle2 } from "lucide-react"
+import { useMe } from "@/features/auth/hooks/use-me"
+import { PermissionGuard } from "@/components/layout"
 import { NavLink } from "react-router" // ⬅️ from react-router-dom
 import { LogoutButton } from "../buttons"
 import { Separator } from "@/components/primitives/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/primitives/avatar"
 
 const items = [
-    { title: "Home", to: "", icon: Home },      // /profile/:userId
-    { title: "Settings", to: "settings", icon: Settings },  // /profile/:userId/settings
+    { title: "Home", to: "", icon: Home },
+    { title: "Profile", to: "profile", icon: UserCircle2 },
     // { title: "Admin", to: "admin", icon: PersonStanding }, // (optional)
 ]
 
@@ -40,13 +40,15 @@ export function DashboardSidebar() {
     })
 
     return (
-        <Sidebar className="px-5 pb-10">
-
+        <Sidebar className="px-5 pb-10 ratio-16-10:w-6">
             <SidebarHeader className="mt-10">
-                <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <p className="text-muted">{user?.epccId}</p>
+                </div>
             </SidebarHeader>
 
             <Separator />
@@ -70,7 +72,7 @@ export function DashboardSidebar() {
                                     </NavLink>
                                 </SidebarMenuItem>
                             ))}
-                            <Admin>
+                            <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
                                 <SidebarMenuItem>
                                     <SidebarMenuButton asChild>
                                         <NavLink {...linkProps("admin")}>
@@ -79,7 +81,7 @@ export function DashboardSidebar() {
                                         </NavLink>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
-                            </Admin>
+                            </PermissionGuard>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

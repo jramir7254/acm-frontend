@@ -1,8 +1,8 @@
+// calendar-input.tsx
 "use client";
 
 import * as React from "react";
 import { CalendarIcon } from "lucide-react";
-
 import { Button } from "@/components/primitives/button";
 import { Calendar } from "@/components/primitives/calendar";
 import { Input } from "@/components/primitives/input";
@@ -12,48 +12,76 @@ import {
     PopoverTrigger,
 } from "@/components/primitives/popover";
 
-function formatDate(date: Date | undefined) {
+function formatDateTime(date?: Date) {
     if (!date) return "";
-    return new Date(date).toLocaleDateString("en-US", {
+    return new Date(date).toLocaleString("en-US", {
         day: "2-digit",
         month: "long",
         year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
     });
 }
-
-function isValidDate(date: Date | undefined) {
-    return !!date && !isNaN(date.getTime());
+function isValidDate(d?: Date) {
+    return !!d && !isNaN(d.getTime());
 }
 
-type DatePickerInputProps = {
+type DateTimePickerInputProps = {
     id?: string;
     placeholder?: string;
-    value?: Date;                        // <- RHF field.value (Date)
-    onChange: (date?: Date) => void;     // <- RHF field.onChange
+    value?: Date;                    // RHF field.value (Date)
+    onChange: (date?: Date) => void; // RHF field.onChange
     disabled?: boolean;
     className?: string;
+    timeStepMinutes?: number;        // optional (default 5)
 };
 
-export function DatePickerInput({
-    id = "date",
-    placeholder = "June 01, 2025",
+export function DateTimePickerInput({
+    id = "datetime",
+    placeholder = "June 01, 2025, 14:30",
     value,
     onChange,
     disabled,
     className,
-}: DatePickerInputProps) {
+    timeStepMinutes = 5,
+}: DateTimePickerInputProps) {
     const [open, setOpen] = React.useState(false);
     const [month, setMonth] = React.useState<Date | undefined>(value);
-    const [text, setText] = React.useState<string>(formatDate(value));
+    const [text, setText] = React.useState<string>(formatDateTime(value));
+
+    // derive "HH:MM" from the date
+    const timeStr = React.useMemo(() => {
+        if (!value) return "";
+        const hh = String(value.getHours()).padStart(2, "0");
+        const mm = String(value.getMinutes()).padStart(2, "0");
+        return `${hh}:${mm}`;
+    }, [value]);
 
     // keep local text/month in sync when external value changes
     React.useEffect(() => {
-        setText(formatDate(value));
+        setText(formatDateTime(value));
         if (value) setMonth(value);
     }, [value]);
 
+    function updateDatePart(d?: Date) {
+        if (!d) return onChange(undefined);
+        // keep current time part if it exists
+        const next = value ? new Date(value) : new Date();
+        next.setFullYear(d.getFullYear(), d.getMonth(), d.getDate());
+        onChange(next);
+    }
+
+    function updateTimePart(hhmm: string) {
+        const [h, m] = hhmm.split(":").map(Number);
+        const base = value ? new Date(value) : new Date();
+        base.setHours(h ?? 0, m ?? 0, 0, 0);
+        onChange(base);
+    }
+
     return (
         <div className={`relative flex gap-2 ${className ?? ""}`}>
+            {/* Free-typing input: parses DateTime if user types a valid value */}
             <Input
                 id={id}
                 value={text}
@@ -70,8 +98,7 @@ export function DatePickerInput({
                     }
                 }}
                 onBlur={() => {
-                    // normalize the display if a valid date was typed
-                    if (value) setText(formatDate(value));
+                    if (value) setText(formatDateTime(value));
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "ArrowDown") {
@@ -87,11 +114,11 @@ export function DatePickerInput({
                         id={`${id}-picker`}
                         type="button"
                         variant="ghost"
-                        className="absolute top-1/4 right-2 size-6 -translate-y-1/2"
+                        className="absolute right-0"
                         disabled={disabled}
                     >
                         <CalendarIcon className="size-3.5" />
-                        <span className="sr-only">Select date</span>
+                        <span className="sr-only">Select date and time</span>
                     </Button>
                 </PopoverTrigger>
 
@@ -101,19 +128,35 @@ export function DatePickerInput({
                     alignOffset={-8}
                     sideOffset={10}
                 >
-                    <Calendar
-                        className="p-3 pointer-events-auto"
-                        mode="single"
-                        selected={value}
-                        captionLayout="dropdown"
-                        month={month}
-                        onMonthChange={setMonth}
-                        onSelect={(d) => {
-                            onChange(d);
-                            setOpen(false);
-                        }}
-                        autoFocus
-                    />
+                    <div className="p-3 pointer-events-auto space-y-3">
+                        <Calendar
+                            mode="single"
+                            selected={value}
+                            captionLayout="dropdown"
+                            month={month}
+                            onMonthChange={setMonth}
+                            onSelect={(d) => updateDatePart(d ?? undefined)}
+                            autoFocus
+                        />
+
+                        {/* Time input */}
+                        <div className="flex items-center gap-2">
+                            <label htmlFor={`${id}-time`} className="text-sm text-muted-foreground">
+                                Time
+                            </label>
+                            <Input
+                                id={`${id}-time`}
+                                type="time"
+                                step={timeStepMinutes * 60}
+                                value={timeStr}
+                                onChange={(e) => updateTimePart(e.target.value)}
+                                className="w-36"
+                            />
+                            <Button type="button" variant="secondary" onClick={() => setOpen(false)}>
+                                Done
+                            </Button>
+                        </div>
+                    </div>
                 </PopoverContent>
             </Popover>
         </div>

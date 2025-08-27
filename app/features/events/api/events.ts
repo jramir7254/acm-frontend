@@ -1,6 +1,20 @@
 import { PublicApi } from "@/services/api/public";
 import { PrivateApi } from "@/services/api/private";
-import type { Event } from "@/types";
+export type Event = {
+    id: string,
+    imageUrl: string,
+    startAt: string,
+    endAt: string,
+    code: string,
+    time: string,
+    title: string,
+    location: string,
+    host: string,
+    description: string,
+    past: boolean,
+    isRsvpd?: boolean | undefined
+}
+
 
 export async function listEvents() {
     const { data } = await PublicApi.get<Event[]>("/events");
@@ -16,20 +30,24 @@ export async function deleteEvent(id: string | number) {
     return data;
 }
 export async function updateEvent(id: string | number, form) {
-    console.log({ id, form })
     const { data } = await PrivateApi.patch<Event>(`/events/${id}`, form);
     return data;
 }
+
 export async function createEvent(form) {
-    console.log({ id, form })
     const { data } = await PrivateApi.post<Event>(`/events`, form);
     return data;
 }
 
-export async function rsvp(eventId: string | number, userId: string) {
-    await PrivateApi.post(`/rsvps/${eventId}/${userId}`);
+export async function checkIn(eventId: string, form: { code: string }) {
+    const { data } = await PrivateApi.post<Event>(`/events/${eventId}/check-in`, form);
+    return data;
 }
 
-export async function cancelRsvp(eventId: string | number, userId: string) {
-    await PrivateApi.delete(`/rsvps/cancel/${eventId}/${userId}`);
+export async function rsvp(eventId: string | number) {
+    await PrivateApi.post(`/rsvps/${eventId}}`);
+}
+
+export async function cancelRsvp(eventId: string | number) {
+    await PrivateApi.delete(`/rsvps/cancel/${eventId}`);
 }

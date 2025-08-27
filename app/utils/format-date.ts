@@ -1,28 +1,42 @@
 
-export function formatDateAndTime(dateInput: string | Date, timeStr: string) {
-    const [h = "0", m = "0", s = "0"] = timeStr.split(":");
-    const base = new Date(dateInput);
+export function formatDateAndTime(startDate: string | Date, endDate: string) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    const dt = new Date(
-        base.getFullYear(),
-        base.getMonth(),
-        base.getDate(),
-        Number(h),
-        Number(m),
-        Number(s) || 0
+    const dts = new Date(
+        start.getFullYear(),
+        start.getMonth(),
+        start.getDate(),
+        start.getHours(),
+        start.getMinutes(),
+        start.getSeconds() || 0
+    );
+    const dte = new Date(
+        end.getFullYear(),
+        end.getMonth(),
+        end.getDate(),
+        end.getHours(),
+        end.getMinutes(),
+        end.getSeconds() || 0
     );
 
-    const dateFormatted = dt.toLocaleDateString([], {
+    const dateFormatted = dts.toLocaleDateString([], {
         year: "numeric",
         month: "short",
         day: "numeric"
     });
 
-    const timeFormatted = dt.toLocaleTimeString([], {
+    const timeFormatted = dts.toLocaleTimeString([], {
         hour: "numeric",   // 👈 no leading zero
         minute: "2-digit",
         hour12: true
     });
 
-    return { date: dateFormatted, time: timeFormatted };
+    const timeFormattedE = dte.toLocaleTimeString([], {
+        hour: "numeric",   // 👈 no leading zero
+        minute: "2-digit",
+        hour12: true
+    });
+
+    return { date: dateFormatted, time: timeFormatted.concat(' - ', timeFormattedE) };
 }

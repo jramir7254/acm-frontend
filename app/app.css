@@ -21,6 +21,8 @@
     --font-jsans: "Julius Sans One", sans-serif;
     --font-bebas: "Bebas Neue", sans-serif;
 
+
+    --breakpoint-16-9: 16 / 9;
     --color-editor-bg: #1e1e1e;
     /* VSCode default dark background */
     --color-editor-fg: #d4d4d4;
@@ -58,6 +60,7 @@
     --color-atom-warning: #D7BA7D;
     --color-atom-error: #BE1100;
 
+    --color-matte-black: #1A1A1A;
 
     --animate-fade-in: fadeIn 0.8s ease-out forwards;
 
@@ -296,6 +299,7 @@ main {
 }
 
 @theme inline {
+    /* --sidebar-width: var(--sidebar-width); */
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
@@ -333,7 +337,10 @@ main {
     --color-sidebar-ring: var(--sidebar-ring);
 }
 
+
+
 :root {
+    --sidebar-width: 20rem;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -368,10 +375,28 @@ main {
     --sidebar-ring: oklch(0.708 0 0);
 }
 
+@media (aspect-ratio: 16/10) {
+    :root {
+        --sidebar-width: 15rem;
+    }
+}
+
+@custom-variant screen-16-9 {
+    @media (aspect-ratio: 16/9) {
+        @slot;
+    }
+}
+
+@custom-variant screen-16-10 {
+    @media (aspect-ratio: 16/10) {
+        @slot;
+    }
+}
+
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
+    --card: oklch(20.463% 0.00002 271.152);
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
@@ -381,7 +406,7 @@ main {
     --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.269 0 0);
     --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
+    --accent: oklch(26.862% 0.00003 271.152);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(1 0 0 / 10%);

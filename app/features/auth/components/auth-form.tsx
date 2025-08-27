@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSearchParams, useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import FormInput from "@/components/input/form-input";
+import { FormInput } from "@/components/input";
 import { Form } from "@/components/primitives/form";
 import { Button } from "@/components/primitives/button";
 import { type AuthFormValues, loginSchema, registerSchema } from "../types/form-schema";
@@ -24,7 +24,7 @@ export default function AuthForm() {
         () => (type === "register" ? registerSchema : loginSchema),
         [type]
     );
-    const form = useForm<AuthFormValues>({
+    const form = useForm<typeof resolverSchema>({
         resolver: zodResolver(resolverSchema),
         defaultValues: {
             epccId: "",
@@ -83,31 +83,7 @@ export default function AuthForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                {type === "login" && (
-                    <p>
-                        Don't have an account?{" "}
-                        <button
-                            type="button"
-                            onClick={() => setType("register")}
-                            className="text-blue-600 underline cursor-pointer"
-                        >
-                            Sign Up Here!
-                        </button>
-                    </p>
-                )}
 
-                {type === "register" && (
-                    <p>
-                        Already have an account?{" "}
-                        <button
-                            type="button"
-                            onClick={() => setType("login")}
-                            className="text-blue-600 underline cursor-pointer"
-                        >
-                            Sign In Here!
-                        </button>
-                    </p>
-                )}
 
                 <FormInput name="epccId" label="EPCC ID" placeholder="888XXXXX" />
                 {type === "register" && (
@@ -127,11 +103,37 @@ export default function AuthForm() {
                     <p className="text-red-700 animate-shake">{form.formState.errors.root.message}</p>
                 )}
 
+                {type === "login" && (
+                    <p>
+                        Don't have an account?{" "}
+                        <button
+                            type="button"
+                            onClick={() => setType("register")}
+                            className="text-blue-600 underline cursor-pointer"
+                        >
+                            Sign Up Here!
+                        </button>
+                    </p>
+                )}
+
+                {type === "register" && (
+                    <p>
+                        Already have an account?{" "}
+                        <button
+                            type="button"
+                            onClick={() => setType("login")}
+                            className="text-blue-400 underline cursor-pointer"
+                        >
+                            Sign In Here!
+                        </button>
+                    </p>
+                )}
+
                 <Button type="submit" color="primary" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting
                         ? "Please wait..."
                         : type === "login"
-                            ? "Log in"
+                            ? "Sign in"
                             : "Create account"}
                 </Button>
             </form>

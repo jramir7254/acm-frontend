@@ -25,17 +25,17 @@ type Pages = {
   "/about": {
     params: {};
   };
-  "/profile/:userId": {
+  "/:userId": {
     params: {
       "userId": string;
     };
   };
-  "/profile/:userId/settings": {
+  "/:userId/profile": {
     params: {
       "userId": string;
     };
   };
-  "/profile/:userId/admin": {
+  "/:userId/admin": {
     params: {
       "userId": string;
     };
@@ -45,7 +45,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/profile/:userId" | "/profile/:userId/settings" | "/profile/:userId/admin";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin";
   };
   "features/home/Home.tsx": {
     id: "features/home/Home";
@@ -67,24 +67,24 @@ type RouteFiles = {
     id: "features/auth/page/views/verify-view";
     page: "/auth/verify";
   };
-  "features/about/AboutPage.tsx": {
-    id: "features/about/AboutPage";
+  "features/about/about-page.tsx": {
+    id: "features/about/about-page";
     page: "/about";
   };
   "features/dashboard/page/dashboard-page.tsx": {
     id: "features/dashboard/page/dashboard-page";
-    page: "/profile/:userId" | "/profile/:userId/settings" | "/profile/:userId/admin";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin";
+  };
+  "features/dashboard/page/views/main-view.tsx": {
+    id: "features/dashboard/page/views/main-view";
+    page: "/:userId";
   };
   "features/dashboard/page/views/profile-view.tsx": {
     id: "features/dashboard/page/views/profile-view";
-    page: "/profile/:userId";
-  };
-  "features/dashboard/page/views/settings-view.tsx": {
-    id: "features/dashboard/page/views/settings-view";
-    page: "/profile/:userId/settings";
+    page: "/:userId/profile";
   };
   "features/dashboard/page/views/admin-view.tsx": {
     id: "features/dashboard/page/views/admin-view";
-    page: "/profile/:userId/admin";
+    page: "/:userId/admin";
   };
 };

@@ -9,7 +9,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/primitives/dialog"
-import { useEventContext } from "../cards";
+import { useEventContext } from "../../context/event-context"
 import EditForm from "./event-form"
 
 export function EventFormOverlay({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export function EventFormOverlay({ children }: { children: React.ReactNode }) {
                             "Add new event details here. Click add when you're done."}
                     </DialogDescription>
                 </DialogHeader>
-                <EditForm event={event} />
+                <EditForm />
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>

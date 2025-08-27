@@ -1,9 +1,8 @@
-import React from 'react'
-
+import Gradient from "@/components/layout/gradient"
 export default function AdminView() {
     return (
-        <section className='m-10 w-full bg-accent rounded-[12px] grid gap-5 grid-cols-5 grid-rows-5 '>
-
-        </section>
+        <Gradient className='m-10 w-full bg-accent rounded-[12px] '>
+            <h2>d</h2>
+        </Gradient>
     )
 }

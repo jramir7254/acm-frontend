@@ -1,18 +1,21 @@
 import { motion, useMotionValue, useInView, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-export default function Number({ num, className }: { num: number, className?: string }) {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true })
+export function AnimatedNumber({ num, className }: { num: number | string; className?: string }) {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+
+    // Force to number and default to 0 if invalid
+    const targetNum = Number(num);
+    const safeNum = Number.isFinite(targetNum) ? targetNum : 0;
 
     const motionValue = useMotionValue(0);
     const rounded = useTransform(motionValue, (latest) => Math.round(latest));
 
-
     useEffect(() => {
         if (isInView) {
-            const controls = animate(motionValue, num, {
-                type: 'spring',
+            const controls = animate(motionValue, safeNum, {
+                type: "spring",
                 mass: 1,
                 stiffness: 20,
                 damping: 10,
@@ -20,8 +23,7 @@ export default function Number({ num, className }: { num: number, className?: st
             });
             return controls.stop;
         }
-    }, [isInView, num]);
-
+    }, [isInView, safeNum]);
 
     return (
         <motion.span
@@ -29,7 +31,8 @@ export default function Number({ num, className }: { num: number, className?: st
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className={className}>
+            className={className}
+        >
             {rounded}
         </motion.span>
     );

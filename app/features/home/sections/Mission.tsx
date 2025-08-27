@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 
 export default function AboutSection() {
     return (
-        <section className="flex justify-center w-full bg-background text-white px-[15%] py-[7.5%]">
+        <section className="flex justify-center w-full bg-matte-black text-white px-[15%] py-[7.5%]">
             <div className="flex w-full items-stretch">
                 {/* Mission Statement */}
                 <div className="flex flex-col justify-start items-start w-[55%] pr-4 leading-[2]">

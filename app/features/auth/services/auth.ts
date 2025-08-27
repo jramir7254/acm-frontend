@@ -8,7 +8,7 @@ export type LoginResponse = { accessToken: string; expiresIn: number };
 export type RegisterResponse = { token: string };
 export type Me = { id: string; epccId: string; username?: string; email?: string; isAdmin: boolean };
 export type Rsvp = { eventId: string; rsvpDate?: string };
-
+import type { User } from "../types/user";
 export async function login(body: LoginInput) {
     try {
         const { data } = await API.post<LoginResponse>("/auth/login", body);
@@ -55,7 +55,11 @@ export async function verifyEmail(payload: { token: string; code: string }) {
 }
 
 export async function me() {
-    const { data } = await API.get<Me>("/auth/me");
+    const { data } = await API.get<User>("/auth/me");
+    return data;
+}
+export async function updateMe(payload) {
+    const { data } = await API.patch<User>("/auth/me", payload);
     return data;
 }
 

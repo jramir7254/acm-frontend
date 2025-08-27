@@ -2,8 +2,9 @@ import Page from '@/components/layout/page'
 import { SidebarProvider } from '@/components/primitives/sidebar'
 import { DashboardSidebar } from '../components/layout'
 import { Outlet } from 'react-router'
-import { useMe } from '@/features/auth/hooks/useMe'
+import { useMe } from '@/features/auth/hooks/use-me'
 import { useNavigate } from 'react-router'
+import { EventsIndexProvider } from '@/features/events/context/index-context'
 export default function DashboardPage() {
     const { data: user } = useMe();
     const navigate = useNavigate()
@@ -16,7 +17,9 @@ export default function DashboardPage() {
         <Page className='bg-background flex-1 flex mt-16'>
             <SidebarProvider>
                 <DashboardSidebar />
-                <Outlet />
+                <EventsIndexProvider>
+                    <Outlet />
+                </EventsIndexProvider>
             </SidebarProvider>
         </Page>
     )

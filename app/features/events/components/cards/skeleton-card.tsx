@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/primitives/card";
-import Centered from '@/components/layout/centered';
+import { Centered } from '@/components/layout';
 import { Skeleton } from '@/components/primitives/skeleton'
 import { Image } from "lucide-react";
 

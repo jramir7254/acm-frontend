@@ -1,11 +1,10 @@
-import { useEventContext } from "../cards";
 import { Button } from "@/components/primitives/button"
 import ConfirmationModal from "@/components/ui/confirmation";
 import { Trash } from "lucide-react";
 import { useDeleteEvent } from "../../hooks/use-events";
 
 
-export function DeleteEventButton({ eventId }: { eventId: string }) {
+export function DeleteEventButton({ eventId }: { eventId: string | number }) {
     const deleteEvent = useDeleteEvent(eventId)
 
     return (

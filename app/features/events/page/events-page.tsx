@@ -1,11 +1,17 @@
-import Page from '@/components/layout/page';
-import { type Event } from '../types/event';
-import { useEvents } from '../hooks/use-events';
-import { EventCard, AddEventCard, SkeletonCard } from '../components/cards';
-import { useUserRsvps, useMe } from "@/features/auth/hooks/useMe";
-import { Suspense } from 'react';
-import Admin from '@/components/layout/admin';
-
+// features/events/pages/EventsPage.tsx
+import Page from "@/components/layout/page";
+import { EventCard, AddEventCard, SkeletonCard } from "../components/cards";
+import { Separator } from "@/components/primitives/separator";
+import { PermissionGuard } from "@/components/layout";
+import { FilterEventsButton } from "../components/buttons/filter-events";
+import { useMemo, useState } from "react";
+import {
+    EventsIndexProvider,
+    useEventsList,
+    useEventsLoading,
+    type Event
+} from "../context/index-context";
+import { EventProvider } from "../context/event-context";
 
 function GridSkeleton({ count = 6 }) {
     return (
@@ -17,56 +23,106 @@ function GridSkeleton({ count = 6 }) {
     );
 }
 
-export default function EventsPage() {
-    const { data: events, isLoading: eventsLoading } = useEvents();
-    const { data: user } = useMe()
-    const { data: rsvps, isLoading: rsvpsLoading } = useUserRsvps(user?.epccId);
+export type EventFilters = {
+    past: boolean;
+    upcoming: boolean;
+};
 
+function EventsPageInner() {
 
-    const getEvents = (): Event[] => {
-        if (user && rsvps) {
-            const userRsvps = rsvps.map(er => (er.eventId))
-            return events?.map(e => ({
-                ...e,
-                isRsvpd: userRsvps.includes(e?.id)
-            }))
-        }
-        return events
-    }
-
-    const loading = eventsLoading || (user?.epccId && rsvpsLoading);
-
+    const [filters, setFilters] = useState<EventFilters>({
+        past: false,
+        upcoming: true,
+    });
 
 
     return (
         <Page>
-            <section className='h-[45vh] flex justify-center items-center'>
-                <h1 className='font-quick text-8xl'>Events</h1>
+            <section className="h-[45vh] flex justify-center items-center">
+                <h1 className="font-quick text-8xl">Events</h1>
             </section>
-            <section className='min-h-screen bg-background px-30 py-20'>
-                <div className="mx-auto grid gap-6 sm:grid-cols-1 lg:grid-cols-3 ">
-                    {loading && <GridSkeleton count={3} />}
 
-                    {!loading && getEvents()?.map((e: Event) => (
-                        <EventCard
-                            key={e.id}
-                            event={e}
-                            id={e.id}
-                            imageUrl={e.imageUrl}
-                            title={e.title}
-                            host={e.host}
-                            date={e.date}
-                            time={e.time}
-                            description={e.description}
-                            location={e.location}
-                            isRsvpd={e.isRsvpd}
-                        />
-                    ))}
-                    <Admin>
+            <section className="min-h-screen bg-background px-30 py-20 pb-[100vh] flex flex-col gap-5">
+                <div className="ml-auto">
+                    <FilterEventsButton filters={filters} onChange={setFilters} />
+                </div>
+                <Separator />
+                <div className=" grid gap-6 screen-16-10:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1">
+                    <EventsList filters={filters} />
+
+                    <PermissionGuard resource="events" requiredActions={["create"]}>
                         <AddEventCard />
-                    </Admin>
+                    </PermissionGuard>
                 </div>
             </section>
         </Page>
+    );
+}
+
+
+
+function EventsList({ filters }: { filters: EventFilters }) {
+    const events = useEventsList();
+    const { isLoading, isFetching } = useEventsLoading();
+
+
+
+    const visibleEvents = useMemo<Event[]>(() => {
+        const showPast = filters.past;
+        const showUpcoming = filters.upcoming;
+
+        let list = events.filter((e) => {
+            if (showPast && e.past) return true;
+            if (showUpcoming && !e.past) return true;
+            return false;
+        });
+
+        // optional sorting for nicer UX
+        list = list.slice().sort((a, b) => {
+            const aT = new Date(a.startAt).getTime();
+            const bT = new Date(b.startAt).getTime();
+            if (a.past && b.past) return bT - aT;       // past: newest first
+            if (!a.past && !b.past) return aT - bT;     // upcoming: soonest first
+            return a.past ? 1 : -1;                     // upcoming before past
+        });
+
+        return list;
+    }, [events, filters]);
+
+    const loading = isLoading || isFetching;
+
+    if (loading) return <GridSkeleton count={3} />
+    if (!loading && !visibleEvents.length) {
+        return (
+            <div className="flex items-center bg-matte-black  justify-center h-64 col-span-3 rounded-xl ">
+                <div className="text-center bg-matte-black p-8 max-w-md">
+                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                        No events available
+                    </h2>
+                    <p className="mt-2 text-gray-600 dark:text-gray-400">
+                        Try adjusting your filters or check back later.
+                    </p>
+                </div>
+            </div>
+        )
+    }
+
+    if (!loading) return (
+        <>
+
+            {visibleEvents.map((e) => (
+                <EventProvider key={e.id} eventId={e.id} fallback={<SkeletonCard />}>
+                    <EventCard /* inside, children can call useEventContext() */ />
+                </EventProvider>
+            ))}
+        </>
     )
+}
+
+export default function EventsPage() {
+    return (
+        <EventsIndexProvider>
+            <EventsPageInner />
+        </EventsIndexProvider>
+    );
 }
