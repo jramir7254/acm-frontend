@@ -2,7 +2,8 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormInput, Textarea, DateTimePickerInput } from "@/components/input";
+import { FormInput, Textarea, DateTimePickerInput } from "@/components/input";
+import { Form } from "@/components/primitives/form";
 import { useEditEvent, useCreateEvent } from "../../hooks/use-events";
 import { eventSchema } from "../../types/schemas"; // assumes schema with startAt/endAt (Date)
 import { useEventContext } from "../../context/event-context";
@@ -11,7 +12,7 @@ type EventFormValues = z.infer<typeof eventSchema>;
 
 export default function EventForm() {
     const event = useEventContext();
-    const insideEvent = event !== null;
+    const insideEvent = event !== undefined; // only true if provider gave us an event
     const updateEvent = useEditEvent()
     const createEvent = useCreateEvent();
 
@@ -19,8 +20,8 @@ export default function EventForm() {
     const defaultValues: Partial<EventFormValues> = insideEvent
         ? {
             ...event,
-            startAt: new Date(event.startAt), // migrate if needed
-            endAt: new Date(event.endAt),
+            startAt: new Date(event?.startAt), // migrate if needed
+            endAt: new Date(event?.endAt),
         }
         : {
             title: "",
@@ -80,7 +81,7 @@ export default function EventForm() {
                 <div className="col-span-1 px-10">
                     <div className="border border-white/50 rounded h-[35vh] max-h-[35vh] overflow-hidden">
                         {/* add alt for a11y */}
-                        <img className="object-cover" src={imgUrl} alt="Event preview" />
+                        <img className="object-cover" src={imgUrl || '#'} alt="Event preview" />
                     </div>
                     <FormInput name="imageUrl" label="Image URL" />
                 </div>

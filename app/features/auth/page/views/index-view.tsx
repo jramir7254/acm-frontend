@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import AuthForm from "../../components/auth-form";
+import AuthForm from "../../components/forms/auth-form";
 
 const ALLOWED = new Set(["login", "register"]);
 
@@ -17,5 +17,5 @@ export default function AuthIndexPage() {
         }
     }, [sp, navigate]);
 
-    return <AuthForm />; // AuthForm reads ?type=... from the URL
+    return <AuthForm />;
 }

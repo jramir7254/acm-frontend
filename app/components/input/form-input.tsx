@@ -15,28 +15,27 @@ import type {
     FieldValues,
 } from "react-hook-form";
 
-type FormInputProps<
+
+type RenderProp<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> =
+    (field: ControllerRenderProps<TFieldValues, TName>) => React.ReactNode;
+
+export type FormInputProps<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>
-> = {
+> = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
     control?: Control<TFieldValues>;
     name: TName;
     label: string;
     placeholder?: string;
-    defaultValue?: any,
-    type?: string,
-    /**
-     * Render prop to customize the control.
-     * Receives the `field` from RHF so you can bind value/onChange/etc.
-     */
-    children?: (field: ControllerRenderProps<TFieldValues, TName>) => React.ReactNode;
-    className?: string
+    defaultValue?: any;
+    type?: string;
+    children?: React.ReactNode | RenderProp<TFieldValues, TName>;
+    className?: string;
 };
-
 
 export function FormInput<
     TFieldValues extends FieldValues,
-    TName extends FieldPath<TFieldValues>
+    TName extends FieldPath<TFieldValues>,
 >({
     control: controlProp,
     name,
@@ -45,6 +44,7 @@ export function FormInput<
     className,
     type,
     children,
+    ...props
 }: FormInputProps<TFieldValues, TName>) {
     const ctx = useFormContext<TFieldValues>();
     const control = controlProp ?? ctx?.control;
@@ -58,19 +58,36 @@ export function FormInput<
         <FormField
             control={control}
             name={name}
-            render={({ field }) => (
-                <FormItem className={className}>
-                    <FormLabel>{label}</FormLabel>
-                    <FormControl>
-                        {children ? (
-                            children({ ...field, disabled })       // pass disabled to render prop
-                        ) : (
-                            <Input type={type} placeholder={placeholder} disabled={disabled} {...field} />
-                        )}
-                    </FormControl>
-                    <StableFormMessage />
-                </FormItem>
-            )}
+            render={({ field }) => {
+                const handleChange: typeof field.onChange = (e) => {
+                    field.onChange(e);
+                    ctx.clearErrors?.(name); // clear error for this field
+                };
+
+                return (
+                    <FormItem className={className} {...props}>
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            {typeof children === "function"
+                                ? (children as RenderProp<TFieldValues, TName>)({
+                                    ...field,
+                                    onChange: handleChange,   // ✅ override here
+                                    disabled,
+                                })
+                                : children ?? (
+                                    <Input
+                                        type={type}
+                                        placeholder={placeholder}
+                                        disabled={disabled}
+                                        {...field}
+                                        onChange={handleChange} // ✅ override here
+                                    />
+                                )}
+                        </FormControl>
+                        <StableFormMessage />
+                    </FormItem>
+                );
+            }}
         />
     );
 }

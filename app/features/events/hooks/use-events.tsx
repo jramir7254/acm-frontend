@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Events from "../api/events";
+import { toast } from "sonner";
+import { type Event } from "../api/events";
 
 export const eventsKeys = {
     all: ["events"] as const,
@@ -7,7 +9,7 @@ export const eventsKeys = {
     read: (id: string | number) => [...eventsKeys.all, "read", id] as const,
 };
 
-import { userKeys } from "../../auth/hooks/use-me";
+import { userKeys } from "@/features/dashboard/hooks/use-user";
 
 export function useEvents() {
     return useQuery({
@@ -38,7 +40,7 @@ export function useEvent(eventId: number) {
             const events = qc.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
                 eventsKeys.all
             );
-            return events?.find(e => e.id === eventId);
+            return events?.find((e: Event) => e.id === eventId);
         },
     });
 }
@@ -52,7 +54,7 @@ export function useDeleteEvent(id: string | number) {
         mutationFn: () => Events.deleteEvent(id),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
@@ -66,7 +68,7 @@ export function useEditEvent() {
         mutationFn: ({ id, form }: { id: string | number; form: any }) => Events.updateEvent(id, form),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
@@ -78,7 +80,7 @@ export function useCreateEvent() {
         mutationFn: (form: any) => Events.createEvent(form),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
@@ -91,7 +93,7 @@ export function useRsvp() {
         mutationFn: (eventId: string | number) => Events.rsvp(eventId),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
@@ -103,7 +105,8 @@ export function useCancelRsvp() {
         mutationFn: (eventId: string | number) => Events.cancelRsvp(eventId),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps() });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            toast.success("Succesfully canceled RSVP")
         },
     });
 }

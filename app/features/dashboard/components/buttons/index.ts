@@ -1,3 +1,3 @@
-export * from './cancel-rsvp'
-export * from './logout'
-export * from './check-in'
+export * from './cancel-rsvp-button'
+export * from './logout-button'
+export * from './check-in-button'

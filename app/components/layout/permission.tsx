@@ -1,6 +1,6 @@
 import React from "react";
 import { useMe } from "@/features/auth/hooks/use-me";
-
+import { useRole } from "@/features/auth/hooks/use-auth";
 /** Canonical sets (narrowed via `as const` for literal unions) */
 const ROLES = [
     "owner",
@@ -102,14 +102,15 @@ export function PermissionGuard({
     requiredRoles,
     requiredActions,
 }: PermissionGuardProps) {
-    const { data: user } = useMe();
-    if (!user) return null;
+    const { data } = useRole();
+    if (!data) return null;
+    const { role, permissions: userPermissions } = data
 
     // Expecting something like:
     // user.role: string (backend may send dynamic roles)
     // user.permissions: Permission[] | string[] (e.g., ["*:*"] or ["events:create","users:list"])
-    const role = user.role;
-    const permissions = normalizePermissions(user.permissions);
+    // const role = user.role;
+    const permissions = normalizePermissions(userPermissions);
 
     if (!role) return null;
     if (permissions.length === 0) return null;

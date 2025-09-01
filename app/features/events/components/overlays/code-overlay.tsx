@@ -1,4 +1,5 @@
 import { Button } from "@/components/primitives/button"
+import { Separator } from "@/components/primitives/separator"
 import {
     Dialog,
     DialogClose,
@@ -10,40 +11,32 @@ import {
     DialogTrigger,
 } from "@/components/primitives/dialog"
 import { useEventContext } from "../../context/event-context"
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/primitives/input-otp'
+import OtpDisplay from "@/components/ui/otp-display"
 
 export function ShowCodeOverlay({ children }: { children: React.ReactNode }) {
     const e = useEventContext()
     if (!e) return null
 
-    const { code } = e
+    const { code, title, startAt, endAt } = e
 
 
     return (
-        <Dialog modal>
+        <Dialog >
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => e.preventDefault()} onOpenAutoFocus={(e) => e.preventDefault()} className=" bg-accent">
+            <DialogContent onInteractOutside={(e) => e.preventDefault()} onOpenAutoFocus={(e) => e.preventDefault()} className="bg-accent h-fit min-w-[700px] px-20">
                 <DialogHeader>
-                    <DialogTitle>
-                        Check-In Code
+                    <DialogTitle className="text-3xl">
+                        Check-In
                     </DialogTitle>
+                    <Separator />
                     <DialogDescription>
-                        <InputOTP maxLength={6} value={code}>
-                            <InputOTPGroup>
-                                <InputOTPSlot index={0} />
-                                <InputOTPSlot index={1} />
-                                <InputOTPSlot index={2} />
-                            </InputOTPGroup>
-                            <InputOTPSeparator />
-                            <InputOTPGroup>
-                                <InputOTPSlot index={3} />
-                                <InputOTPSlot index={4} />
-                                <InputOTPSlot index={5} />
-                            </InputOTPGroup>
-                        </InputOTP>
+                        <h2>{title}</h2>
                     </DialogDescription>
+                    <div className="flex items-center justify-center py-10">
+                        <OtpDisplay code={code} />
+                    </div>
                 </DialogHeader>
             </DialogContent>
         </Dialog>

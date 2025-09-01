@@ -1,6 +1,8 @@
+import Page from "@/components/layout/page"
+
 export default function HeroSection() {
     return (
-        <section className="flex flex-col items-center justify-center min-h-screen  select-none">
+        <Page className="flex flex-col items-center justify-center h-[calc(100vh-64px)] w-screen select-none">
             <div className="flex flex-col items-center justify-center">
                 <h1 className="text-slate-50 font-nunit text-3xl md:text-5xl font-semibold overflow-hidden whitespace-nowrap max-w-fit">
                     ACM Computer Science
@@ -12,6 +14,6 @@ export default function HeroSection() {
                     Code. Create. Collaborate.
                 </h2>
             </div>
-        </section>
+        </Page>
     )
 }

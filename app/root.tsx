@@ -1,3 +1,7 @@
+import "./app.css";
+
+import type { Route } from "./+types/root";
+
 import {
     isRouteErrorResponse,
     Links,
@@ -8,16 +12,12 @@ import {
     useLocation,
 } from "react-router";
 
-import type { Route } from "./+types/root";
-import Header from "./components/navigation/header";
-import { AuthActionsProvider } from "./features/auth/context/AuthP";
-import "./app.css";
-import { WithPersistedQueryClient } from "@/lib/query-client";
-import { Toaster } from "sonner";
+import AppProviders from "./providers/app-providers";
 
+import Header from "./components/navigation/header";
 import Circuit from "./components/primitives/circuit";
 import Footer from "./components/navigation/footer";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 
 
 export const links: Route.LinksFunction = () => [
@@ -60,47 +60,36 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 
 export default function App() {
-    const location = useLocation();
-
-
-    const hideFooter =
-        location.pathname.startsWith("/auth") ||
-        location.pathname.startsWith("/888") ||
-        location.pathname === "/admin";
 
     return (
-        <WithPersistedQueryClient>
-
-            <AuthActionsProvider>
-
-                <div className="flex flex-col min-h-screen">
-
-                    <Circuit
-                        style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            zIndex: -1,
-                            width: "100vw",
-                            height: "100%",
-                            pointerEvents: "none",
-                        }}
-                    />
-                    <Header />
-                    <main>
-                        <Outlet />
-                    </main>
-                    <Toaster richColors position="top-center" />
-                    {!hideFooter && <Footer />}
-                </div>
-
-            </AuthActionsProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-
-        </WithPersistedQueryClient>
-
+        <AppProviders>
+            <div className="flex flex-col min-h-screen " >
+                <Circuit
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        zIndex: -1,
+                        width: "100vw",
+                        height: "100%",
+                        pointerEvents: "none",
+                    }}
+                />
+                <Header />
+                <main className="relative" id="main-layout">
+                    <Outlet />
+                </main>
+                <Footer />
+            </div>
+        </AppProviders>
     );
 }
+
+
+
+
+
+
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     let message = "Oops!";

@@ -15,7 +15,7 @@ import EditForm from "./event-form"
 export function EventFormOverlay({ children }: { children: React.ReactNode }) {
     const event = useEventContext()
 
-    const insideEvent = event !== null
+    const insideEvent = event !== undefined; // only true if provider gave us an event
 
     return (
         <Dialog modal>

@@ -43,7 +43,7 @@ export default function AboutPage() {
                     </div>
 
                     <div className="absolute inset-0 m-auto w-fit h-fit">
-                        <h2 className="text-5xl font-aldri">
+                        <h2 className="text-2xl md:text-5xl text-center font-aldri">
                             {'message' in timeline[index] ? timeline[index].message : ''}
                         </h2>
                     </div>

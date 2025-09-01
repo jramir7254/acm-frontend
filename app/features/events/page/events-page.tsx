@@ -38,17 +38,20 @@ function EventsPageInner() {
 
     return (
         <Page>
-            <section className="h-[45vh] flex justify-center items-center">
-                <h1 className="font-quick text-8xl">Events</h1>
+            <section className="h-[25vh] md:h-[45vh] flex justify-center items-center">
+                <h1 className="font-quick text-5xl md:text-8xl">Events</h1>
             </section>
 
-            <section className="min-h-screen bg-background px-30 py-20 pb-[100vh] flex flex-col gap-5">
+            <section className="min-h-screen bg-background px-10 lg:px-30 py-20 pb-[100vh] flex flex-col gap-5">
                 <div className="ml-auto">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
                 </div>
                 <Separator />
                 <div className=" grid gap-6 screen-16-10:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1">
-                    <EventsList filters={filters} />
+                    <EventsIndexProvider>
+
+                        <EventsList filters={filters} />
+                    </EventsIndexProvider>
 
                     <PermissionGuard resource="events" requiredActions={["create"]}>
                         <AddEventCard />
@@ -121,8 +124,6 @@ function EventsList({ filters }: { filters: EventFilters }) {
 
 export default function EventsPage() {
     return (
-        <EventsIndexProvider>
-            <EventsPageInner />
-        </EventsIndexProvider>
+        <EventsPageInner />
     );
 }

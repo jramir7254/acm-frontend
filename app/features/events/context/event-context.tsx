@@ -23,7 +23,7 @@ type EventView = {
     // keep any extra fields you need
 }
 
-const EventContext = createContext<EventView | null>(null);
+const EventContext = createContext<EventView | undefined>(undefined);
 export const useEventContext = () => useContext(EventContext);
 
 export const EventProvider: React.FC<{
@@ -37,6 +37,7 @@ export const EventProvider: React.FC<{
     const start = useMemo(() => new Date(e.startAt), [e.startAt]);
     const end = useMemo(() => new Date(e.endAt), [e.endAt]);
     const isLive = useEventStatus(start, end);
+    const past = useMemo(() => (new Date(e.endAt) < new Date() && !isLive), [isLive, e.endAt])
     const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
 
     const value = useMemo<EventView>(() => ({
@@ -50,7 +51,7 @@ export const EventProvider: React.FC<{
         endAt: end,
         isLive,
         code: e.code,
-        past: !isLive && end.getTime() < Date.now(),
+        past,
         formatted,
     }), [e.id, e.title, start, end, isLive, formatted]);
 

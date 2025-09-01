@@ -7,17 +7,17 @@ import {
     onRefreshDone,
 } from "@/lib/auth-refresh";
 import { tokenStore } from "@/features/auth/services/token-store";
-
+import { logger } from "../../lib/logger";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const PrivateApi: AxiosInstance = axios.create({
+export const PRIVATE_API: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 15000,
     withCredentials: true, // send/receive the httpOnly refresh cookie
 });
 
 // Attach Authorization on each request
-PrivateApi.interceptors.request.use((config) => {
+PRIVATE_API.interceptors.request.use((config) => {
     const token = tokenStore.get();
     if (token) {
         config.headers = config.headers ?? {};
@@ -30,7 +30,7 @@ PrivateApi.interceptors.request.use((config) => {
 let isRefreshingLocal = false;
 let waiters: Array<(t: string | null) => void> = [];
 
-PrivateApi.interceptors.response.use(
+PRIVATE_API.interceptors.response.use(
     (r) => r,
     async (error) => {
         const { response, config } = error || {};
@@ -52,7 +52,7 @@ PrivateApi.interceptors.response.use(
                 waiters.push((newToken) => {
                     if (newToken) (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
                     (config as any).__isRetry = true;
-                    resolve(PrivateApi(config));
+                    resolve(PRIVATE_API(config));
                 });
             });
         }
@@ -64,7 +64,7 @@ PrivateApi.interceptors.response.use(
                     unsubscribe?.();
                     if (newToken) (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
                     (config as any).__isRetry = true;
-                    resolve(PrivateApi(config));
+                    resolve(PRIVATE_API(config));
                 });
             });
         }
@@ -81,38 +81,53 @@ PrivateApi.interceptors.response.use(
             waiters = [];
             (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
             (config as any).__isRetry = true;
-            return PrivateApi(config);
+            return PRIVATE_API(config);
         };
 
         try {
             // First refresh attempt
+            logger.startProcess('REFRESH-1')
             const r1 = await axios.post(
-                `${PrivateApi.defaults.baseURL}/auth/refresh`,
+                `${PRIVATE_API.defaults.baseURL}/auth/refresh`,
                 null,
                 { withCredentials: true }
             );
             const newToken = r1.data?.accessToken as string | undefined;
+            logger.debug('refresh-1 response:')
+            logger.json({ data: r1.data })
+
             if (!newToken) throw error;
             endGlobalRefresh(newToken);
+            logger.endProcess()
+
             return applyAndRetry(newToken);
         } catch (e: any) {
             // Handle race with concurrent rotation: optional graceful retry
+            logger.endProcess()
+
             const code = e?.response?.data?.code;
             const status = e?.response?.status;
             if (status === 409 && code === "stale_refresh") {
                 // Another request likely rotated already → give the cookie jar a beat, then retry once
                 await new Promise((r) => setTimeout(r, 200));
                 try {
+                    logger.startProcess('REFRESH-2')
+
                     const r2 = await axios.post(
-                        `${PrivateApi.defaults.baseURL}/auth/refresh`,
+                        `${PRIVATE_API.defaults.baseURL}/auth/refresh`,
                         null,
                         { withCredentials: true }
                     );
                     const newToken2 = r2.data?.accessToken as string | undefined;
+                    logger.debug('refresh-2 response:')
+                    logger.json({ data: r2.data })
                     if (!newToken2) throw e;
                     endGlobalRefresh(newToken2);
                     return applyAndRetry(newToken2);
                 } catch (e2) {
+                    logger.info('Logging Out')
+                    logger.endProcess()
+
                     endGlobalRefresh(null);
                     waiters.forEach((cb) => cb(null));
                     waiters = [];

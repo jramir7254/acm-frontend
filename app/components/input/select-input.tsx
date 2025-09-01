@@ -1,5 +1,4 @@
 // select-input.tsx
-import * as React from "react"
 import {
     Select,
     SelectContent,
@@ -10,68 +9,72 @@ import {
     SelectValue,
 } from "@/components/primitives/select"
 import { cn } from "@/lib/utils"
-import { titleToKebab, kebabToTitle } from "@/utils/format-string"
+import type { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form"
+import { FormInput, type FormInputProps } from "./form-input"
 
-type SelectInputProps = {
+type SelectInputProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> = {
     className?: string
     placeholder?: string
     label?: string
-    values: Array<string> | Array<Object>
-    value?: string | undefined                 // <-- add this
-    onChange: (val?: unknown) => void          // RHF field.onChange
-    store?: "kebab" | "title"                  // optional: how to store in form
-    disabled?: boolean;              // 🔑 new
-
+    values: Array<{ id: string, name: string }>
+    field: ControllerRenderProps<TFieldValues, TName>
 }
 
-function hasObjects(arr: Array<any>) {
-    if (!Array.isArray(arr)) {
-        throw new Error("Input must be an array.");
-    }
 
-    for (let i = 0; i < arr.length; i++) {
-        // Check if the element is an object and not null (as typeof null is 'object')
-        if (typeof arr[i] === 'object' && arr[i] !== null) {
-            return true; // Found an object
-        }
-    }
-    return false; // No objects found
+export function SelectInput<
+    TFieldValues extends FieldValues,
+    TName extends FieldPath<TFieldValues>
+>({
+    name,
+    label,
+    values,
+    placeholder,
+    ...props
+}: {
+    name: TName;
+    label: string;
+    values: Array<{ id: string, name: string }>
+    placeholder?: string;
+} & Omit<FormInputProps<TFieldValues, TName>, "children">) {
+    return (
+        <FormInput<TFieldValues, TName> name={name} label={label} {...props}>
+            {(field) => (
+                <SelectInputInner<TFieldValues, TName>
+                    {...props}
+                    placeholder={placeholder}
+                    label={label}
+                    values={values}
+                    field={field}
+                />
+            )}
+        </FormInput>
+    );
 }
 
-export function SelectInput({
+
+
+export function SelectInputInner<
+    TFieldValues extends FieldValues,
+    TName extends FieldPath<TFieldValues>
+>({
     className,
     placeholder,
     label,
     values,
-    value,
-    onChange,
-    disabled = false,
-    store = "kebab",
-}: SelectInputProps) {
-    const isPlain = !hasObjects(values)
-    // convert outgoing value depending on chosen storage format
-    const handleChange = (v: string) => {
-        if (!isPlain) onChange(v)
-        else if (store === "kebab") onChange(v)                  // store kebab-case
-        else onChange(kebabToTitle(v))                      // store original-title
-    }
-
-    // If storing titles in form, we need to map the incoming value to kebab
-    const internalValue =
-        store === "kebab" ? value : (value ? titleToKebab(String(value)) : undefined)
-
+    field
+}: SelectInputProps<TFieldValues, TName>) {
 
     return (
-        <Select disabled={disabled} onValueChange={handleChange}>
+        <Select disabled={field.disabled} onValueChange={field.onChange} value={field.value ?? ''}>
             <SelectTrigger className={cn("w-[180px]", className)}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     {label && <SelectLabel>{label}</SelectLabel>}
-                    {values.map((t) => (
-                        <SelectItem key={isPlain ? titleToKebab(t) : t.id} value={isPlain ? titleToKebab(t) : t.id}>
-                            {isPlain ? t : t.name}
+                    {values.map((item) => (
+                        <SelectItem key={item.id} value={String(item.id)}>
+                            {item.name}
                         </SelectItem>
                     ))}
                 </SelectGroup>

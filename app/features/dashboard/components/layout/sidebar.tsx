@@ -1,95 +1,94 @@
 // DashboardSidebar.tsx
+
 import {
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from "@/components/primitives/sidebar"
-import {
+    PermissionGuard,
     Sidebar,
+    SidebarHeader,
     SidebarContent,
+    SidebarItem,
     SidebarFooter,
     SidebarGroup,
-    SidebarHeader,
-} from "@/components/primitives/sidebar"
+    SidebarRail,
+    SidebarTrigger,
+    SidebarMenuButton,
+    SidebarMenuBadge,
+    useSidebar
+} from "@/components/layout"
 
-import { Home, Settings, PersonStanding, UserCircle2 } from "lucide-react"
+import { Home, PersonStanding, UserCircle2 } from "lucide-react"
 import { useMe } from "@/features/auth/hooks/use-me"
-import { PermissionGuard } from "@/components/layout"
-import { NavLink } from "react-router" // ⬅️ from react-router-dom
 import { LogoutButton } from "../buttons"
 import { Separator } from "@/components/primitives/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/primitives/avatar"
+import { useAddPoints } from "../../hooks/use-user"
 
-const items = [
-    { title: "Home", to: "", icon: Home },
-    { title: "Profile", to: "profile", icon: UserCircle2 },
-    // { title: "Admin", to: "admin", icon: PersonStanding }, // (optional)
-]
 
 export function DashboardSidebar() {
     const { data: user } = useMe()
+    const { state } = useSidebar()
+    const addPoints = useAddPoints()
 
-    // Make index exact-match with `end`
-    const linkProps = (to: string) => ({
-        to,
-        className: ({ isActive }: { isActive: boolean }) =>
-            isActive ? "bg-red" : undefined,
-        end: to === "",
-    })
+    const isExpanded = state === 'expanded'
+
 
     return (
-        <Sidebar className="px-5 pb-10 ratio-16-10:w-6">
-            <SidebarHeader className="mt-10">
-                <div className="flex">
-                    <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <p className="text-muted">{user?.epccId}</p>
-                </div>
+        <Sidebar className="px-3" collapsible="icon">
+            <SidebarHeader className="mt-10 list-none ">
+
+                <SidebarItem>
+                    <div>
+                        {isExpanded &&
+                            <>
+                                <Avatar className="size-6 rounded-lg">
+                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                </Avatar>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-medium">{user?.fullName}</span>
+                                    <span className="truncate text-xs">{user?.epccId}</span>
+                                </div>
+                            </>
+                        }
+                        <SidebarMenuBadge className="pointer-events-auto group-data-[collapsible=icon]:block">
+                            <SidebarTrigger className="" />
+                        </SidebarMenuBadge>
+                    </div>
+                </SidebarItem>
             </SidebarHeader>
 
             <Separator />
 
             <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <NavLink to={item.to} end={item.to === ""}>
-                                        {({ isActive }) => (
-                                            <SidebarMenuButton asChild isActive={isActive}>
-                                                <div className="flex items-center">
-                                                    <item.icon className="mr-2 h-4 w-4" />
-                                                    <span>{item.title}</span>
-                                                </div>
-                                            </SidebarMenuButton>
-                                        )}
-                                    </NavLink>
-                                </SidebarMenuItem>
-                            ))}
-                            <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
-                                <SidebarMenuItem>
-                                    <SidebarMenuButton asChild>
-                                        <NavLink {...linkProps("admin")}>
-                                            <PersonStanding className="mr-2 h-4 w-4" />
-                                            <span>Admin</span>
-                                        </NavLink>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            </PermissionGuard>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
+                <SidebarGroup label="Application">
+                    <SidebarItem to="">
+                        <Home className="size-3.5 shrink-0" />
+                        <span>Home</span>
+                    </SidebarItem>
+
+                    <SidebarItem to='profile'>
+                        <UserCircle2 className="size-3.5 shrink-0" />
+                        <span>Profile</span>
+                    </SidebarItem>
+
+                    <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
+                        <SidebarItem to='admin'>
+                            <PersonStanding className="h-4 w-4" />
+                            <span>Admin</span>
+                        </SidebarItem>
+
+                        {/* <Button onClick={() => addPoints.mutate()}>Add Points</Button> */}
+                    </PermissionGuard>
+
                 </SidebarGroup>
             </SidebarContent>
 
-            <SidebarFooter>
-                <LogoutButton />
+            <SidebarFooter className="mb-10 list-none">
+                <SidebarMenuButton asChild>
+                    <LogoutButton collapsed={!isExpanded} />
+                </SidebarMenuButton>
             </SidebarFooter>
+
+            <SidebarRail />
         </Sidebar>
     )
 }

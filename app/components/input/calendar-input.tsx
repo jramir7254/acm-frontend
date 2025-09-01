@@ -45,7 +45,7 @@ export function DateTimePickerInput({
     disabled,
     className,
     timeStepMinutes = 5,
-}: DateTimePickerInputProps) {
+}: DateTimePickerInputProps): React.ReactNode {
     const [open, setOpen] = React.useState(false);
     const [month, setMonth] = React.useState<Date | undefined>(value);
     const [text, setText] = React.useState<string>(formatDateTime(value));

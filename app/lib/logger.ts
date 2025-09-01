@@ -175,7 +175,7 @@ const methods = {
     startProcess: (id: string) => {
         if (!isDev) return;
         setCorrelationId(id);
-        methods.group(`START ${correlationId}`);
+        methods.group(`[${correlationId}]`);
     },
     endProcess: () => {
         if (!isDev) return;
