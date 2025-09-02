@@ -7,8 +7,8 @@ export function useIsMacRatio() {
 
     React.useEffect(() => {
         function checkRatio() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
+            const width = window.screen.width;
+            const height = window.screen.height;
             const ratio = width / height;
 
             const epsilon = 0.01; // tolerance
@@ -17,11 +17,12 @@ export function useIsMacRatio() {
 
         // Initial check
         checkRatio();
-
         // Update on resize
         window.addEventListener("resize", checkRatio);
         return () => window.removeEventListener("resize", checkRatio);
     }, []);
+
+
 
     return !!isMac;
 }
