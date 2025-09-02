@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Unfinished } from '@/components/layout/'
-import Page from '@/components/layout/page'
+import { useEffect, useState } from 'react'
+import { Page } from '@/components/layout/page'
 import { Skeleton } from '@/components/primitives/skeleton'
 import { useNavigate } from 'react-router'
 
@@ -33,30 +32,29 @@ export default function AboutPage() {
     }, [index, navigate, timeline])
 
     return (
-        <Unfinished className=" w-screen relative">
-            <Page className="size-full bg-card p-20">
-                <div className="flex flex-col space-y-10">
-                    <div className="flex space-x-5 justify-between">
-                        <Skeleton className="h-[500px] w-[500px] rounded-xl" />
-                        <Skeleton className="h-[500px] w-[500px] rounded-xl" />
-                        <Skeleton className="h-[500px] w-[500px] rounded-xl" />
-                    </div>
-
-                    <div className="absolute inset-0 m-auto w-fit h-fit">
-                        <h2 className="text-2xl md:text-5xl text-center font-aldri">
-                            {'message' in timeline[index] ? timeline[index].message : ''}
-                        </h2>
-                    </div>
-
-                    <div className="space-y-2">
-                        <Skeleton className="h-6 w-full" />
-                        <Skeleton className="h-6 w-full" />
-                        <Skeleton className="h-6 w-full" />
-                        <Skeleton className="h-6 w-[500px]" />
-                        <Skeleton className="h-6 w-[250px]" />
-                    </div>
+        <Page className="w-screen h-[calc(100vh-64px)] relative bg-card p-10 md:p-20">
+            <div className="flex flex-col space-y-10">
+                <div className="flex md:flex-row flex-col space-x-0 md:space-x-5 space-y-5 justify-between">
+                    <Skeleton className="w-[85vw] h-[20vh] md:block md:h-[500px] md:w-[500px] rounded-xl" />
+                    <Skeleton className="w-[85vw] h-[20vh] md:hidden rounded-xl" />
+                    <Skeleton className="hidden md:block md:h-[500px] md:w-[500px]  rounded-xl" />
+                    <Skeleton className="hidden md:block md:h-[500px] md:w-[500px]  rounded-xl" />
                 </div>
-            </Page>
-        </Unfinished>
+
+                <div className="absolute inset-0 m-auto w-[300px] md:w-fit h-fit">
+                    <h2 className="text-2xl md:text-5xl text-center font-aldri">
+                        {'message' in timeline[index] ? timeline[index].message : ''}
+                    </h2>
+                </div>
+
+                <div className="space-y-2">
+                    <Skeleton className="h-6 w-full" />
+                    <Skeleton className="h-6 w-full" />
+                    <Skeleton className="h-6 w-full" />
+                    <Skeleton className="h-6 w-[300px] md:w-[500px]" />
+                    <Skeleton className="h-6 w-[250px]" />
+                </div>
+            </div>
+        </Page>
     )
 }

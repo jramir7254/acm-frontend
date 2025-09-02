@@ -25,7 +25,10 @@ export function ShowCodeOverlay({ children }: { children: React.ReactNode }) {
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => e.preventDefault()} onOpenAutoFocus={(e) => e.preventDefault()} className="bg-accent h-fit min-w-[700px] px-20">
+            <DialogContent
+                onInteractOutside={(e) => e.preventDefault()}
+                onOpenAutoFocus={(e) => e.preventDefault()}
+                className="bg-accent h-fit w-fit lg:min-w-[700px] lg:px-20">
                 <DialogHeader>
                     <DialogTitle className="text-3xl">
                         Check-In

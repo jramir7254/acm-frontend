@@ -7,6 +7,7 @@ export {
     FormLabel,
     FormMessage,
     FormControl,
+    FormDescription
 } from "../primitives/form";
 export * from '../primitives/textarea'
 export * from './dropdown-input'

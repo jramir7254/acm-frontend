@@ -1,11 +1,14 @@
 import { Button } from "@/components/primitives/button";
-import { Info } from "lucide-react";
+import { CgPassword } from "react-icons/cg";
+
 import { ShowCodeOverlay } from "../overlays/code-overlay";
-export function ShowCodeButton() {
+export function ShowCodeButton({ isLive }: { isLive: boolean }) {
+
+    if (!isLive) return null
 
     return (
         <ShowCodeOverlay>
-            <Button variant='secondary' size='icon'><Info /></Button>
+            <Button variant='secondary' size='icon'><CgPassword /></Button>
         </ShowCodeOverlay>
     )
 }

@@ -19,7 +19,7 @@ export function EventFormOverlay({ children }: { children: React.ReactNode }) {
 
     return (
         <Dialog modal>
-            <DialogTrigger asChild>
+            <DialogTrigger >
                 {children}
             </DialogTrigger>
             <DialogContent onInteractOutside={(e) => e.preventDefault()} onOpenAutoFocus={(e) => e.preventDefault()} className="lg:max-w-[75vw] bg-accent">

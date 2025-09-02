@@ -50,7 +50,7 @@ export function DashboardSidebar() {
                             </>
                         }
                         <SidebarMenuBadge className="pointer-events-auto group-data-[collapsible=icon]:block">
-                            <SidebarTrigger className="" />
+                            <SidebarTrigger className=" md:flex" />
                         </SidebarMenuBadge>
                     </div>
                 </SidebarItem>

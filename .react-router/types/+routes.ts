@@ -47,8 +47,8 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin";
   };
-  "features/home/Home.tsx": {
-    id: "features/home/Home";
+  "features/home/home-page.tsx": {
+    id: "features/home/home-page";
     page: "/";
   };
   "features/events/page/events-page.tsx": {

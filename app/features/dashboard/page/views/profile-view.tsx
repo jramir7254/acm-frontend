@@ -66,7 +66,7 @@ export default function ProfileSettings() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="m-10 p-10 w-full grid grid-cols-2 border-2 border-accent">
+        <Gradient via="rgba(50,50,50,0.20)" className="m-2 md:m-10 p-10 w-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent">
             <div className="space-y-4 flex flex-col screen">
                 <div>
                     {!accountComplete && <h2 className='font-bold text-xl mb-2'>Finish setting up your profile to earn 5 points!</h2>}
@@ -81,7 +81,7 @@ export default function ProfileSettings() {
 
                 <Separator />
 
-                <div className='flex space-y-2 gap-5'>
+                <div className='flex flex-col md:flex-row space-y-2 gap-5'>
                     <InputDisplay name='epccId' label='EPCC ID' value={user?.epccId} />
                     <InputDisplay name='email' label='EPCC Email' value={user?.email} />
                 </div>
@@ -98,7 +98,7 @@ export default function ProfileSettings() {
                         resetOn={[user, courses]}
                         {...formOptions}
                     >
-                        <div className="flex gap-5">
+                        <div className="flex flex-col md:flex-row gap-5">
                             <FormInput
                                 name="firstName"
                                 placeholder={!user?.firstName ? "First Name" : ""}

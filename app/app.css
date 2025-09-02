@@ -341,7 +341,6 @@ main {
 
 
 :root {
-    --sidebar-width: 20rem;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -376,11 +375,7 @@ main {
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-@media (aspect-ratio: 16/10) {
-    :root {
-        --sidebar-width: 15rem;
-    }
-}
+
 
 @custom-variant screen-16-9 {
     @media (aspect-ratio: 16/9) {

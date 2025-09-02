@@ -14,7 +14,7 @@ export async function login(payload: LoginInput): Promise<LoginResponse> {
 
         logger.debug('login payload:', payload)
         const { data } = await PUBLIC_API.post<LoginResponse>("/auth/login", payload);
-        logger.debug('login response:', data)
+        logger.success('login response:', data)
         return data; // { accessToken, expiresIn }
 
     } catch (error) {
@@ -37,7 +37,7 @@ export async function register(payload: RegisterInput): Promise<RegisterResponse
     try {
         logger.debug('register payload:', payload)
         const { data } = await PUBLIC_API.post<RegisterResponse>("/auth/register", payload);
-        logger.debug('register response:', data)
+        logger.success('register response:', data)
         return data;
 
     } catch (error) {
@@ -60,7 +60,7 @@ export async function verifyEmail(payload: { token: string; code: string }): Pro
     try {
         logger.debug('verify email payload:', payload)
         const { data } = await PUBLIC_API.post<LoginResponse>("/auth/verify-email", payload);
-        logger.debug('verify email response:', data)
+        logger.success('verify email response:', data)
         return data;
 
     } catch (error) {
@@ -83,7 +83,7 @@ export async function getPermissions(): Promise<{ role: string, permissions: str
     try {
         logger.startProcess('ROLE')
         const { data } = await PRIVATE_API.get<{ role: string, permissions: string[] }>("/auth/role");
-        logger.debug('get permissions response:', data)
+        logger.success('get permissions response:', data)
         return data;
 
     } catch (error) {

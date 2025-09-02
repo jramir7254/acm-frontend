@@ -1,43 +1,51 @@
-import { Button } from "@/components/primitives/button"
+import { Button } from "@/components/primitives/button";
 import { useRsvp } from "../../hooks/use-events";
 import { useEventContext } from "@/features/events/context/event-context";
 import { toast } from "sonner";
 import { useMe } from "@/features/auth/hooks/use-me";
 import { useUserRsvps } from "@/features/dashboard/hooks/use-user";
-import { useEffect, useState } from "react";
-
+import { useMemo } from "react";
 
 export function RsvpButton({ eventId }: { eventId: string | number }) {
-    const [isRsvpd, setIsRsvpd] = useState<boolean>()
-    const { data: rsvps } = useUserRsvps()
-    const { data: user } = useMe()
-
-    const rsvp = useRsvp()
+    const { data: rsvps } = useUserRsvps();
+    const { data: user } = useMe();
+    const rsvp = useRsvp();
     const e = useEventContext();
     if (!e) return null; // provider not mounted
-    const { id, past } = e
 
-    useEffect(() => {
-        setIsRsvpd(rsvps && rsvps.some(r => r.eventId === id))
-    }, [rsvps])
+    const { id, past } = e;
 
+    const isRsvpd = useMemo(
+        () => rsvps?.some(r => r.eventId === id) ?? false,
+        [rsvps, id]
+    );
 
+    const onSubmit = async () => {
+        try {
+            await rsvp.mutateAsync(eventId);
+            toast.success("Successfully RSVP’d for event");
+        } catch {
+            toast.error("Error trying to RSVP for event");
+        }
+    };
 
+    let label = "RSVP";
+    let disabled = false;
 
-    if (!user) return (
-        <Button variant='disabled' disabled>Login or register to RSVP</Button>
-    )
-    if (past) return (
-        <Button variant='disabled' disabled>Past Event</Button>
-    )
+    if (!user) {
+        label = "Log in or register to RSVP";
+        disabled = true;
+    } else if (past) {
+        label = "Past Event";
+        disabled = true;
+    } else if (isRsvpd) {
+        label = "RSVP Confirmed";
+        disabled = true;
+    }
 
-    if (isRsvpd) return (
-        <Button variant='disabled' disabled>RSVP Confirmed</Button>
-    )
     return (
-        <Button onClick={() => rsvp.mutate(eventId, {
-            onSuccess: () => { toast.success("Succesfully RSVP'd for event"); setIsRsvpd(true) },
-            onError: () => toast.error("Error trying to RSVP for event"),
-        })} >RSVP</Button>
-    )
+        <Button className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto" onClick={onSubmit} disabled={disabled} variant={disabled ? "disabled" : "default"}>
+            {label}
+        </Button>
+    );
 }

@@ -3,7 +3,7 @@
 import { useSearchParams } from "react-router";
 import { toast } from "sonner"
 import { z } from "zod"
-import { Form, SubmitButton, OtpInput, GlobalFormError } from '@/components/input'
+import { Form, SubmitButton, OtpInput } from '@/components/input'
 
 import { useAppNavigation } from "@/hooks/use-navigation";
 import { useAuth } from "../../hooks/use-auth";
@@ -31,19 +31,24 @@ export default function VerifyForm() {
             toDashboard(epccId)
         } catch (err: any) {
             const msg = err ?? "Verification failed";
-            toast.error(msg);
+            // toast.error(msg);
+            throw msg
         }
     };
 
     return (
 
-        <Form onSubmit={onSubmit} schema={FormSchema} defaultValues={{ otp: "" }}>
-            <h1 className="text-xl font-semibold">Verify your account</h1>
-            <OtpInput name='otp' label='One-Time Password' length={6} groups={2} />
-            <SubmitButton>
+        <Form onSubmit={onSubmit} schema={FormSchema} defaultValues={{ otp: "" }} className="w-fit">
+            <div className="mb-10 space-y-2">
+                <h2 className="md:text-3xl font-semibold">Verify your account</h2>
+                <p className="text-muted-foreground">
+                    Check your inbox and enter the 6-digit code to verify your account.
+                </p>
+            </div>
+            <OtpInput name='otp' label='Verification Code' className="p-5 md:p-8 md:text-lg" length={6} groups={2} />
+            <SubmitButton className="mt-3 w-full md:w-auto">
                 Submit
             </SubmitButton>
-            <GlobalFormError />
         </Form>
 
     );

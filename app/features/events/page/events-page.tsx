@@ -1,8 +1,7 @@
 // features/events/pages/EventsPage.tsx
-import Page from "@/components/layout/page";
 import { EventCard, AddEventCard, SkeletonCard } from "../components/cards";
 import { Separator } from "@/components/primitives/separator";
-import { PermissionGuard } from "@/components/layout";
+import { PermissionGuard, Page, Container } from "@/components/layout";
 import { FilterEventsButton } from "../components/buttons/filter-events";
 import { useMemo, useState } from "react";
 import {
@@ -42,22 +41,25 @@ function EventsPageInner() {
                 <h1 className="font-quick text-5xl md:text-8xl">Events</h1>
             </section>
 
-            <section className="min-h-screen bg-background px-10 lg:px-30 py-20 pb-[100vh] flex flex-col gap-5">
+            <Container
+                className="min-h-screen bg-background py-20 pb-[100vh] flex flex-col gap-5 border-y-2 border-accent"
+                classNameMac="px-10"
+                classNameLarge="px-30"
+                classNameMobile="px-10">
                 <div className="ml-auto">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
                 </div>
                 <Separator />
-                <div className=" grid gap-6 screen-16-10:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1">
+                <Container className="grid gap-6 lg:grid-cols-3 sm:grid-cols-1" classNameMac="">
                     <EventsIndexProvider>
-
                         <EventsList filters={filters} />
                     </EventsIndexProvider>
 
                     <PermissionGuard resource="events" requiredActions={["create"]}>
                         <AddEventCard />
                     </PermissionGuard>
-                </div>
-            </section>
+                </Container>
+            </Container>
         </Page>
     );
 }

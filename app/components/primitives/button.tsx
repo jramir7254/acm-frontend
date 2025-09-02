@@ -38,6 +38,11 @@ const buttonVariants = cva(
     }
 )
 
+export type ShadcnButtonProps = React.ComponentProps<"button"> &
+    VariantProps<typeof buttonVariants> & {
+        asChild?: boolean
+    }
+
 function Button({
     className,
     variant,

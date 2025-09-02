@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/re
 import * as UserAPI from "../api/user-api";
 import * as EventAPI from '@/features/events/api/events'
 import { toast } from "sonner";
+import type { ProfileFormValues } from "../types/profile-schema";
 
 export const userKeys = {
     all: ['user'] as const,
@@ -10,6 +11,20 @@ export const userKeys = {
     points: ["user", "points"] as const,
     attendance: ["user", "attendance"] as const,
 };
+
+
+export function useUpdateMe() {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (form: ProfileFormValues) => UserAPI.updateMe(form),
+        onSuccess: () => {
+            // Option A: immediate UI update
+            // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
+            // Option B (or in addition): refetch fresh data
+            qc.invalidateQueries({ queryKey: userKeys.all });
+        },
+    });
+}
 
 
 

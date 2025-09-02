@@ -25,15 +25,6 @@ export function useMe() {
 
 
 
-export function usePermissions() {
-    return useQuery({
-        queryKey: userKeys.me,
-        queryFn: AuthAPI.me,
-        staleTime: 60 * 60 * 1000, // 1h fresh
-        gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
-    });
-}
-
 
 export function useUpdateMe() {
     const qc = useQueryClient();

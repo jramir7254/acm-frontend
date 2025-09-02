@@ -9,6 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/primitives/alert-dialog"
+import { Button } from "../primitives/button"
 
 type Props = {
     children: React.ReactNode,
@@ -26,7 +27,7 @@ export default function ConfirmationModal({ children, title, description, onConf
             </AlertDialogTrigger>
             <AlertDialogContent className="w-fit bg-accent">
                 <AlertDialogHeader>
-                    <AlertDialogTitle className="font-quick font-medium">
+                    <AlertDialogTitle className="font-osans tracking-wide font-medium">
                         {title}
                     </AlertDialogTitle>
                     <AlertDialogDescription>
@@ -35,8 +36,10 @@ export default function ConfirmationModal({ children, title, description, onConf
                 </AlertDialogHeader>
                 <AlertDialogFooter className="sm:justify-center gap-5">
                     <AlertDialogCancel className="">Cancel</AlertDialogCancel>
-                    <AlertDialogAction variant='destructive' onClick={onConfirm}>
-                        Confirm
+                    <AlertDialogAction asChild>
+                        <Button variant='destructive' onClick={onConfirm}>
+                            Confirm
+                        </Button>
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

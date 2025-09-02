@@ -6,8 +6,7 @@ import {
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/primitives/input-otp"
-import React from 'react'
-
+import { cn } from "@/lib/utils";
 
 
 
@@ -57,7 +56,7 @@ export function OtpInput<
                         <div key={gi} className="flex items-center">
                             <InputOTPGroup>
                                 {group.map((slotIndex) => (
-                                    <InputOTPSlot key={slotIndex} index={slotIndex} className={error ? 'border-red-900 text-red-700' : ''} />
+                                    <InputOTPSlot key={slotIndex} index={slotIndex} className={cn(error ? 'border-red-900 text-red-700 animate-shake' : '', className)} />
                                 ))}
                             </InputOTPGroup>
                             {gi < grouped.length - 1 && (

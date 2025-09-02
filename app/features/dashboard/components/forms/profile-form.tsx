@@ -6,8 +6,6 @@ import { useCourses } from '../../hooks/use-courses';
 import { type ProfileFormValues, profileSchema } from '../../types/profile-schema';
 import { Button } from '@/components/primitives/button';
 
-import { PUBLIC_API } from '@/services/api';
-
 export default function ProfileForm() {
 
 
@@ -32,17 +30,6 @@ export default function ProfileForm() {
         keepDirty: false
     }
 
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const { data } = await PUBLIC_API.get('/courses')
-    //             const { courses } = data
-    //             setCourses(data)
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     })()
-    // }, [])
 
 
     if (isLoading) return <p />;
@@ -121,7 +108,6 @@ export default function ProfileForm() {
                     </Button>
                 </div>
             </div>
-
         </Form>
     );
 }

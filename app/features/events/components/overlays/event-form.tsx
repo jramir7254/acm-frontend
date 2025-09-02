@@ -41,10 +41,10 @@ export default function EventForm() {
 
     const submit = async (values: EventFormValues) => {
         if (insideEvent) {
-            await updateEvent.mutate({ id: event?.id, form: values });
+            await updateEvent.mutateAsync({ id: event?.id, form: values });
             return;
         }
-        await createEvent.mutate(values);
+        await createEvent.mutateAsync(values);
     };
 
     const imgUrl = form.watch("imageUrl");

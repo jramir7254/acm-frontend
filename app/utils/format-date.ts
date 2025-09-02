@@ -1,42 +1,38 @@
+function areSameDay(a: Date, b: Date) {
+    return (
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate()
+    );
+}
 
-export function formatDateAndTime(startDate: string | Date, endDate: string) {
+export function formatDateAndTime(startDate: string | Date, endDate: string | Date) {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    const dts = new Date(
-        start.getFullYear(),
-        start.getMonth(),
-        start.getDate(),
-        start.getHours(),
-        start.getMinutes(),
-        start.getSeconds() || 0
-    );
-    const dte = new Date(
-        end.getFullYear(),
-        end.getMonth(),
-        end.getDate(),
-        end.getHours(),
-        end.getMinutes(),
-        end.getSeconds() || 0
-    );
-
-    const dateFormatted = dts.toLocaleDateString([], {
+    const dateFormatter = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric"
     });
 
-    const timeFormatted = dts.toLocaleTimeString([], {
-        hour: "numeric",   // 👈 no leading zero
+    const timeFormatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",   // no leading zero
         minute: "2-digit",
         hour12: true
     });
 
-    const timeFormattedE = dte.toLocaleTimeString([], {
-        hour: "numeric",   // 👈 no leading zero
-        minute: "2-digit",
-        hour12: true
-    });
-
-    return { date: dateFormatted, time: timeFormatted.concat(' - ', timeFormattedE) };
+    if (areSameDay(start, end)) {
+        // Same day: show one date and a time range
+        return {
+            date: dateFormatter.format(start),
+            time: `${timeFormatter.format(start)} – ${timeFormatter.format(end)}`
+        };
+    } else {
+        // Different days: show full date ranges
+        return {
+            date: `${dateFormatter.format(start)} – ${dateFormatter.format(end)}`,
+            time: `${timeFormatter.format(start)} – ${timeFormatter.format(end)}`
+        };
+    }
 }
