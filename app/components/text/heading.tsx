@@ -37,7 +37,7 @@ const headingStyles: Record<string, Record<string, string>> = {
     h2: {
         default: "font-monts text-lg font-semibold tracking-tight",
         mobile: 'font-monts text-sm font-medium',
-        mac: 'font-monts text-[1.15rem]/6 font-semibold tracking-tight',
+        mac: 'font-monts text-md font-semibold tracking-tight',
     },
     h3: {
         default: "scroll-m-20 text-2xl font-semibold tracking-tight",

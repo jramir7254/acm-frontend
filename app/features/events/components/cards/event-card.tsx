@@ -11,7 +11,7 @@ import { useIsMobile } from '@/hooks';
 const styles = {
     default: 'h-[50vh]',
     mobile: 'h-[35vh]',
-    mac: 'h-[45vh]'
+    mac: 'h-[55vh]'
 }
 
 
@@ -52,7 +52,7 @@ export function EventCard() {
                         style={style}
                         className=" md:block absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20 opacity-0 hover:opacity-100 transition duration-300">
                         <div className="absolute bottom-0 p-4 text-slate-100">
-                            <p className="text-[0.65rem] md:text-sm leading-relaxed ">{description}</p>
+                            <Text className="leading-relaxed ">{description}</Text>
                         </div>
                     </div>
                 </CardHeader>
