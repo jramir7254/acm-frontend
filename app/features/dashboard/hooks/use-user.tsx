@@ -21,8 +21,8 @@ export function useUpdateMe() {
             // Option A: immediate UI update
             // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
             // Option B (or in addition): refetch fresh data
-            qc.invalidateQueries({ queryKey: userKeys.all });
-        },
+            qc.invalidateQueries({ queryKey: userKeys.all })
+        }
     });
 }
 

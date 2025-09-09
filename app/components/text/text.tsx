@@ -21,6 +21,6 @@ export function Text({ children, className = "", ...props }: TextProps) {
 
 const textStyles: Record<string, string> = {
     default: "text-sm",
-    mobile: 'text-[0.65rem]',
+    mobile: 'text-[0.50rem]',
     mac: 'text-xs',
 }

@@ -92,9 +92,8 @@ export function useRsvp() {
     return useMutation({
         mutationFn: (eventId: string | number) => Events.rsvp(eventId),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: eventsKeys.all });
             qc.invalidateQueries({ queryKey: userKeys.rsvps });
-
+            qc.invalidateQueries({ queryKey: eventsKeys.all });
         },
     });
 }
@@ -104,8 +103,8 @@ export function useCancelRsvp() {
     return useMutation({
         mutationFn: (eventId: string | number) => Events.cancelRsvp(eventId),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: eventsKeys.all });
             qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            qc.invalidateQueries({ queryKey: eventsKeys.all });
             toast.success("Succesfully canceled RSVP")
         },
     });

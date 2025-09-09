@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMe, useUpdateMe } from '@/features/auth/hooks/use-me'
-import { Form, FormInput, SelectInput } from '@/components/input';
+import { Form, FormInput, SelectInput, SubmitButton } from '@/components/input';
 import { Separator } from '@/components/primitives/separator';
 import { useCourses } from '../../hooks/use-courses';
 import { type ProfileFormValues, profileSchema } from '../../types/profile-schema';
@@ -13,9 +13,8 @@ export default function ProfileForm() {
     const updateMe = useUpdateMe()
     const [changeProfile, setChangeProfile] = useState(false);
     const { data: courses } = useCourses()
-    // const [courses, setCourses] = useState([])
 
-    if (!user || courses) return null
+    if (!user || !courses) return null
 
     const defaultValues = {
         firstName: user.firstName ?? "",
@@ -37,7 +36,7 @@ export default function ProfileForm() {
 
     const submit = async (values: ProfileFormValues) => {
         console.log(values)
-        return
+
         try {
             updateMe.mutate(values); // <-- key fix
             setChangeProfile(false);
@@ -57,7 +56,7 @@ export default function ProfileForm() {
             onSubmit={submit}
             defaultValues={defaultValues}
             schema={profileSchema}
-            resetOn={[user, courses]}
+            resetOn={[user, courses, changeProfile]}
             {...formOptions}
         >
             <div className="flex gap-5">
@@ -96,16 +95,15 @@ export default function ProfileForm() {
                         Cancel
                     </Button>
 
-                    <Button
-                        form="profile-form"
-                        type={changeProfile ? 'submit' : 'button'}
-                        disabled={changeProfile}
+                    <SubmitButton
+                        allowSubmitOn={changeProfile ? { isDirty: true } : undefined}
+                        type={changeProfile ? "submit" : "button"}
                         onClick={() => {
-                            if (!changeProfile) setChangeProfile(true); // only toggle, don't submit
+                            if (!changeProfile) setChangeProfile(true); // toggle into edit mode
                         }}
                     >
-                        {changeProfile ? 'Save' : 'Update'}
-                    </Button>
+                        {changeProfile ? "Save" : "Update"}
+                    </SubmitButton>
                 </div>
             </div>
         </Form>

@@ -1,4 +1,4 @@
-import { PRIVATE_API } from "@/services/api";
+import { PrivateApi } from "@/services/api";
 import { logger } from "@/lib/logger";
 import { isAxiosError } from "axios";
 
@@ -28,8 +28,8 @@ export type UserRsvps = {
 
 
 export async function getUserData(fields?: string[]) {
-    const { data } = await PRIVATE_API.get<Partial<User>>(
-        "/auth/users/me",
+    const { data } = await PrivateApi.get<Partial<User>>(
+        "/users/me/partial",
         {
             params: fields ? { fields: fields.join(",") } : {}
         }
@@ -39,7 +39,7 @@ export async function getUserData(fields?: string[]) {
 
 
 export async function addPoints() {
-    const { data } = await PRIVATE_API.post<Rsvp[]>(`/auth/users/points`);
+    const { data } = await PrivateApi.post<Rsvp[]>(`/users/points`);
     return data.newPoints
 }
 
@@ -47,21 +47,17 @@ export async function addPoints() {
 
 
 export async function userRsvps() {
-    const { data } = await PRIVATE_API.get<UserRsvps[]>(`/rsvps`);
+    const { data } = await PrivateApi.get<UserRsvps[]>(`/users/me/rsvps`);
     return data
-}
-export async function verifyEmail(payload: { token: string; code: string }) {
-    const { data } = await PRIVATE_API.post("/auth/verify-email", payload);
-    // Backend returns { message, accessToken, expiresIn }, refresh cookie set httpOnly
-    return data as { message: string; accessToken: string; expiresIn: number };
 }
 
 export async function me() {
-    const { data } = await PRIVATE_API.get<User>("/auth/me");
+    const { data } = await PrivateApi.get<User>("/users/me");
     return data;
 }
 export async function updateMe(payload) {
-    const { data } = await PRIVATE_API.patch<User>("/auth/me", payload);
+    logger.debug(payload)
+    const { data } = await PrivateApi.patch<User>("/users/me", payload);
     return data;
 }
 

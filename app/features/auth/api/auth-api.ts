@@ -1,4 +1,4 @@
-import { PRIVATE_API, PUBLIC_API } from "@/services/api";
+import { PrivateApi, PUBLIC_API } from "@/services/api";
 import { logger } from "@/lib/logger";
 import { isAxiosError } from "axios";
 
@@ -82,7 +82,7 @@ export async function verifyEmail(payload: { token: string; code: string }): Pro
 export async function getPermissions(): Promise<{ role: string, permissions: string[] }> {
     try {
         logger.startProcess('ROLE')
-        const { data } = await PRIVATE_API.get<{ role: string, permissions: string[] }>("/auth/role");
+        const { data } = await PrivateApi.get<{ role: string, permissions: string[] }>("/auth/role");
         logger.success('get permissions response:', data)
         return data;
 

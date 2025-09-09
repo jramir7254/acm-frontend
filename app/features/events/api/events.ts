@@ -1,5 +1,5 @@
 
-import { PUBLIC_API, PRIVATE_API } from "@/services/api/";
+import { PUBLIC_API, PrivateApi } from "@/services/api/";
 import { logger } from "@/lib/logger";
 
 export type Event = {
@@ -28,16 +28,16 @@ export async function getEvent(id: string | number) {
     return data;
 }
 export async function deleteEvent(id: string | number) {
-    const { data } = await PRIVATE_API.delete<Event>(`/events/${id}`);
+    const { data } = await PrivateApi.delete<Event>(`/events/${id}`);
     return data;
 }
 export async function updateEvent(id: string | number, form) {
-    const { data } = await PRIVATE_API.patch<Event>(`/events/${id}`, form);
+    const { data } = await PrivateApi.patch<Event>(`/events/${id}`, form);
     return data;
 }
 
 export async function createEvent(form) {
-    const { data } = await PRIVATE_API.post<Event>(`/events`, form);
+    const { data } = await PrivateApi.post<Event>(`/events`, form);
     return data;
 }
 import { isAxiosError } from "axios";
@@ -46,7 +46,7 @@ import { isAxiosError } from "axios";
 export async function checkIn(eventId: string | number, form: { code: string }) {
     try {
 
-        const { data } = await PRIVATE_API.post<Event>(`/events/${eventId}/check-in`, form);
+        const { data } = await PrivateApi.post<Event>(`/events/${eventId}/check-in`, form);
         return data;
     } catch (error) {
         if (isAxiosError(error)) {
@@ -63,9 +63,9 @@ export async function checkIn(eventId: string | number, form: { code: string }) 
 
 
 export async function rsvp(eventId: string | number) {
-    await PRIVATE_API.post(`/rsvps/${eventId}}`);
+    await PrivateApi.post(`/events/${eventId}}/rsvp`);
 }
 
 export async function cancelRsvp(eventId: string | number) {
-    await PRIVATE_API.delete(`/rsvps/cancel/${eventId}`);
+    await PrivateApi.delete(`/events/${eventId}/rsvp`);
 }

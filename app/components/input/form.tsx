@@ -43,7 +43,7 @@ export function Form<TSchema extends ZodType>({
 
     useEffect(() => {
         form.clearErrors();
-        form.reset();
+        form.reset(defaultValues);
     }, [...resetOn]);
 
 
@@ -61,6 +61,7 @@ export function Form<TSchema extends ZodType>({
     const handleSafeSubmit = async (values: InferInput<TSchema>, e?: any) => {
         try {
             await onSubmit(values, e);
+            form.reset(values, { keepDirty: false });
         } catch (err: any) {
             form.setError("root", {
                 type: "server",

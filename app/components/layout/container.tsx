@@ -25,7 +25,6 @@ export function Container({
     const isMobile = useIsMobile()
     const isMac = useIsMacRatio()
 
-    console.log({ mac: isMac })
 
     if (hideInMac && isMac) return null
     if (hideInMobile && isMobile) return null

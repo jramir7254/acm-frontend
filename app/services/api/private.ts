@@ -10,14 +10,14 @@ import { tokenStore } from "@/features/auth/services/token-store";
 import { logger } from "../../lib/logger";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const PRIVATE_API: AxiosInstance = axios.create({
+export const PrivateApi: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 15000,
     withCredentials: true, // send/receive the httpOnly refresh cookie
 });
 
 // Attach Authorization on each request
-PRIVATE_API.interceptors.request.use((config) => {
+PrivateApi.interceptors.request.use((config) => {
     const token = tokenStore.get();
     if (token) {
         config.headers = config.headers ?? {};
@@ -30,7 +30,7 @@ PRIVATE_API.interceptors.request.use((config) => {
 let isRefreshingLocal = false;
 let waiters: Array<(t: string | null) => void> = [];
 
-PRIVATE_API.interceptors.response.use(
+PrivateApi.interceptors.response.use(
     (r) => r,
     async (error) => {
         const { response, config } = error || {};
@@ -52,7 +52,7 @@ PRIVATE_API.interceptors.response.use(
                 waiters.push((newToken) => {
                     if (newToken) (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
                     (config as any).__isRetry = true;
-                    resolve(PRIVATE_API(config));
+                    resolve(PrivateApi(config));
                 });
             });
         }
@@ -64,7 +64,7 @@ PRIVATE_API.interceptors.response.use(
                     unsubscribe?.();
                     if (newToken) (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
                     (config as any).__isRetry = true;
-                    resolve(PRIVATE_API(config));
+                    resolve(PrivateApi(config));
                 });
             });
         }
@@ -81,14 +81,14 @@ PRIVATE_API.interceptors.response.use(
             waiters = [];
             (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
             (config as any).__isRetry = true;
-            return PRIVATE_API(config);
+            return PrivateApi(config);
         };
 
         try {
             // First refresh attempt
             logger.startProcess('REFRESH-1')
             const r1 = await axios.post(
-                `${PRIVATE_API.defaults.baseURL}/auth/refresh`,
+                `${PrivateApi.defaults.baseURL}/auth/refresh`,
                 null,
                 { withCredentials: true }
             );
@@ -114,7 +114,7 @@ PRIVATE_API.interceptors.response.use(
                     logger.startProcess('REFRESH-2')
 
                     const r2 = await axios.post(
-                        `${PRIVATE_API.defaults.baseURL}/auth/refresh`,
+                        `${PrivateApi.defaults.baseURL}/auth/refresh`,
                         null,
                         { withCredentials: true }
                     );

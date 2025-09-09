@@ -11,7 +11,7 @@ import { useIsMobile } from '@/hooks';
 const styles = {
     default: 'h-[50vh]',
     mobile: 'h-[35vh]',
-    mac: 'h-[55vh]'
+    mac: 'h-[50vh]'
 }
 
 

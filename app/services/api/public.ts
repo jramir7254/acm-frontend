@@ -9,11 +9,20 @@ export const PUBLIC_API: AxiosInstance = axios.create({
     withCredentials: true,
 });
 
+export type Courses = {
+    instructorFirstName: string
+    instructorLastName: string
+    title: string
+    subject: string
+    courseNumber: string
+    name: string
+}
+
 
 export const getCourses = async () => {
     try {
         logger.startProcess('GET COURSES')
-        const { data } = await PUBLIC_API.get<Event>(`/courses`);
+        const { data } = await PUBLIC_API.get<Courses[]>(`/public/courses`);
         logger.debug('get courses response:', data)
         return data;
     } catch (error) {
