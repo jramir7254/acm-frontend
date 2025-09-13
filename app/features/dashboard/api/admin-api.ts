@@ -7,8 +7,9 @@ import type { Courses } from "@/services/api";
 export const addNewCourse = async (newCourse: Courses) => {
     try {
         logger.debug('post course payload', newCourse)
-        await PrivateApi.post('/courses', { newCourse })
+        await PrivateApi.post('/public/courses', { newCourse })
     } catch (error) {
         logger.error(error)
+        throw error
     }
 }

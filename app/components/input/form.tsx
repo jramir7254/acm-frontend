@@ -20,6 +20,7 @@ type FormProps<TSchema extends ZodType> = {
     resetOn?: unknown[];
     children: React.ReactNode;
     formOptions?: Omit<UseFormProps<InferInput<TSchema>>, "resolver">;
+    resetOnSubmit?: boolean,
     className?: string
 };
 
@@ -30,7 +31,9 @@ export function Form<TSchema extends ZodType>({
     resetOn = [],
     children,
     className,
-    ...formOptions   // ✅ flatten all other RHF options (mode, disabled, etc.)
+    resetOnSubmit = true,
+    ...formOptions
+
 }: FormProps<TSchema>) {
     if (!schema) {
         throw new Error("Form: `schema` prop is required and must be a Zod schema instance.");
@@ -61,7 +64,7 @@ export function Form<TSchema extends ZodType>({
     const handleSafeSubmit = async (values: InferInput<TSchema>, e?: any) => {
         try {
             await onSubmit(values, e);
-            form.reset(values, { keepDirty: false });
+            resetOnSubmit ? form.reset(defaultValues) : form.reset(values, { keepDirty: false });
         } catch (err: any) {
             form.setError("root", {
                 type: "server",

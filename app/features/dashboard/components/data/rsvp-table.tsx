@@ -61,7 +61,7 @@ const EventRow = ({ checkedIn }: { checkedIn: boolean }) => {
     let action: React.ReactNode;
     // const isLive = useEventStatus(er.startAt, er.endAt);
     if (e.past) {
-        action = <Button disabled variant="disabled">Past</Button>;
+        action = <Button disabled variant="disabled">Past Event</Button>;
     } else if (checkedIn) {
         action = <Button disabled variant="disabled">Checked In</Button>;
 

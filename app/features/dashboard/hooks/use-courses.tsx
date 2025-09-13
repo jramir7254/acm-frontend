@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/re
 import { getCourses } from "@/services/api";
 import type { Courses } from "@/services/api";
 import * as AdminApi from '../api/admin-api'
+import { toast } from "sonner";
 
 export function useCourses() {
     return useQuery({
@@ -19,6 +20,10 @@ export function useAddCourse() {
         mutationFn: (form: Courses) => AdminApi.addNewCourse(form),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['courses'] });
+            toast.success("Course Added")
         },
+        onError: () => {
+            toast.error("Failed to add course")
+        }
     });
 }

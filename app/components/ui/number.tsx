@@ -81,7 +81,7 @@ export function AnimatedNumber({
                             opacity: { duration: 0.2 },
                             y: { duration: 0.6, ease: "easeOut" },
                         }}
-                        className={`absolute text-2xl font-bold ${sign === "up" ? "text-green-500" : "text-red-500"
+                        className={`absolute top-0 left-full w-fit text-2xl font-bold ${sign === "up" ? "text-green-500" : "text-red-500"
                             }`}
                     >
                         {`${sign === "up" ? "+" : "-"} ${diffDisplay}`}

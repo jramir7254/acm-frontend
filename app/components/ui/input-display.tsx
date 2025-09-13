@@ -7,9 +7,9 @@ export default function InputDisplay({ name, label, value }: { name: string, lab
     return (
         <div className='space-y-2'>
             <Label htmlFor={name} className='flex items-center'>
-                {label} <span title="asd"><InfoIcon className='cursor-pointer' size={15} /></span>
+                {label} <span title="If you need to change this field email jrami904@epcc.edu"><InfoIcon className='cursor-pointer' size={15} /></span>
             </Label>
-            <Input disabled readOnly id={name} defaultValue={value} className="w-fit" />
+            <Input disabled readOnly id={name} defaultValue={value} className="max-w-fit" />
         </div>
     )
 }

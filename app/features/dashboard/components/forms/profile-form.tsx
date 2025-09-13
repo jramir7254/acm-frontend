@@ -54,6 +54,7 @@ export default function ProfileForm() {
         <Form
             className='flex flex-col h-full space-y-5'
             onSubmit={submit}
+            resetOnSubmit
             defaultValues={defaultValues}
             schema={profileSchema}
             resetOn={[user, courses, changeProfile]}
@@ -88,6 +89,7 @@ export default function ProfileForm() {
                     <Button
                         hidden={!changeProfile}
                         variant="outline"
+                        type='button'
                         onClick={() => {
                             setChangeProfile(false);
                         }}

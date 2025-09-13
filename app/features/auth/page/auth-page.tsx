@@ -10,9 +10,9 @@ const perks = [
     { text: 'View and manage your RSVP’d events', icon: ClipboardList },
     { text: 'Track and verify your attendance', icon: CheckCircle2 },
     { text: 'Earn points for attendance and surveys', icon: Trophy },
-    { text: 'Redeem points for rewards (set by officers)', icon: Gift },
-    { text: 'Access your member dashboard with stats', icon: LayoutDashboard },
-    { text: 'Provide feedback and suggest new features', icon: MessageSquare },
+    // { text: 'Redeem points for rewards (set by officers)', icon: Gift },
+    // { text: 'Access your member dashboard with stats', icon: LayoutDashboard },
+    // { text: 'Provide feedback and suggest new features', icon: MessageSquare },
 ]
 
 
