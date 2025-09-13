@@ -30,7 +30,7 @@ export default function ProfileSettings() {
             <GridItem className="space-y-4 flex flex-col">
                 <div>
                     <h2 hidden={accountComplete} className='font-bold text-xl mb-2'>
-                        Finish setting up your profile to earn 5 points!
+                        Finish setting up your profile to earn 20 points!
                     </h2>
                     <Gradient via="rgba(50,50,50,0.20)" className="border border-white/20 p-5  flex space-x-3">
                         <UserCard />
