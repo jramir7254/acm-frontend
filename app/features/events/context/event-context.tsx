@@ -4,6 +4,7 @@ import { useEventById } from "./index-context";
 import { useEventStatus } from "../hooks/use-status";
 import { formatDateAndTime } from "@/utils/format-date";
 import { logger } from "@/lib/logger";
+import { } from "date-fns-tz";
 
 type EventView = {
     // base
@@ -38,8 +39,12 @@ export const EventProvider: React.FC<{
     const start = useMemo(() => new Date(e.startAt), [e.startAt]);
     const end = useMemo(() => new Date(e.endAt), [e.endAt]);
     const isLive = useEventStatus(start, end);
-    const past = useMemo(() => (new Date(e.endAt) < new Date() && !isLive), [isLive, e.endAt])
-    const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
+    const past = useMemo(() => {
+        const end = new Date(e.endAt);
+        const now = new Date();
+        const cutoff = new Date(now.getTime() + 30 * 60 * 1000); // now + 30 min
+        return end < cutoff && !isLive;
+    }, [e.endAt, isLive]); const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
 
     logger.debug('Event: ', { id: e.id, past, isLive })
 
