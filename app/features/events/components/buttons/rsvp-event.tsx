@@ -13,7 +13,7 @@ export function RsvpButton({ eventId }: { eventId: string | number }) {
     const e = useEventContext();
     if (!e) return null; // provider not mounted
 
-    const { rsvps } = data
+    const { rsvps } = data || []
 
     const { id, past } = e;
 
