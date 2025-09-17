@@ -7,11 +7,13 @@ import { useUserRsvps } from "@/features/dashboard/hooks/use-user";
 import { useMemo } from "react";
 
 export function RsvpButton({ eventId }: { eventId: string | number }) {
-    const { data: rsvps } = useUserRsvps();
+    const { data } = useUserRsvps();
     const { data: user } = useMe();
     const rsvp = useRsvp();
     const e = useEventContext();
     if (!e) return null; // provider not mounted
+
+    const { rsvps } = data
 
     const { id, past } = e;
 

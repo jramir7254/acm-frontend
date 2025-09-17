@@ -9,7 +9,7 @@ export type User = {
     fullName: string,
     firstName: string,
     lastName: string,
-    email: string,
+    epccEmail: string,
     points: number,
     course: string,
     courseId: string | number,
@@ -17,6 +17,7 @@ export type User = {
     accountComplete: boolean,
     permissions: string[],
     role: string,
+    rsvps: UserRsvps[]
 }
 
 export type UserRsvps = {
@@ -27,14 +28,30 @@ export type UserRsvps = {
 
 
 
-export async function getUserData(fields?: string[]) {
-    const { data } = await PrivateApi.get<Partial<User>>(
-        "/users/me/partial",
-        {
-            params: fields ? { fields: fields.join(",") } : {}
+export async function getUserData(fields?: string[]): Promise<Partial<User>> {
+    try {
+
+        logger.debug('get user data payload:', { fields })
+        const { data } = await PrivateApi.get<Partial<User>>(
+            "/users/me/partial",
+            {
+                params: fields ? { fields: fields.join(",") } : {}
+            }
+        ); logger.success('get user data:', data)
+        return data; // { accessToken, expiresIn }
+
+    } catch (error) {
+        if (isAxiosError(error)) {
+            const errCode = error?.status
+            const message = error?.response?.data?.message
+            logger.warn("Failed to get user data: ", { errCode, message })
+            throw message
         }
-    );
-    return data;
+
+        logger.error("Error trying to get user data", { error })
+        throw new Error("Unknown error occurred during get user data");
+    }
+
 }
 
 

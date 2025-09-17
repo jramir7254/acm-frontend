@@ -10,7 +10,10 @@ import {
     useEventsLoading,
     type Event
 } from "../context/index-context";
+
+
 import { EventProvider } from "../context/event-context";
+import { logger } from "@/lib/logger";
 
 function GridSkeleton({ count = 6 }) {
     return (
@@ -76,9 +79,17 @@ function EventsList({ filters }: { filters: EventFilters }) {
         const showPast = filters.past;
         const showUpcoming = filters.upcoming;
 
+        logger.debug("Filters: ", { showPast, showUpcoming })
+
+
+
         let list = events.filter((e) => {
-            if (showPast && e.past) return true;
-            if (showUpcoming && !e.past) return true;
+            const endTime = new Date(e.endAt).getTime();
+            const now = Date.now();
+            const isPast = endTime < now;
+
+            if (showPast && isPast) return true;
+            if (showUpcoming && !isPast) return true;
             return false;
         });
 

@@ -3,6 +3,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { useEventById } from "./index-context";
 import { useEventStatus } from "../hooks/use-status";
 import { formatDateAndTime } from "@/utils/format-date";
+import { logger } from "@/lib/logger";
 
 type EventView = {
     // base
@@ -39,6 +40,8 @@ export const EventProvider: React.FC<{
     const isLive = useEventStatus(start, end);
     const past = useMemo(() => (new Date(e.endAt) < new Date() && !isLive), [isLive, e.endAt])
     const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
+
+    logger.debug('Event: ', { id: e.id, past, isLive })
 
     const value = useMemo<EventView>(() => ({
         id: e.id,

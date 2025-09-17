@@ -32,6 +32,7 @@ export async function deleteEvent(id: string | number) {
     return data;
 }
 export async function updateEvent(id: string | number, form) {
+    logger.debug("update paylod", form)
     const { data } = await PrivateApi.patch<Event>(`/events/${id}`, form);
     return data;
 }

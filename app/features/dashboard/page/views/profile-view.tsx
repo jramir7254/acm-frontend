@@ -46,7 +46,7 @@ export default function ProfileSettings() {
 
                 <div className='flex flex-col md:flex-row space-y-2 gap-5'>
                     <InputDisplay name='epccId' label='EPCC ID' value={user?.epccId} />
-                    <InputDisplay name='email' label='EPCC Email' value={user?.email} />
+                    <InputDisplay name='email' label='EPCC Email' value={user?.epccEmail} />
                 </div>
 
                 <Separator />

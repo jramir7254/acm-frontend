@@ -112,7 +112,7 @@ export function useUserRsvps() {
 
     return useQuery({
         queryKey: userKeys.rsvps,
-        queryFn: () => UserAPI.userRsvps(),
+        queryFn: () => UserAPI.getUserData(['rsvps']),
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });

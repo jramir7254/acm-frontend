@@ -20,8 +20,8 @@ export default function EventForm() {
     const defaultValues: Partial<EventFormValues> = insideEvent
         ? {
             ...event,
-            startAt: new Date(event?.startAt), // migrate if needed
-            endAt: new Date(event?.endAt),
+            // startAt: new Date(event?.startAt), // migrate if needed
+            // endAt: new Date(event?.endAt),
         }
         : {
             title: "",
