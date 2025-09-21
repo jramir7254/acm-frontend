@@ -26,13 +26,13 @@ export default function ProfileSettings() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="m-2 md:m-10 p-10 w-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent">
+        <Gradient via="rgba(50,50,50,0.20)" className="m-2 md:m-10 p-10 w-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
             <GridItem className="space-y-4 flex flex-col">
                 <div>
                     <h2 hidden={accountComplete} className='font-bold text-xl mb-2'>
                         Finish setting up your profile to earn 20 points!
                     </h2>
-                    <Gradient via="rgba(50,50,50,0.20)" className="border border-white/20 p-5  flex space-x-3">
+                    <Gradient via="rgba(50,50,50,0.20)" className="border border-white/20 p-5 rounded-md  flex space-x-3">
                         <UserCard />
                         <Separator orientation='vertical' className='min-h-10' />
                         <div className='flex items-center gap-2'>

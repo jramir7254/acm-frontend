@@ -12,6 +12,7 @@ export function Container({
     hideInMac,
     hideInLarge,
     hideInMobile,
+    id,
 }: {
     children: React.ReactNode,
     className?: string,
@@ -21,6 +22,7 @@ export function Container({
     hideInMac?: boolean,
     hideInMobile?: boolean,
     hideInLarge?: boolean,
+    id?: string
 }) {
     const isMobile = useIsMobile()
     const isMac = useIsMacRatio()
@@ -33,7 +35,7 @@ export function Container({
     const setClassName = isMobile ? classNameMobile : isMac ? classNameMac : classNameLarge
 
     return (
-        <div className={cn(className, setClassName)}>
+        <div className={cn(className, setClassName)} id={id}>
             {children}
         </div>
     )

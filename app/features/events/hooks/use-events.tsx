@@ -54,7 +54,7 @@ export function useDeleteEvent(id: string | number) {
         mutationFn: () => Events.deleteEvent(id),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            qc.invalidateQueries({ queryKey: userKeys.all });
 
         },
     });

@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
 import { Skeleton } from '@/components/primitives/skeleton';
 import { useUserRsvps } from '../../hooks/use-user';
-import { CancelRsvpButton, CheckInButton } from '../../components/buttons'
+import { CancelRsvpButton, CheckInButton, FeedbackButton } from '../../components/buttons'
 import { Button } from '@/components/primitives/button';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
 
@@ -9,10 +9,6 @@ import { EventProvider, useEventContext, } from '@/features/events/context/event
 export function RsvpTable() {
     const { data, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
 
-
-
-    console.log({ data, rsvpsLoading, isFetching })
-    // console.log(rsvps?.rsvps)
 
 
     return (
@@ -32,7 +28,7 @@ export function RsvpTable() {
                 {data && !rsvpsLoading && data.rsvps.map((er) => {
                     return (
                         <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
-                            <EventRow checkedIn={er.checkedIn} />
+                            <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
                         </EventProvider>
                     );
                 })}
@@ -59,19 +55,26 @@ const SkeletonRow = () => {
 
 
 
-const EventRow = ({ checkedIn }: { checkedIn: boolean }) => {
+const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boolean }) => {
     const e = useEventContext()
 
 
     let action: React.ReactNode;
     // const isLive = useEventStatus(er.startAt, er.endAt);
     if (e.past) {
-        action = <Button disabled variant="disabled">Past Event</Button>;
+        if (feedback) {
+            action = <Button disabled variant="disabled">Complete</Button>;
+        }
+        else if (checkedIn) {
+            action = <FeedbackButton />;
+        } else {
+            action = <Button disabled variant="disabled">Past Event</Button>;
+        }
     } else if (checkedIn) {
         action = <Button disabled variant="disabled">Checked In</Button>;
 
     }
-    else if (e.isLive) {
+    else if (e.isLive && !checkedIn) {
         action = <CheckInButton />;
     } else {
         action = <CancelRsvpButton eventId={e.id} />;

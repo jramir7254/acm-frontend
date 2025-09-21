@@ -9,7 +9,6 @@ import {
     Outlet,
     Scripts,
     ScrollRestoration,
-    useLocation,
 } from "react-router";
 
 import AppProviders from "./providers/app-providers";

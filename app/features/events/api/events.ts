@@ -1,6 +1,7 @@
 
 import { PUBLIC_API, PrivateApi } from "@/services/api/";
 import { logger } from "@/lib/logger";
+import { apiCall } from "@/utils/api-caller";
 
 export type Event = {
     id: string,
@@ -37,11 +38,22 @@ export async function updateEvent(id: string | number, form) {
     return data;
 }
 
-export async function createEvent(form) {
-    const { data } = await PrivateApi.post<Event>(`/events`, form);
-    return data;
+export async function createEvent(form: Partial<Event>) {
+    logger.debug('create event payload:', form)
+
+    return apiCall('Create Event', () => PrivateApi.post<Event>(`/events`, form))
 }
 import { isAxiosError } from "axios";
+
+
+export async function feedback(id: string | number, form: Partial<Event>) {
+    logger.debug('feedback event payload:', form)
+
+    return await apiCall('feedback Event', () => PrivateApi.post<Event>(`/events/${id}/feedback`, form))
+}
+
+
+
 
 
 export async function checkIn(eventId: string | number, form: { code: string }) {
@@ -51,7 +63,7 @@ export async function checkIn(eventId: string | number, form: { code: string }) 
         return data;
     } catch (error) {
         if (isAxiosError(error)) {
-            const errCode = error?.status
+            const errCode = error?.response?.status
             const message = error?.response?.data?.message
             logger.warn("Failed to check-in: ", { errCode, message })
             throw message

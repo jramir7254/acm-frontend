@@ -12,7 +12,7 @@ export default function DashboardPage() {
     const navigate = useNavigate()
 
 
-    if (!user) navigate('/auth')
+    // if (!user) navigate('/auth')
 
 
     return (

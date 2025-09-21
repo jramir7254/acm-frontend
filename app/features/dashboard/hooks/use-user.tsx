@@ -69,7 +69,20 @@ export function useCheckIn() {
             qc.invalidateQueries({ queryKey: userKeys.points });
             qc.invalidateQueries({ queryKey: userKeys.attendance });
             qc.invalidateQueries({ queryKey: userKeys.rsvps });
-            toast.success("Succesfully canceled RSVP")
+        },
+    });
+}
+
+
+export function useEventFeedback() {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: ({ eventId, form }: { eventId: string | number; form: any }) => EventAPI.feedback(eventId, form),
+        onSuccess: () => {
+            qc.invalidateQueries({ queryKey: userKeys.points });
+            qc.invalidateQueries({ queryKey: userKeys.attendance });
+            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            toast.success("Succesfully submitted feedback")
         },
     });
 }

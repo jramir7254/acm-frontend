@@ -5,12 +5,14 @@ import { z } from "zod"
 import { Form, SubmitButton, OtpInput, GlobalFormError } from '@/components/input'
 import { useCheckIn } from '../../hooks/use-user'
 import { useEventContext } from '@/features/events/context/event-context'
+import { useOverlay } from '@/components/ui'
 
-export default function CheckInForm({ setOpen, open }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, open: boolean }) {
+export default function CheckInForm() {
 
     const eventContext = useEventContext()
     const eventId = eventContext?.id
     const checkIn = useCheckIn()
+    const { open, setOpen } = useOverlay()
 
     const FormSchema = z.object({
         code: z.string().min(6, {

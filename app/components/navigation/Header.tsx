@@ -82,7 +82,7 @@ const MobileNav = () => {
                     <MenuIcon onClick={() => setCollapsed(!collapsed)} />
                     {!collapsed && createPortal(
                         <MobileNavSidabar />,
-                        document.getElementById('main-layout') || document.body
+                        document.body
                     )}
 
                 </div>

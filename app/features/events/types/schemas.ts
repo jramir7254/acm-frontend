@@ -1,6 +1,11 @@
 import { z } from "zod"
 import { loadsAsImage } from "../utils/image-utils"
 
+const isDev: boolean =
+    typeof import.meta !== 'undefined' &&
+    (import.meta as any)?.env &&
+    Boolean((import.meta as any).env.DEV);
+
 const startOfToday = new Date()
 startOfToday.setHours(0, 0, 0, 0)
 
@@ -28,8 +33,8 @@ export const eventSchema = z
         location: z.string().min(1, "Location cannot be empty"),
 
         // Replaced `date` + `time` with two DateTimes
-        startAt: dateField.min(startOfToday, "Start cannot be earlier than today"),
-        endAt: dateField.min(startOfToday, "End cannot be earlier than today"),
+        startAt: isDev ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
+        endAt: isDev ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
 
         description: z
             .string()
@@ -37,6 +42,8 @@ export const eventSchema = z
             .max(500, "Cannot be more than 500 characters"),
     })
     .superRefine((data, ctx) => {
+
+        if (isDev) return
         const now = new Date()
 
         // If start is today, enforce "not before now"

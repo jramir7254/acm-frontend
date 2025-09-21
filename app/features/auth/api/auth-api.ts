@@ -1,6 +1,7 @@
 import { PrivateApi, PUBLIC_API } from "@/services/api";
 import { logger } from "@/lib/logger";
 import { isAxiosError } from "axios";
+import { apiCall } from "@/utils/api-caller";
 
 export type LoginInput = { epccId: string; password: string };
 export type RegisterInput = { epccId: string; email: string; password: string };

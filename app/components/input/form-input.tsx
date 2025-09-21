@@ -66,7 +66,7 @@ export function FormInput<
 
                 return (
                     <FormItem className={className} {...props}>
-                        <FormLabel>{label}</FormLabel>
+                        <FormLabel className="mb-2">{label}</FormLabel>
                         <FormControl>
                             {typeof children === "function"
                                 ? (children as RenderProp<TFieldValues, TName>)({

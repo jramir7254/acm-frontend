@@ -13,12 +13,14 @@ export type User = {
     points: number,
     course: string,
     courseId: string | number,
-    eventsAttended: number,
+    eventsAttended: EventsAttended,
     accountComplete: boolean,
     permissions: string[],
     role: string,
     rsvps: UserRsvps[]
 }
+
+export type EventsAttended = { complete: number, pending: number }
 
 export type UserRsvps = {
     eventId: string,

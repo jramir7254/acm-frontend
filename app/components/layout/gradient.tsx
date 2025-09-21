@@ -20,7 +20,7 @@ export default function Gradient({
 }: GradientProps) {
     return (
         <div
-            className={cn("rounded-[12px] shadow-lg backdrop-blur-[10px]", className)}
+            className={cn("shadow-lg backdrop-blur-[10px]", className)}
             style={{
                 backgroundImage: `linear-gradient(to right, ${from}, ${via}, ${to})`,
             }}
