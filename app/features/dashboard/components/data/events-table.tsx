@@ -4,9 +4,11 @@ import { useStats } from '../../hooks/use-admin';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
 
 export function EventsTable() {
-    const { data: s } = useStats()
+    const { data: s, isLoading, isFetching } = useStats()
 
-    const { stats } = s
+    if (isLoading || isFetching) return <p>loading...</p>
+
+    const { stats } = s || []
 
     return (
         <Table>

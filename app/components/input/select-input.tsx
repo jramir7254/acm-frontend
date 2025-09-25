@@ -54,7 +54,11 @@ export function SelectInput<
 }
 
 
-
+/**
+ * @todo Be able to add groups
+ * @param param0 
+ * @returns 
+ */
 export function SelectInputInner<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>

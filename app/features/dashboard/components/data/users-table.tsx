@@ -6,7 +6,7 @@ export function UsersTable() {
     const { data: users } = useUsers()
 
     return (
-        <Table>
+        <Table className='overflow-y-scroll'>
             <TableCaption>A list of your rsvp'd events.</TableCaption>
             <TableHeader>
                 <TableRow className='hover:bg-inherit'>
