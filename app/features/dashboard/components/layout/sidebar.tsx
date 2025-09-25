@@ -2,6 +2,7 @@
 
 import {
     PermissionGuard,
+    FeatureFlag,
     Sidebar,
     SidebarHeader,
     SidebarContent,
@@ -15,7 +16,7 @@ import {
     useSidebar
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2 } from "lucide-react"
+import { Home, PersonStanding, UserCircle2, School, BadgeHelp } from "lucide-react"
 import { useMe } from "@/features/auth/hooks/use-me"
 import { LogoutButton } from "../buttons"
 import { Separator } from "@/components/primitives/separator"
@@ -59,7 +60,7 @@ export function DashboardSidebar() {
             <Separator />
 
             <SidebarContent>
-                <SidebarGroup label="Application">
+                <SidebarGroup label="Dashboard">
                     <SidebarItem to="">
                         <Home className="size-3.5 shrink-0" />
                         <span>Home</span>
@@ -75,10 +76,24 @@ export function DashboardSidebar() {
                             <PersonStanding className="h-4 w-4" />
                             <span>Admin</span>
                         </SidebarItem>
-
-                        {/* <Button onClick={() => addPoints.mutate()}>Add Points</Button> */}
                     </PermissionGuard>
 
+                    <FeatureFlag>
+                        <PermissionGuard resource="users" requiredRoles={['instructor']}>
+                            <SidebarItem to='instructor'>
+                                <School className="h-4 w-4" />
+                                <span>Instructors</span>
+                            </SidebarItem>
+                        </PermissionGuard>
+                    </FeatureFlag>
+
+
+                    <FeatureFlag ready>
+                        <SidebarItem to='help'>
+                            <BadgeHelp className="h-4 w-4" />
+                            <span>Help</span>
+                        </SidebarItem>
+                    </FeatureFlag>
                 </SidebarGroup>
             </SidebarContent>
 

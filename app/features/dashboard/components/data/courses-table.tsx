@@ -6,7 +6,7 @@ import { Button } from '@/components/primitives/button';
 import { FormInput } from '@/components/input';
 import { Input } from '@/components/primitives/input';
 
-export default function CoursesTable() {
+export function CoursesTable() {
     const { data: courses } = useCourses()
 
     return (

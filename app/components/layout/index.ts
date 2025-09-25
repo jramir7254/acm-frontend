@@ -5,6 +5,7 @@ export * from './permission'
 export * from './sprite'
 export * from './unfinished'
 export * from './container'
+export * from './feature'
 export {
     Sidebar,
     SidebarContent,

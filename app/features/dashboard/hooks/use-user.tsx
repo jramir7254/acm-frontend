@@ -88,6 +88,17 @@ export function useEventFeedback() {
 }
 
 
+export function useHelp() {
+    return async (form) => {
+        await UserAPI.sendHelp(form)
+        toast.success("Succesfully sent request")
+
+    }
+}
+
+
+
+
 export function useAddPoints() {
     const qc = useQueryClient();
     return useMutation({

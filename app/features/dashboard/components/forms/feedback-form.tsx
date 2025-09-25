@@ -94,17 +94,13 @@ export default function FeedbackForm() {
 
 
     const onSubmit = async (values: any) => {
-        console.log(values, eventId)
         if (!eventId) {
             toast.error("Event not found.")
             return
         }
-        console.log('before mustate')
 
         await feedback.mutateAsync({ eventId, form: values })
-        console.log('after mustate')
 
-        toast.success("Succesfully Checked-In for Event")
         setOpen(false)
     }
 

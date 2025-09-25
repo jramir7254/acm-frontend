@@ -14,5 +14,7 @@ export default [
         index("features/dashboard/page/views/main-view.tsx"),
         route("profile", "features/dashboard/page/views/profile-view.tsx"),
         route("admin", "features/dashboard/page/views/admin-view.tsx"),
+        route("instructor", "features/dashboard/page/views/instructor-view.tsx"),
+        route("help", "features/dashboard/page/views/help-view.tsx"),
     ]),
 ] satisfies RouteConfig;

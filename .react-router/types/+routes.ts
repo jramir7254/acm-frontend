@@ -40,12 +40,22 @@ type Pages = {
       "userId": string;
     };
   };
+  "/:userId/instructor": {
+    params: {
+      "userId": string;
+    };
+  };
+  "/:userId/help": {
+    params: {
+      "userId": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/instructor" | "/:userId/help";
   };
   "features/home/home-page.tsx": {
     id: "features/home/home-page";
@@ -73,7 +83,7 @@ type RouteFiles = {
   };
   "features/dashboard/page/dashboard-page.tsx": {
     id: "features/dashboard/page/dashboard-page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/instructor" | "/:userId/help";
   };
   "features/dashboard/page/views/main-view.tsx": {
     id: "features/dashboard/page/views/main-view";
@@ -86,5 +96,13 @@ type RouteFiles = {
   "features/dashboard/page/views/admin-view.tsx": {
     id: "features/dashboard/page/views/admin-view";
     page: "/:userId/admin";
+  };
+  "features/dashboard/page/views/instructor-view.tsx": {
+    id: "features/dashboard/page/views/instructor-view";
+    page: "/:userId/instructor";
+  };
+  "features/dashboard/page/views/help-view.tsx": {
+    id: "features/dashboard/page/views/help-view";
+    page: "/:userId/help";
   };
 };

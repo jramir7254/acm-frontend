@@ -12,11 +12,13 @@ import { cn } from "@/lib/utils"
 import type { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form"
 import { FormInput, type FormInputProps } from "./form-input"
 
+export type SelectInputValues = Array<{ id: string, name: string }>
+
 type SelectInputProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> = {
     className?: string
     placeholder?: string
     label?: string
-    values: Array<{ id: string, name: string }>
+    values: SelectInputValues
     field: ControllerRenderProps<TFieldValues, TName>
 }
 

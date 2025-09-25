@@ -1,5 +1,6 @@
 import React from 'react'
 import { Skeleton } from '../primitives/skeleton'
+import { useIsDev } from '@/hooks'
 
 export function Unfinished({ children, ...props }) {
     return (
@@ -71,6 +72,9 @@ export function UnderConstructionCard({
     className?: string,
     text?: string,
 }) {
+    const isDev = useIsDev()
+    if (children && false) return children
+
     return (
         <div className={"relative hover:opacity-90 bg-[repeating-linear-gradient(135deg,#171717_0_30px,#262626_30px_60px)] cursor-not-allowed " + className}>
             <div className='absolute inset-0 m-auto w-fit h-fit z-10'>
@@ -82,7 +86,7 @@ export function UnderConstructionCard({
                     {text}
                 </h2>
             </div>
-            {children}
+            {/* {children} */}
         </div>
     );
 }

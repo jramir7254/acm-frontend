@@ -63,6 +63,12 @@ export async function addPoints() {
 }
 
 
+export async function sendHelp(payload) {
+    const { data } = await PrivateApi.post(`/public/help`, payload);
+    return data.newPoints
+}
+
+
 
 
 export async function userRsvps() {
