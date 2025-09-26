@@ -39,8 +39,8 @@ const EventRow = ({ s }) => {
         <TableRow >
             <TableCell>{s?.eventId || 'Null'}</TableCell>
             <TableCell>{e?.title}</TableCell>
-            <TableCell >{s?.attended || 'Null'}</TableCell>
             <TableCell>{s?.rsvps || 'Null'}</TableCell>
+            <TableCell >{s?.attended || 'Null'}</TableCell>
 
         </TableRow>
     )

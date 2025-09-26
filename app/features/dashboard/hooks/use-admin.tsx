@@ -22,7 +22,7 @@ export function useStats() {
     return useQuery({
         queryKey: ['events', 'stats'],
         queryFn: AdminAPI.getStats,
-        staleTime: 60 * 60 * 1000, // 1h fresh
+        staleTime: 15 * 60 * 1000, // 1h fresh
         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
 }
