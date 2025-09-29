@@ -15,7 +15,7 @@ export default function HelpView() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="m-2 md:m-10 py-15 md:p-10 w-full flex flex-col md:flex-row border-2 border-accent rounded-md">
+        <Gradient via="rgba(50,50,50,0.20)" className=" py-15 md:p-10 size-full flex flex-col md:flex-row border-2 border-accent rounded-md">
             <GridItem className='flex-1 flex px-5' hideInMobile>
                 <UnderConstructionCard className='flex-1 rounded-[12px] border-8' text='FAQ SOON'>
                     <Accordion

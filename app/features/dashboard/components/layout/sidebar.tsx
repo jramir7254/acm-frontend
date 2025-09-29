@@ -13,19 +13,22 @@ import {
     SidebarTrigger,
     SidebarMenuButton,
     SidebarMenuBadge,
+    SidebarSeparator,
     useSidebar
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2, School, BadgeHelp } from "lucide-react"
-import { useMe } from "@/features/auth/hooks/use-me"
+import { Home, PersonStanding, UserCircle2, School, BadgeHelp, Users } from "lucide-react"
+import { MdEventNote } from "react-icons/md";
+
+import { FaChalkboardTeacher } from "react-icons/fa";
+
 import { LogoutButton } from "../buttons"
 import { Separator } from "@/components/primitives/separator"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/primitives/avatar"
 import { useAddPoints } from "../../hooks/use-user"
+import { UserCard } from "../data"
 
 
 export function DashboardSidebar() {
-    const { data: user } = useMe()
     const { state } = useSidebar()
     const addPoints = useAddPoints()
 
@@ -39,16 +42,7 @@ export function DashboardSidebar() {
                 <SidebarItem>
                     <div>
                         {isExpanded &&
-                            <>
-                                <Avatar className="size-6 rounded-lg">
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                                </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium">  {user?.fullName ?? 'Anonymous'}</span>
-                                    <span className="truncate text-xs">{user?.epccId}</span>
-                                </div>
-                            </>
+                            <UserCard />
                         }
                         <SidebarMenuBadge className="pointer-events-auto group-data-[collapsible=icon]:block">
                             <SidebarTrigger className=" md:flex" />
@@ -58,7 +52,6 @@ export function DashboardSidebar() {
             </SidebarHeader>
 
             <Separator />
-
             <SidebarContent>
                 <SidebarGroup label="Dashboard">
                     <SidebarItem to="">
@@ -71,22 +64,12 @@ export function DashboardSidebar() {
                         <span>Profile</span>
                     </SidebarItem>
 
-                    <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
+                    {/* <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
                         <SidebarItem to='admin'>
                             <PersonStanding className="h-4 w-4" />
                             <span>Admin</span>
                         </SidebarItem>
-                    </PermissionGuard>
-
-                    <FeatureFlag>
-                        <PermissionGuard resource="users" requiredRoles={['instructor']}>
-                            <SidebarItem to='instructor'>
-                                <School className="h-4 w-4" />
-                                <span>Instructors</span>
-                            </SidebarItem>
-                        </PermissionGuard>
-                    </FeatureFlag>
-
+                    </PermissionGuard> */}
 
                     <FeatureFlag ready>
                         <SidebarItem to='help'>
@@ -95,7 +78,35 @@ export function DashboardSidebar() {
                         </SidebarItem>
                     </FeatureFlag>
                 </SidebarGroup>
+
+                <PermissionGuard resource="users" requiredRoles={['instructor']}>
+                    <Separator />
+                    <SidebarGroup label="Instructors">
+                        <FeatureFlag>
+                            <SidebarItem to='instructor'>
+                                <FaChalkboardTeacher className="h-4 w-4" />
+                                <span>Instructors</span>
+                            </SidebarItem>
+                        </FeatureFlag>
+                    </SidebarGroup>
+                </PermissionGuard>
+
+                <PermissionGuard resource="users" requiredRoles={['advisor', 'president']}>
+                    <Separator />
+                    <SidebarGroup label="Admin">
+                        <SidebarItem to='admin/users'>
+                            <Users className="h-4 w-4" />
+                            <span>Users</span>
+                        </SidebarItem>
+                        <SidebarItem to='admin/events'>
+                            <MdEventNote className="h-4 w-4" />
+                            <span>Events</span>
+                        </SidebarItem>
+                    </SidebarGroup>
+                </PermissionGuard>
+
             </SidebarContent>
+
 
             <SidebarFooter className="mb-10 list-none">
                 <SidebarMenuButton asChild>

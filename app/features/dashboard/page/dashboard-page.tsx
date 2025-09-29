@@ -1,4 +1,5 @@
-import { Page } from '@/components/layout/page'
+import { Page, } from '@/components/layout/page'
+import { Container } from '@/components/layout'
 import { SidebarProvider, SidebarTrigger } from '@/components/primitives/sidebar'
 import { DashboardSidebar } from '../components/layout'
 import { Outlet } from 'react-router'
@@ -16,12 +17,14 @@ export default function DashboardPage() {
 
 
     return (
-        <Page className='bg-background flex mt-16 relative'>
+        <Page className='bg-background flex mt-16 flex-1 relative'>
             <SidebarProvider>
                 <DashboardSidebar />
                 <SidebarTrigger className='md:hidden absolute top-5 left-10 z-10' />
                 <EventsIndexProvider>
-                    <Outlet />
+                    <Container className='flex-1  m-10'>
+                        <Outlet />
+                    </Container>
                 </EventsIndexProvider>
             </SidebarProvider>
         </Page>

@@ -24,9 +24,14 @@ export function useEventsData() {
     return useEvents().data ?? [];
 }
 
+export function useNumEvents() {
+    return useEvents().data?.length ?? 0;
+}
 
-export function useEvent(eventId: number) {
+
+export function useEvent(eventId: string) {
     const qc = useQueryClient();
+    console.log('init')
 
     return useQuery({
         queryKey: eventsKeys.read(eventId),
@@ -36,12 +41,12 @@ export function useEvent(eventId: number) {
         enabled: !!eventId,
 
         // 👇 If we already have the list, use that instead of refetching
-        initialData: () => {
-            const events = qc.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
-                eventsKeys.all
-            );
-            return events?.find((e: Event) => e.id === eventId);
-        },
+        // initialData: () => {
+        //     const events = qc.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
+        //         eventsKeys.all
+        //     );
+        //     return events?.find((e: Event) => e.id === eventId);
+        // },
     });
 }
 

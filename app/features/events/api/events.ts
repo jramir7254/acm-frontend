@@ -25,7 +25,10 @@ export async function listEvents() {
 }
 
 export async function getEvent(id: string | number) {
-    const { data } = await PUBLIC_API.get<Event>(`/events/${id}`);
+    logger.debug('call made here to ev')
+
+    const { data } = await PrivateApi.get<Event>(`/events/${id}`);
+    logger.debug('call made here to ev', { data })
     return data;
 }
 export async function deleteEvent(id: string | number) {

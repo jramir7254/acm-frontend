@@ -73,7 +73,7 @@ export function UnderConstructionCard({
     text?: string,
 }) {
     const isDev = useIsDev()
-    if (children && false) return children
+    if (children && isDev) return children
 
     return (
         <div className={"relative hover:opacity-90 bg-[repeating-linear-gradient(135deg,#171717_0_30px,#262626_30px_60px)] cursor-not-allowed " + className}>

@@ -16,6 +16,7 @@ export {
     SidebarTrigger,
     SidebarRail,
     useSidebar,
+    SidebarSeparator,
     SidebarMenuButton
 } from "@/components/primitives/sidebar"
 

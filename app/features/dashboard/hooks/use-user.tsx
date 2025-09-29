@@ -51,7 +51,7 @@ export const prefetchUserQueries = async (queryClient: QueryClient) => {
 }
 
 
-export function useUser() {
+export function useMe() {
     return useQuery({
         queryKey: userKeys.me,
         queryFn: UserAPI.me,

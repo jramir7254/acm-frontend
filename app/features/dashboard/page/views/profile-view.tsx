@@ -26,7 +26,7 @@ export default function ProfileSettings() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="m-2 md:m-10 p-10 w-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
+        <Gradient via="rgba(50,50,50,0.20)" className=" p-10 size-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
             <GridItem className="space-y-4 flex flex-col">
                 <div>
                     <h2 hidden={accountComplete} className='font-bold text-xl mb-2'>

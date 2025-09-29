@@ -1,6 +1,7 @@
 import {
     SidebarGroup as InnerSidebarGroup,
     SidebarGroupContent,
+    SidebarSeparator,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,

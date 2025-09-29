@@ -6,6 +6,7 @@ import type { ProfileFormValues } from "../types/profile-schema";
 
 export const usersKeys = {
     all: ['users'] as const,
+    one: (userId: string) => [...usersKeys.all, userId] as const,
 
 };
 
@@ -18,6 +19,18 @@ export function useUsers() {
         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
 }
+
+
+export function useUser(reqUserId: string) {
+    return useQuery({
+        queryKey: usersKeys.one(reqUserId),
+        queryFn: () => AdminAPI.getUser(reqUserId),
+        staleTime: 60 * 60 * 1000, // 1h fresh
+        gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
+    });
+}
+
+
 export function useStats() {
     return useQuery({
         queryKey: ['events', 'stats'],

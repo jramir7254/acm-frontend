@@ -10,7 +10,7 @@ export default function Main() {
 
     const grid = {
         mobile: 'w-screen h-full p-2 grid grid-cols-1',
-        default: 'size-full p-10 grid gap-5 grid-cols-6 grid-rows-5'
+        default: 'size-full grid gap-5 grid-cols-6 grid-rows-5'
     }
 
     return (

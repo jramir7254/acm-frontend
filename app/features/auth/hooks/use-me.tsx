@@ -24,28 +24,3 @@ export function useMe() {
 }
 
 
-
-
-export function useUpdateMe() {
-    const qc = useQueryClient();
-    return useMutation({
-        mutationFn: (form: ProfileFormValues) => AuthAPI.updateMe(form),
-        onSuccess: () => {
-            // Option A: immediate UI update
-            // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
-            // Option B (or in addition): refetch fresh data
-            qc.invalidateQueries({ queryKey: userKeys.all });
-        },
-    });
-}
-
-
-export function useUserRsvps() {
-
-    return useQuery({
-        queryKey: userKeys.rsvps(),
-        queryFn: () => AuthAPI.userRsvps(),
-        staleTime: 60 * 60 * 1000,
-        gcTime: 7 * 24 * 60 * 60 * 1000,
-    });
-}

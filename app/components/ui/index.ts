@@ -1,5 +1,5 @@
 export * from './confirmation'
-export * from './number'
+export * from './animated-number'
 export * from './otp-display'
 export * from './input-display'
 export * from './overlay'

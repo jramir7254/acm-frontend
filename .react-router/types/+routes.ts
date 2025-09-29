@@ -40,6 +40,28 @@ type Pages = {
       "userId": string;
     };
   };
+  "/:userId/admin/users": {
+    params: {
+      "userId": string;
+    };
+  };
+  "/:userId/admin/users/:reqUserId": {
+    params: {
+      "userId": string;
+      "reqUserId": string;
+    };
+  };
+  "/:userId/admin/events": {
+    params: {
+      "userId": string;
+    };
+  };
+  "/:userId/admin/events/:eventId": {
+    params: {
+      "userId": string;
+      "eventId": string;
+    };
+  };
   "/:userId/instructor": {
     params: {
       "userId": string;
@@ -55,7 +77,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
   };
   "features/home/home-page.tsx": {
     id: "features/home/home-page";
@@ -83,7 +105,7 @@ type RouteFiles = {
   };
   "features/dashboard/page/dashboard-page.tsx": {
     id: "features/dashboard/page/dashboard-page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/instructor" | "/:userId/help";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
   };
   "features/dashboard/page/views/main-view.tsx": {
     id: "features/dashboard/page/views/main-view";
@@ -96,6 +118,22 @@ type RouteFiles = {
   "features/dashboard/page/views/admin-view.tsx": {
     id: "features/dashboard/page/views/admin-view";
     page: "/:userId/admin";
+  };
+  "features/dashboard/page/views/admin/users/users-view.tsx": {
+    id: "features/dashboard/page/views/admin/users/users-view";
+    page: "/:userId/admin/users";
+  };
+  "features/dashboard/page/views/admin/users/user-view.tsx": {
+    id: "features/dashboard/page/views/admin/users/user-view";
+    page: "/:userId/admin/users/:reqUserId";
+  };
+  "features/dashboard/page/views/admin/events/events-view.tsx": {
+    id: "features/dashboard/page/views/admin/events/events-view";
+    page: "/:userId/admin/events";
+  };
+  "features/dashboard/page/views/admin/events/event-view.tsx": {
+    id: "features/dashboard/page/views/admin/events/event-view";
+    page: "/:userId/admin/events/:eventId";
   };
   "features/dashboard/page/views/instructor-view.tsx": {
     id: "features/dashboard/page/views/instructor-view";
