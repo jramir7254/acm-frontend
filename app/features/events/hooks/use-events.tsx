@@ -31,7 +31,6 @@ export function useNumEvents() {
 
 export function useEvent(eventId: string) {
     const qc = useQueryClient();
-    console.log('init')
 
     return useQuery({
         queryKey: eventsKeys.read(eventId),

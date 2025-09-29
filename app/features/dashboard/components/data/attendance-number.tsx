@@ -5,7 +5,6 @@ import { useUserAttendance } from '../../hooks/use-user'
 
 export function Attendance({ type }: { type: 'complete' | 'pending' }) {
     const { data, isRefetching, isLoading } = useUserAttendance()
-    // console.log({ isRefetching, isLoading })  
     return (
         <AnimatedNumber
             num={data?.attendance[type]}

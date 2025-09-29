@@ -9,7 +9,7 @@ export function EventsTable() {
 
     if (isLoading || isFetching) return <p>loading...</p>
 
-    const { stats } = s || []
+    const { stats } = s
 
     return (
         <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">

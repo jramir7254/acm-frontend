@@ -36,7 +36,6 @@ export default function ProfileForm() {
 
 
     const submit = async (values: ProfileFormValues) => {
-        console.log(values)
 
         try {
             updateMe.mutate(values); // <-- key fix

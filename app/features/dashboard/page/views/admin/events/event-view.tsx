@@ -11,7 +11,6 @@ export default function EventView() {
     const { toEvents, eventId } = useAppNavigation()
     const { data } = useEvent(eventId || '')
 
-    console.log("in here", { data })
     const grid = {
         mobile: 'w-screen h-full p-2 grid grid-cols-1',
         default: 'h-full grid gap-5 grid-cols-4 grid-rows-3'

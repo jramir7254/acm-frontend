@@ -9,12 +9,12 @@ import { InfoIcon } from 'lucide-react'
 export default function Main() {
 
     const grid = {
-        mobile: 'w-screen h-full p-2 grid grid-cols-1',
+        mobile: ' h-full p-2 grid grid-cols-1',
         default: 'size-full grid gap-5 grid-cols-6 grid-rows-5'
     }
 
     return (
-        <Grid classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
+        <Grid className='size-full' classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
             <Gradient className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-6 row-span-1 border-2 border-accent'>
                 <Centered className='w-[30%] md:w-[15%]'>
                     <h3>Points</h3>
