@@ -71,6 +71,9 @@ const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boole
         } else {
             action = <Button disabled variant="disabled">Past Event</Button>;
         }
+    } else if (e?.past2 && feedback) {
+        action = <Button disabled variant="disabled">Complete</Button>;
+
     }
     else if (e.isLive && !checkedIn) {
         action = <CheckInButton />;
