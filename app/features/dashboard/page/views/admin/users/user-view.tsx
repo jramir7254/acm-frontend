@@ -11,7 +11,7 @@ export default function UserView() {
     const { toUsers, reqUserId } = useAppNavigation()
     const { data } = useUser(reqUserId || '')
     const grid = {
-        mobile: 'w-screen h-full p-2 grid grid-cols-1',
+        mobile: ' h-full p-2 grid grid-cols-1',
         default: 'h-full grid gap-5 grid-cols-4 grid-rows-3'
     }
 

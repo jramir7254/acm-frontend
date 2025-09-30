@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/primitives/scroll-area'
 export default function UsersView() {
 
     const grid = {
-        mobile: 'w-screen h-full p-2 grid grid-cols-1',
+        mobile: ' h-full p-2 grid grid-cols-1',
         default: 'h-full grid gap-5 grid-cols-5 grid-rows-4'
     }
 
