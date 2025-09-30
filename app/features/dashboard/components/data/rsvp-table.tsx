@@ -4,7 +4,7 @@ import { useUserRsvps } from '../../hooks/use-user';
 import { CancelRsvpButton, CheckInButton, FeedbackButton } from '../../components/buttons'
 import { Button } from '@/components/primitives/button';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
-
+import { formatDateAndTime } from '@/utils/format-date';
 
 export function RsvpTable() {
     const { data, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
@@ -58,6 +58,7 @@ const SkeletonRow = () => {
 const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boolean }) => {
     const e = useEventContext()
 
+    const { date, time } = formatDateAndTime(e?.startAt, null, true)
 
     let action: React.ReactNode;
     // const isLive = useEventStatus(er.startAt, er.endAt);
@@ -70,12 +71,16 @@ const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boole
         } else {
             action = <Button disabled variant="disabled">Past Event</Button>;
         }
-    } else if (checkedIn) {
-        action = <Button disabled variant="disabled">Checked In</Button>;
-
     }
     else if (e.isLive && !checkedIn) {
         action = <CheckInButton />;
+    }
+    else if (e.past2 && checkedIn) {
+        action = <FeedbackButton />;
+
+    } else if (checkedIn) {
+        action = <Button disabled variant="disabled">Checked In</Button>;
+
     } else {
         action = <CancelRsvpButton eventId={e.id} />;
     }
@@ -86,7 +91,7 @@ const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boole
 
                 <div className="max-w-[300px] truncate overflow-hidden text-ellipsis">   {e.title}</div>
             </TableCell>
-            <TableCell>{e.startAt.toLocaleString()}
+            <TableCell>{`${date} | ${time}`}
 
             </TableCell>
             <TableCell>{action}</TableCell>

@@ -6,7 +6,7 @@ function areSameDay(a: Date, b: Date) {
     );
 }
 
-export function formatDateAndTime(startDate: string | Date, endDate: string | Date) {
+export function formatDateAndTime(startDate: string | Date, endDate: string | Date, simple: false) {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
@@ -21,6 +21,11 @@ export function formatDateAndTime(startDate: string | Date, endDate: string | Da
         minute: "2-digit",
         hour12: true
     });
+
+    if (simple) return {
+        date: dateFormatter.format(start),
+        time: timeFormatter.format(start)
+    }
 
     if (areSameDay(start, end)) {
         // Same day: show one date and a time range

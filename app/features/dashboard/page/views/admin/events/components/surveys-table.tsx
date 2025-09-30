@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/primitives/scroll-area';
 import { useAppNavigation } from '@/hooks';
 
 
-export function AttendanceTable({ eventAttendance }) {
+export function SurveysTable({ eventSurveys }) {
 
     return (
         <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">
@@ -18,18 +18,24 @@ export function AttendanceTable({ eventAttendance }) {
                         <TableHead className="first:pl-6 w-[150px]">EPCC ID</TableHead>
                         <TableHead>First Name</TableHead>
                         <TableHead>Last Name</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Action</TableHead>
+                        <TableHead>Q1</TableHead>
+                        <TableHead>Q2</TableHead>
+                        <TableHead>Q3</TableHead>
+                        <TableHead>Q4</TableHead>
+                        <TableHead>Q5</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="border">
-                    {eventAttendance && eventAttendance.map(u => (
+                    {eventSurveys && eventSurveys.map(u => (
                         <TableRow className=" bg-background cursor-pointer" >
                             <TableCell className="first:pl-6 ">{u?.epccId || 'Null'}</TableCell>
-                            <TableCell>{u?.firstName ? u.firstName : <span className='text-muted-foreground'>First Name</span>}</TableCell>
-                            <TableCell>{u?.lastName ? u.lastName : <span className='text-muted-foreground'>Last Name</span>}</TableCell>
-                            <TableCell >{new Date(u?.checkedInAt).toLocaleDateString() || 0}</TableCell>
-                            <TableCell >{u?.complete ? 'Complete' : "Send"}</TableCell>
+                            <TableCell>{u?.firstName}</TableCell>
+                            <TableCell>{u?.lastName || 0}</TableCell>
+                            <TableCell >{u.q1}</TableCell>
+                            <TableCell >{u.q2}</TableCell>
+                            <TableCell >{u.q3}</TableCell>
+                            <TableCell >{u.q4}</TableCell>
+                            <TableCell >{u.q5}</TableCell>
 
                         </TableRow>
 
@@ -41,17 +47,4 @@ export function AttendanceTable({ eventAttendance }) {
     )
 }
 
-const EventRow = ({ s }) => {
-    const e = useEventContext()
-    const { toEvent } = useAppNavigation()
-    return (
-        <TableRow className=" bg-background cursor-pointer" onClick={() => toEvent(s?.eventId)}>
-            <TableCell className="first:pl-6 ">{s?.eventId || 'Null'}</TableCell>
-            <TableCell>{e?.title}</TableCell>
-            <TableCell>{s?.rsvps || 0}</TableCell>
-            <TableCell >{s?.attended || 0}</TableCell>
-
-        </TableRow>
-    )
-}
 

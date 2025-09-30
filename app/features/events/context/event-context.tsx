@@ -39,6 +39,7 @@ export const EventProvider: React.FC<{
     const end = useMemo(() => new Date(e.endAt), [e.endAt]);
     const isLive = useEventStatus(start, end);
     const past = useMemo(() => (new Date(e.endAt) < new Date() && !isLive), [e.endAt, isLive]);
+    const past2 = useMemo(() => (new Date(e.endAt) < new Date()), [e.endAt]);
 
     const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
 
@@ -56,6 +57,7 @@ export const EventProvider: React.FC<{
         isLive,
         code: e.code,
         past,
+        past2,
         formatted,
     }), [e.id, e.title, start, end, isLive, formatted]);
 

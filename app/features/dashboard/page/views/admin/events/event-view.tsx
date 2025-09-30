@@ -7,7 +7,7 @@ import { useAppNavigation } from '@/hooks';
 import { ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/primitives/tabs"
 import { useEventContext, EventProvider } from '@/features/events/context/event-context';
-import { RsvpsTable, AttendanceTable } from './components';
+import { RsvpsTable, AttendanceTable, SurveysTable } from './components';
 
 
 export default function EventView() {
@@ -32,13 +32,14 @@ const EventViewInner = () => {
     }
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
+        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full grid grid-cols-1 md:grid-cols-1 border-2 border-accent rounded-md">
             <Button onClick={toEvents} size='icon'><ArrowLeft /></Button>
             <h2>{event?.title || 'null'}</h2>
             <Tabs defaultValue="rsvps" className="size-full">
                 <TabsList>
                     <TabsTrigger value="rsvps">RSVPS</TabsTrigger>
                     <TabsTrigger value="attendance">Attendance</TabsTrigger>
+                    <TabsTrigger value="surveys">Feedback</TabsTrigger>
                 </TabsList>
                 <TabsContent value="rsvps">
                     <h2>RSVPS</h2>
@@ -49,6 +50,11 @@ const EventViewInner = () => {
                     <h2>Attendance</h2>
 
                     <AttendanceTable eventAttendance={data?.eventAttendance} />
+                </TabsContent>
+                <TabsContent value="surveys">
+                    <h2>Feedback</h2>
+
+                    <SurveysTable eventSurveys={data?.eventSurveys} />
                 </TabsContent>
 
             </Tabs>

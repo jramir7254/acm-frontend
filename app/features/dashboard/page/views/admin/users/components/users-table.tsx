@@ -23,7 +23,7 @@ export function UsersTable() {
         { epccId: "12312410" },
     ]
 
-    const rows = (users ?? []).concat(extra)
+    const rows = (users ?? [])
 
 
 

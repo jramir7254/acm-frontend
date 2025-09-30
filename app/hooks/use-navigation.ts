@@ -13,6 +13,7 @@ export function useAppNavigation() {
     const toEvents = () => navigate(`/${userId}/admin/events`);
     const toEvent = (eventId: string) => navigate(`/${userId}/admin/events/${eventId}`);
     const toVerify = (token: string) => navigate(`/auth/verify?token=${encodeURIComponent(token)}`);
+    const toPrevious = () => navigate(-1);
 
     return {
         toDashboard,
@@ -23,6 +24,7 @@ export function useAppNavigation() {
         toUsers,
         toEvents,
         toEvent,
+        toPrevious,
         userId,
         reqUserId,
         eventId
