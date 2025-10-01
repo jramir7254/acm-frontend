@@ -14,7 +14,7 @@ export function SidebarItem({ children, to = null }: { children: React.ReactNode
     return (
         <SidebarMenuItem >
             {to !== null ? (
-                <NavLink to={to} end={to === ""}>
+                <NavLink to={to} end>
                     {({ isActive }) => (
                         <SidebarMenuButton asChild isActive={isActive} size='default' className="p-2">
                             <div className="flex items-center">
