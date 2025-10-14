@@ -16,6 +16,8 @@ export const PrivateApi: AxiosInstance = axios.create({
     withCredentials: true, // send/receive the httpOnly refresh cookie
 });
 
+
+
 // Attach Authorization on each request
 PrivateApi.interceptors.request.use((config) => {
     const token = tokenStore.get();
