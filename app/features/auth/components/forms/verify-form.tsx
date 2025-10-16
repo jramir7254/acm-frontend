@@ -7,11 +7,13 @@ import { Form, SubmitButton, OtpInput } from '@/components/input'
 
 import { useAppNavigation } from "@/hooks/use-navigation";
 import { useAuth } from "../../hooks/use-auth";
+import type { Purpose } from "../../api/auth-api";
 
 export default function VerifyForm() {
     const [sp] = useSearchParams();
     const token = sp.get("token");
-    const { toDashboard } = useAppNavigation()
+    const purpose = sp.get('purpose') as Purpose
+    const { toDashboard, toAuth } = useAppNavigation()
     const { verify } = useAuth()
 
     const FormSchema = z.object({
@@ -27,8 +29,22 @@ export default function VerifyForm() {
             return;
         }
         try {
-            const epccId = await verify({ token, code: otp });
-            toDashboard(epccId)
+
+            const epccId = await verify({ token, code: otp, purpose });
+
+            if (purpose === 'verify') {
+                toDashboard(epccId)
+                return
+            }
+
+
+            if (purpose === 'reset') {
+                toAuth('reset')
+                return
+            }
+
+
+
         } catch (err: any) {
             const msg = err ?? "Verification failed";
             // toast.error(msg);

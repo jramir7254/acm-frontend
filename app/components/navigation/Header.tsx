@@ -3,10 +3,12 @@ import { cn } from "@/lib/utils"
 import { useMe } from "@/features/auth/hooks/use-me"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { MenuIcon } from "lucide-react"
+import { useAppNavigation } from "@/hooks"
 
 
 export default function Header() {
     const { data: user } = useMe()
+    const { toHome } = useAppNavigation()
     const isMobile = useIsMobile()
 
 
@@ -21,7 +23,7 @@ export default function Header() {
 
     return (
         <header className="fixed top-0 z-50 w-full h-16 flex items-center justify-between bg-matte-black text-white/90 border-b-2 border-b-accent">
-            <div className="flex items-center ml-40">
+            <div className="flex items-center ml-40" onClick={toHome}>
                 <img src="/epcc.png" width={50} alt="ACM EPCC logo" />
                 <h1 className="font-bold font-aldri text-[clamp(1rem,2vw,2rem)] ml-8">
                     ACM EPCC

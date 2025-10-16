@@ -44,17 +44,50 @@ export const useAuth = () => {
         } catch (error) { throw error } finally { logger.endProcess() }
     }
 
-
-    const verify = async ({ token, code }: { token: string, code: string }): Promise<string> => {
+    const forgot = async ({ epccId, email }: RegisterInput) => {
         try {
-            logger.startProcess('VERIFY')
-            const { accessToken, epccId } = await AuthAPI.verifyEmail({ token, code });
+            logger.startProcess('REGISTER')
+            logger.debug('forgot hook', { epccId, email })
+            const { token } = await AuthAPI.forgot({ epccId, email });
+            return { token: token ?? null };
+
+        } catch (error) { throw error } finally { logger.endProcess() }
+    }
+
+
+    const reset = async (newPassword: string) => {
+        try {
+            logger.startProcess('RESET')
+
+            const { accessToken, epccId } = await AuthAPI.reset({ newPassword });
             tokenStore.set(accessToken, { persist: "local" });
 
             await queryClient.prefetchQuery({
                 queryKey: ['user', 'me'],
                 queryFn: me,
             });
+
+            return epccId
+
+
+        } catch (error) { throw error } finally { logger.endProcess() }
+    }
+
+
+    const verify = async ({ token, code, purpose }: { token: string, code: string, purpose: AuthAPI.Purpose }): Promise<string> => {
+        try {
+            logger.startProcess('VERIFY')
+            const { accessToken, epccId } = await AuthAPI.verifyEmail({ token, code, purpose });
+            tokenStore.set(accessToken, { persist: "local" });
+
+            if (purpose === 'verify') {
+
+                await queryClient.prefetchQuery({
+                    queryKey: ['user', 'me'],
+                    queryFn: me,
+                });
+            }
+
 
             return epccId
 
@@ -75,7 +108,7 @@ export const useAuth = () => {
     }
 
 
-    return { login, register, verify, logout }
+    return { login, register, verify, logout, forgot, reset }
 }
 
 

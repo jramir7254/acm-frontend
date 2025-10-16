@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import AuthForm from "../../components/forms/auth-form";
 
-const ALLOWED = new Set(["login", "register"]);
+const ALLOWED = new Set(["login", "register", "reset", "forgot"]);
 
 export default function AuthIndexPage() {
     const [sp] = useSearchParams();

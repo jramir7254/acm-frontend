@@ -44,6 +44,20 @@ export const loginSchema = z.object({
     password: z.string(),
 });
 
+export const forgotSchema = z.object({
+    epccId,
+    email
+});
+
+
+export const resetSchema = z.object({
+    password,
+    passwordConfirmed: z.string(),
+}).refine(d => d.password === d.passwordConfirmed, {
+    message: "Passwords do not match",
+    path: ["passwordConfirmed"],
+});
+
 export const registerSchema = z.object({
     epccId,
     email,

@@ -8,6 +8,7 @@ export type RegisterInput = { epccId: string; email: string; password: string };
 export type LoginResponse = { accessToken: string; expiresIn: number, epccId: string };
 export type RegisterResponse = { token: string };
 
+export type Purpose = 'verify' | 'reset'
 
 
 export async function login(payload: LoginInput): Promise<LoginResponse> {
@@ -55,9 +56,50 @@ export async function register(payload: RegisterInput): Promise<RegisterResponse
 }
 
 
+export async function reset(payload: RegisterInput): Promise<RegisterResponse> {
+    try {
+        logger.debug('reset payload:', payload)
+        const { data } = await PrivateApi.post<RegisterResponse>("/auth/reset", payload);
+        logger.success('reset response:', data)
+        return data;
+
+    } catch (error) {
+        if (isAxiosError(error)) {
+            const errCode = error?.status
+            const message = error?.response?.data?.message
+            logger.warn("Failed to reset user: ", { errCode, message })
+            throw message
+        }
+
+        logger.error("Error trying to reset user", { error })
+        throw new Error("Unknown error occurred during reset");
+    }
+}
+
+export async function forgot(payload: RegisterInput): Promise<RegisterResponse> {
+    try {
+        logger.debug('forgot payload:', payload)
+        const { data } = await PUBLIC_API.post<RegisterResponse>("/auth/forgot", payload);
+        logger.success('forgot response:', data)
+        return data;
+
+    } catch (error) {
+        if (isAxiosError(error)) {
+            const errCode = error?.status
+            const message = error?.response?.data?.message
+            logger.warn("Failed to forgot user: ", { errCode, message })
+            throw message
+        }
+
+        logger.error("Error trying to forgot user", { error })
+        throw new Error("Unknown error occurred during reset");
+    }
+}
 
 
-export async function verifyEmail(payload: { token: string; code: string }): Promise<LoginResponse> {
+
+
+export async function verifyEmail(payload: { token: string; code: string, purpose: Purpose }): Promise<LoginResponse> {
     try {
         logger.debug('verify email payload:', payload)
         const { data } = await PUBLIC_API.post<LoginResponse>("/auth/verify-email", payload);
