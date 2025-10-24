@@ -1,7 +1,7 @@
 
 import { PUBLIC_API, PrivateApi } from "@/services/api/";
 import { logger } from "@/lib/logger";
-import { apiCall } from "@/utils/api-caller";
+import { apiCall } from "@/services/api/backend";
 
 export type Event = {
     id: string,

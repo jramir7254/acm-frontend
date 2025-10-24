@@ -79,10 +79,6 @@ function EventsList({ filters }: { filters: EventFilters }) {
         const showPast = filters.past;
         const showUpcoming = filters.upcoming;
 
-        logger.debug("Filters: ", { showPast, showUpcoming })
-
-
-
         let list = events.filter((e) => {
             const endTime = new Date(e.endAt).getTime();
             const now = Date.now();

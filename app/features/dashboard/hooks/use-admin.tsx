@@ -21,6 +21,11 @@ export function useUsers() {
 }
 
 
+export function useTestEmail() {
+
+}
+
+
 export function useUser(reqUserId: string) {
     return useQuery({
         queryKey: usersKeys.one(reqUserId),

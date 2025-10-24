@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Events from "../api/events";
 import { toast } from "sonner";
-import { type Event } from "../api/events";
+import { backend } from "@/services/api/backend";
 
 export const eventsKeys = {
     all: ["events"] as const,
@@ -9,12 +9,32 @@ export const eventsKeys = {
     read: (id: string | number) => [...eventsKeys.all, "read", id] as const,
 };
 
+export type Event = {
+    id: string,
+    imageUrl: string,
+    startAt: string,
+    endAt: string,
+    code: string,
+    time: string,
+    title: string,
+    location: string,
+    host: string,
+    description: string,
+    past: boolean,
+    isRsvpd?: boolean | undefined
+}
+
+
 import { userKeys } from "@/features/dashboard/hooks/use-user";
+import type { UserRsvps } from "@/features/dashboard/api/user-api";
+import { logger } from "@/lib/logger";
+
+
 
 export function useEvents() {
     return useQuery({
         queryKey: eventsKeys.all,
-        queryFn: Events.listEvents,
+        queryFn: () => backend.get({ root: 'events' }),
         staleTime: 5 * 60_000,
         gcTime: 24 * 60 * 60_000,
     });
@@ -30,18 +50,18 @@ export function useNumEvents() {
 
 
 export function useEvent(eventId: string) {
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
 
     return useQuery({
         queryKey: eventsKeys.read(eventId),
-        queryFn: () => Events.getEvent(eventId), // fetch if missing
+        queryFn: () => backend.get({ root: 'events' }), // fetch if missing
         staleTime: 5 * 60_000,
         gcTime: 24 * 60 * 60_000,
         enabled: !!eventId,
 
         // 👇 If we already have the list, use that instead of refetching
         // initialData: () => {
-        //     const events = qc.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
+        //     const events = queryClient.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
         //         eventsKeys.all
         //     );
         //     return events?.find((e: Event) => e.id === eventId);
@@ -53,12 +73,12 @@ export function useEvent(eventId: string) {
 
 export function useDeleteEvent(id: string | number) {
 
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: () => Events.deleteEvent(id),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.all });
+            queryClient.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
+            queryClient.invalidateQueries({ queryKey: userKeys.all });
 
         },
     });
@@ -67,48 +87,53 @@ export function useDeleteEvent(id: string | number) {
 
 export function useEditEvent() {
 
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ id, form }: { id: string | number; form: any }) => Events.updateEvent(id, form),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            queryClient.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
+            queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
 }
 export function useCreateEvent() {
 
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (form: any) => Events.createEvent(form),
+        mutationFn: (form: any) => backend.post({ root: 'events', payload: form }),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            queryClient.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
+            queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
     });
 }
 
-export function useRsvp() {
+export function useRsvp(eventId: string | number) {
 
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (eventId: string | number) => Events.rsvp(eventId),
+        mutationFn: () => Events.rsvp(eventId),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
-            qc.invalidateQueries({ queryKey: eventsKeys.all });
+            queryClient.setQueryData(userKeys.rsvps, (prev: UserRsvps[]) => {
+                logger.debug('prev', prev)
+                return [...prev, { eventId, checkedIn: 0, feedback: 0 }]
+            }
+            )
+            queryClient.invalidateQueries({ queryKey: userKeys.rsvps, refetchType: 'none' });
         },
+        onError: (error) => logger.error(error)
     });
 }
 
 export function useCancelRsvp() {
-    const qc = useQueryClient();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (eventId: string | number) => Events.cancelRsvp(eventId),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
-            qc.invalidateQueries({ queryKey: eventsKeys.all });
+            queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
+            queryClient.invalidateQueries({ queryKey: eventsKeys.all });
             toast.success("Succesfully canceled RSVP")
         },
     });

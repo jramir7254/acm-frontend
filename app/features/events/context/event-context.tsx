@@ -5,6 +5,9 @@ import { useEventStatus } from "../hooks/use-status";
 import { formatDateAndTime } from "@/utils/format-date";
 import { logger } from "@/lib/logger";
 
+export type EventType = 'meeting' | 'workshop' | 'external' | 'major' | 'recurring' | 'hackathon' | 'datathon' | 'extra_credit'
+
+
 type EventView = {
     // base
     id: string | number;
@@ -13,6 +16,10 @@ type EventView = {
     host: string;
     description: string;
     imageUrl?: string;
+    type: EventType
+    resources: string | null
+    requirements: string | null
+    externalLink: string | null
     // parsed
     startAt: Date;
     endAt: Date;
@@ -43,7 +50,6 @@ export const EventProvider: React.FC<{
 
     const formatted = useMemo(() => formatDateAndTime(e.startAt, e.endAt), [e.startAt, e.endAt]);
 
-    logger.debug('Event: ', { id: e.id, past, isLive })
 
     const value = useMemo<EventView>(() => ({
         id: e.id,
@@ -56,6 +62,10 @@ export const EventProvider: React.FC<{
         endAt: end,
         isLive,
         code: e.code,
+        type: e.type,
+        externalLink: e.externalLink,
+        resources: e.resources,
+        requirements: e.requirements,
         past,
         past2,
         formatted,

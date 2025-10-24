@@ -35,35 +35,41 @@ export const eventSchema = z
         // Replaced `date` + `time` with two DateTimes
         startAt: isDev ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
         endAt: isDev ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
+        type: z.enum(['meeting', 'workshop', 'external', 'major', 'recurring', 'hackathon', 'datathon', 'extra_credit']),
+        resources: z.string().optional(),
+        requirements: z.string().optional(),
+        externalLink: z.string().optional(),
 
         description: z
             .string()
             .min(1, "Description cannot be empty")
             .max(500, "Cannot be more than 500 characters"),
     })
-    .superRefine((data, ctx) => {
 
-        if (isDev) return
-        const now = new Date()
 
-        // If start is today, enforce "not before now"
-        const isStartToday = data.startAt.toDateString() === now.toDateString()
-        if (isStartToday && data.startAt.getTime() < now.getTime()) {
-            ctx.addIssue({
-                code: 'custom',
-                path: ["startAt"],
-                message: "Start time cannot be earlier than the current time",
-            })
-        }
+// .superRefine((data, ctx) => {
 
-        // endAt must be strictly after startAt
-        if (data.endAt.getTime() <= data.startAt.getTime()) {
-            ctx.addIssue({
-                code: 'custom',
-                path: ["endAt"],
-                message: "End must be after start",
-            })
-        }
-    })
+//     if (isDev) return
+//     const now = new Date()
+
+//     // If start is today, enforce "not before now"
+//     const isStartToday = data.startAt.toDateString() === now.toDateString()
+//     if (isStartToday && data.startAt.getTime() < now.getTime()) {
+//         ctx.addIssue({
+//             code: 'custom',
+//             path: ["startAt"],
+//             message: "Start time cannot be earlier than the current time",
+//         })
+//     }
+
+//     // endAt must be strictly after startAt
+//     if (data.endAt.getTime() <= data.startAt.getTime()) {
+//         ctx.addIssue({
+//             code: 'custom',
+//             path: ["endAt"],
+//             message: "End must be after start",
+//         })
+//     }
+// })
 
 export type EventFormValues = z.infer<typeof eventSchema>

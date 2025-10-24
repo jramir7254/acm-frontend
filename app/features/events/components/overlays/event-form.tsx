@@ -2,11 +2,25 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormInput, Textarea, DateTimePickerInput } from "@/components/input";
+import { FormInput, Textarea, DateTimePickerInput, SelectInput } from "@/components/input";
 import { Form } from "@/components/primitives/form";
 import { useEditEvent, useCreateEvent } from "../../hooks/use-events";
 import { eventSchema } from "../../types/schemas"; // assumes schema with startAt/endAt (Date)
 import { useEventContext } from "../../context/event-context";
+import { buildSelectVals } from "@/lib/utils";
+import { Empty } from "@/components/primitives/empty";
+import { Image } from "lucide-react";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/primitives/dialog"
+import { Button } from "@/components/primitives/button";
 
 type EventFormValues = z.infer<typeof eventSchema>;
 
@@ -18,15 +32,15 @@ export default function EventForm() {
 
     // Adjust these to your actual event shape
     const defaultValues: Partial<EventFormValues> = insideEvent
-        ? {
-            ...event,
-            // startAt: new Date(event?.startAt), // migrate if needed
-            // endAt: new Date(event?.endAt),
-        }
+        ? event
         : {
             title: "",
             host: "",
             imageUrl: "",
+            type: 'workshop',
+            externalLink: "",
+            requirements: "",
+            resources: "",
             location: "",
             startAt: new Date(),
             endAt: new Date(),
@@ -57,6 +71,7 @@ export default function EventForm() {
                     <FormInput name="host" label="Host or Presenter" placeholder="John Doe" />
                     <FormInput name="location" label="Location" />
 
+
                     <div className="flex gap-3">
                         <FormInput name="startAt" label="Start Date">
                             {(field) => (
@@ -79,14 +94,55 @@ export default function EventForm() {
                 </div>
 
                 <div className="col-span-1 px-10">
-                    <div className="border border-white/50 rounded h-[35vh] max-h-[35vh] overflow-hidden">
-                        {/* add alt for a11y */}
-                        <img className="object-cover" src={imgUrl || '#'} alt="Event preview" />
-                    </div>
-                    <FormInput name="imageUrl" label="Image URL" />
+                    <Empty className="border-2 rounded h-[35vh] max-h-[35vh] overflow-hidden relative ">
+                        <Dialog>
+                            <DialogTrigger asChild className="cursor-pointer">
+                                {imgUrl ? (
+                                    <img
+                                        src={imgUrl}
+                                        alt="Event preview"
+                                        className=" absolute inset-0 w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className=" absolute inset-0 w-full h-full flex items-center justify-center">
+                                        <Image />
+
+                                    </div>
+                                )}
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogDescription>
+                                        <FormInput name="imageUrl" label="Image URL" />
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button>Save changes</Button>
+                                    </DialogClose>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </Empty>
                 </div>
 
-                <FormInput name="description" className="col-span-2" label="Description">
+                <div className="col-span-1">
+                    <div className="flex gap-5">
+                        <SelectInput
+                            label="Type of event"
+                            name="type"
+                            values={buildSelectVals(['meeting', 'workshop', 'external', 'major', 'recurring', 'hackathon', 'datathon', 'extra_credit'])}
+                        />
+                        <FormInput name="externalLink" label="External Link" />
+                    </div>
+
+                    <FormInput name="resources" label="Resources" />
+                    <FormInput name="requirements" label="Requirements" />
+
+
+                </div>
+
+                <FormInput name="description" className="col-span-1 px-10 mt-5" label="Description">
                     {(field) => <Textarea className="resize-none h-[15vh]" {...field} />}
                 </FormInput>
             </form>

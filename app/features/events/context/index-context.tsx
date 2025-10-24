@@ -1,6 +1,7 @@
 // features/events/context/EventsIndexProvider.tsx
 import React, { createContext, useContext, useMemo } from "react";
 import { useEvents } from "../hooks/use-events"; // your list query (array of events)
+import type { EventType } from "./event-context";
 
 export type Event = {
     id: string | number,
@@ -11,6 +12,11 @@ export type Event = {
     time: string,
     title: string,
     location: string,
+    type: EventType
+    resources: string | null
+    requirements: string | null
+    externalLink: string | null
+    // parsed
     host: string,
     description: string,
     past: boolean,

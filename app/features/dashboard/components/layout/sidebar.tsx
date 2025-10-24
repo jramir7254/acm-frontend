@@ -17,7 +17,7 @@ import {
     useSidebar
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2, School, BadgeHelp, Users } from "lucide-react"
+import { Home, PersonStanding, UserCircle2, CodeXml, BadgeHelp, Users } from "lucide-react"
 import { MdEventNote } from "react-icons/md";
 
 import { FaChalkboardTeacher } from "react-icons/fa";
@@ -79,7 +79,7 @@ export function DashboardSidebar() {
                         <FeatureFlag>
                             <SidebarItem to='instructor'>
                                 <FaChalkboardTeacher className="h-4 w-4" />
-                                <span>Instructors</span>
+                                <span>Students</span>
                             </SidebarItem>
                         </FeatureFlag>
                     </SidebarGroup>
@@ -100,6 +100,12 @@ export function DashboardSidebar() {
                             <SidebarItem to='admin'>
                                 <PersonStanding className="h-4 w-4" />
                                 <span>Admin</span>
+                            </SidebarItem>
+                        </PermissionGuard>
+                        <PermissionGuard resource="users" requiredRoles={[]}>
+                            <SidebarItem to='admin/developer'>
+                                <CodeXml className="h-4 w-4" />
+                                <span>Dev</span>
                             </SidebarItem>
                         </PermissionGuard>
 

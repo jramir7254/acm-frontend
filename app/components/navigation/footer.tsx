@@ -19,7 +19,7 @@ export default function Footer() {
                 </ul>
             </nav>
             <p className="text-sm text-center">
-                The El Paso County Community College District does not discriminate on the basis of race, color, national
+                The EPCCCD does not discriminate on the basis of race, color, national
                 origin, religion, sex, age, disability and veteran status.
             </p>
 

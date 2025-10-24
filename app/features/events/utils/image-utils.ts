@@ -11,6 +11,7 @@ export const imageUrlSchemaClient = z
 
 export function loadsAsImage(url: string): Promise<boolean> {
     return new Promise((resolve) => {
+        if (['jpg', 'jpeg', 'png'].some(str => url.endsWith(str))) resolve(true)
         const img = new Image();
         img.onload = () => resolve(true);
         img.onerror = () => resolve(false);

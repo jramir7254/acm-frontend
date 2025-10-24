@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Separator } from '@/components/primitives/separator';
 import { PermissionGuard, Container } from '@/components/layout';
 import { MapPin, Calendar } from "lucide-react";
-import { RsvpButton, DeleteEventButton, EditEventButton, ShowCodeButton, InfoButton } from '../buttons';
+import { RsvpButton, DeleteEventButton, EditEventButton, ShowCodeButton, InfoButton, EventActionButton } from '../buttons';
 import { Heading, Text } from '@/components/text';
 import { useEventContext } from "@/features/events/context/event-context";
 import { useState } from 'react';
@@ -81,7 +81,7 @@ export function EventCard() {
 
 
                 <CardFooter className="mt-auto flex gap-3">
-                    <RsvpButton eventId={id} />
+                    <EventActionButton eventId={id} />
                 </CardFooter>
             </Card>
         </Container>

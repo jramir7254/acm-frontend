@@ -7,7 +7,7 @@ import { EventProvider, useEventContext, } from '@/features/events/context/event
 import { formatDateAndTime } from '@/utils/format-date';
 
 export function RsvpTable() {
-    const { data, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
+    const { data: rsvps, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
 
 
 
@@ -25,7 +25,7 @@ export function RsvpTable() {
                 {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
                     <SkeletonRow key={i * 53} />
                 ))}
-                {data && !rsvpsLoading && data.rsvps.map((er) => {
+                {rsvps && !rsvpsLoading && rsvps.map((er) => {
                     return (
                         <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
                             <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
