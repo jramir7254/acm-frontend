@@ -14,10 +14,10 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     if (!e) return null; // provider not mounted
 
 
-    const { id, past } = e;
+    const { id, past, type, externalLink } = e;
 
     let isRsvpd = useMemo(
-        () => (Array.isArray(rsvps) && rsvps?.some(r => r.eventId === id)) ?? false,
+        () => rsvps?.some(r => r.eventId === id) ?? false,
         [rsvps, id]
     );
 
@@ -33,6 +33,7 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
 
     let label = "RSVP";
     let disabled = false;
+    let action = onSubmit
 
     if (!user) {
         label = "Log in or register to RSVP";
@@ -40,6 +41,12 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     } else if (past) {
         label = "Past Event";
         disabled = true;
+    } else if (type === 'external' && externalLink) {
+        label = 'Visit Site'
+        action = () => {
+            window.open(externalLink, "_blank", "noreferrer");
+        };
+
     }
     else if (isRsvpd) {
         label = "RSVP Confirmed";
@@ -47,7 +54,7 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     }
 
     return (
-        <Button className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto" onClick={onSubmit} disabled={disabled} variant={disabled ? "disabled" : "default"}>
+        <Button className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto" onClick={action} disabled={disabled} variant={disabled ? "disabled" : "default"}>
             {label}
         </Button>
     );
