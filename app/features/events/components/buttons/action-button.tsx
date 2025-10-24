@@ -17,7 +17,7 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     const { id, past } = e;
 
     let isRsvpd = useMemo(
-        () => rsvps?.some(r => r.eventId === id) ?? false,
+        () => (Array.isArray(rsvps) && rsvps?.some(r => r.eventId === id)) ?? false,
         [rsvps, id]
     );
 

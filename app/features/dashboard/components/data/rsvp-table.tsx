@@ -25,7 +25,7 @@ export function RsvpTable() {
                 {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
                     <SkeletonRow key={i * 53} />
                 ))}
-                {rsvps && !rsvpsLoading && rsvps.map((er) => {
+                {rsvps && !rsvpsLoading && [].map((er) => {
                     return (
                         <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
                             <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
