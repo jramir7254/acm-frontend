@@ -52,7 +52,13 @@ import { isAxiosError } from "axios";
 export async function feedback(id: string | number, form: Partial<Event>) {
     logger.debug('feedback event payload:', form)
 
-    return await apiCall('feedback Event', () => PrivateApi.post<Event>(`/events/${id}/feedback`, form))
+    try {
+        PrivateApi.post<Event>(`/events/${id}/feedback`, form)
+
+    } catch (error) {
+        logger.error(error)
+    }
+
 }
 
 
