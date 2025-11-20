@@ -45,7 +45,7 @@ export default function Main() {
             <GridItem className='rounded-b-md rounded-t-none md:rounded-md col-span-1 md:col-span-4 row-span-4  border-2 border-accent'>
                 <Gradient from='rgba(125,125,200,0.2)' via='rgba(155,155,255,0.15)' to='rgba(100,100,155,0.17)' className='size-full p-5'>
                     <h2 className='font-monts text-lg'>My RSVP'd events</h2>
-                    <ScrollArea className='mt-5 max-h-full' id='dashboard' >
+                    <ScrollArea className='mt-5 max-h-[90%]' id='dashboard' >
                         <RsvpTable />
                     </ScrollArea>
                 </Gradient>
