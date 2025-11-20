@@ -4,7 +4,7 @@ export default function Footer() {
     const isMobile = useIsMobile()
     const location = useLocation();
 
-    const hideFooter = ['/auth', '/admin', '/888'].some(str => location.pathname.includes(str)) || isMobile
+    const hideFooter = ['/auth', '/admin', '/8'].some(str => location.pathname.includes(str)) || isMobile
 
 
     if (hideFooter) return null

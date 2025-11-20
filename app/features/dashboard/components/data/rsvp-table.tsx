@@ -5,35 +5,40 @@ import { CancelRsvpButton, CheckInButton, FeedbackButton } from '../../component
 import { Button } from '@/components/primitives/button';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
 import { formatDateAndTime } from '@/utils/format-date';
-
+import { ScrollArea } from '@/components/primitives/scroll-area';
 export function RsvpTable() {
     const { data: rsvps, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
 
 
 
     return (
-        <Table>
-            <TableCaption>A list of your rsvp'd events.</TableCaption>
-            <TableHeader>
-                <TableRow className='hover:bg-inherit'>
-                    <TableHead className="w-2/4">Title</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Action</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
-                    <SkeletonRow key={i * 53} />
-                ))}
-                {!rsvpsLoading && rsvps && rsvps.map((er) => {
-                    return (
-                        <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
-                            <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
-                        </EventProvider>
-                    );
-                })}
-            </TableBody>
-        </Table>)
+        <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">
+
+            <Table>
+                <TableCaption>A list of your rsvp'd events.</TableCaption>
+                <TableHeader>
+                    <TableRow className='hover:bg-inherit'>
+                        <TableHead className="w-2/4">Title</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
+                        <SkeletonRow key={i * 53} />
+                    ))}
+                    {!rsvpsLoading && rsvps && rsvps.map((er) => {
+                        return (
+                            <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
+                                <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
+                            </EventProvider>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </ScrollArea>
+
+    )
 }
 
 
