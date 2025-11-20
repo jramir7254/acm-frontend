@@ -32,4 +32,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./build/client/
           server-dir: ./ # adjust if deploying to subdirectory
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
