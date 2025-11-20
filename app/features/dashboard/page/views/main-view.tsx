@@ -5,7 +5,7 @@ import { Centered, UnderConstructionCard, Container as Grid } from '@/components
 import { Button } from '@/components/primitives/button';
 import GridItem from '../../components/layout/grid-item';
 import { InfoIcon } from 'lucide-react'
-
+import { ScrollArea } from '@/components/primitives/scroll-area';
 export default function Main() {
 
     const grid = {
@@ -45,9 +45,9 @@ export default function Main() {
             <GridItem className='rounded-b-md rounded-t-none md:rounded-md col-span-1 md:col-span-4 row-span-4  border-2 border-accent'>
                 <Gradient from='rgba(125,125,200,0.2)' via='rgba(155,155,255,0.15)' to='rgba(100,100,155,0.17)' className='size-full p-5'>
                     <h2 className='font-monts text-lg'>My RSVP'd events</h2>
-                    <div className='mt-5' id='dashboard' >
+                    <ScrollArea className='mt-5 max-h-full' id='dashboard' >
                         <RsvpTable />
-                    </div>
+                    </ScrollArea>
                 </Gradient>
             </GridItem>
         </Grid>
