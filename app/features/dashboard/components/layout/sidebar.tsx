@@ -76,7 +76,7 @@ export function DashboardSidebar() {
                 <PermissionGuard resource="users" requiredRoles={['instructor']}>
                     <Separator />
                     <SidebarGroup label="Instructors">
-                        <FeatureFlag>
+                        <FeatureFlag ready>
                             <SidebarItem to='instructor'>
                                 <FaChalkboardTeacher className="h-4 w-4" />
                                 <span>Students</span>
