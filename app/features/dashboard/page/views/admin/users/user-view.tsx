@@ -18,6 +18,9 @@ export default function UserView() {
     return (
         <Gradient via="rgba(50,50,50,0.20)" className=" p-10 size-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
             <Button onClick={toUsers} size='icon'><ArrowLeft /></Button>
+            <pre>
+                {JSON.stringify(data)}
+            </pre>
         </Gradient>
     )
 }

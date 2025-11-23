@@ -28,7 +28,7 @@ export const getUsers = async (): Promise<User[]> => {
 
 export const getUser = async (userId: string): Promise<User[]> => {
     try {
-        const { data } = await PrivateApi.get(`/users/${userId}`)
+        const { data } = await PrivateApi.get(`/users/user/${userId}`)
         return data
     } catch (error) {
         logger.error(error)

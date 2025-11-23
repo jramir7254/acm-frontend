@@ -9,15 +9,8 @@ import {
     useReactTable,
     type SortingState,
 } from "@tanstack/react-table"
-import { useStudents } from '../../hooks/use-admin'
 
-type Student = {
-    epccId: string
-    firstName: string
-    lastName: string
-    course: string
-    attendance: number
-}
+
 
 import {
     Table,
@@ -48,18 +41,6 @@ export const columns: ColumnDef<Student>[] = [
     { accessorKey: "course", header: "Course" },
     { accessorKey: "attendance", header: "Events Attended" },
 ]
-
-export default function InstructorView() {
-    const { data, isLoading } = useStudents()
-
-    if (isLoading) return <p>Loading...</p>
-
-    return (
-        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full flex border-2 border-accent rounded-md">
-            <DataTable columns={columns} data={data || []} />
-        </Gradient>
-    )
-}
 
 
 interface DataTableProps<TData, TValue> {
