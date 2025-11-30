@@ -15,7 +15,7 @@ export default function Main() {
 
     return (
         <Grid className='size-full' classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
-            <Gradient className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-6 row-span-1 border-2 border-accent'>
+            <Gradient via="rgba(80,80,80,0.20)" className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-6 row-span-1 border-2 border-accent'>
                 <Centered className='w-[30%] md:w-[15%]'>
                     <h3>Points</h3>
                     <Points />
@@ -43,8 +43,8 @@ export default function Main() {
 
 
             <GridItem className='rounded-b-md rounded-t-none md:rounded-md col-span-1 md:col-span-4 row-span-4  border-2 border-accent overflow-hidden'>
-                <Gradient from='rgba(125,125,200,0.2)' via='rgba(155,155,255,0.15)' to='rgba(100,100,155,0.17)' className='size-full p-5'>
-                    <h2 className='font-monts text-lg'>My RSVP'd events</h2>
+                <Gradient via="rgba(50,50,50,0.20)" className='size-full p-5'>
+                    <h2 className='font-monts text-lg'>My events</h2>
                     <RsvpTable />
                 </Gradient>
             </GridItem>

@@ -13,6 +13,13 @@ export function useCourses() {
     });
 }
 
+export function useCourse(courseId: number) {
+    const { data } = useCourses()
+
+    const course = data?.find(c => c.id === courseId)
+    return course
+}
+
 
 export function useAddCourse() {
     const qc = useQueryClient();

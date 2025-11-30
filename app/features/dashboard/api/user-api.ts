@@ -71,18 +71,13 @@ export async function sendHelp(payload) {
 
 
 
-export async function userRsvps() {
-    const { data } = await PrivateApi.get<UserRsvps[]>(`/users/me/rsvps`);
-    return data
-}
-
 export async function me() {
-    const { data } = await PrivateApi.get<User>("/users/me");
+    const { data } = await PrivateApi.get<User>("/auth/me");
     return data;
 }
 export async function updateMe(payload) {
     logger.debug(payload)
-    const { data } = await PrivateApi.patch<User>("/users/me", payload);
+    const { data } = await PrivateApi.patch<User>("/auth/me", payload);
     return data;
 }
 

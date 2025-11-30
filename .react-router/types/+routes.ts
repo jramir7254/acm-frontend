@@ -144,8 +144,8 @@ type RouteFiles = {
     id: "features/dashboard/page/views/developer-view";
     page: "/:userId/admin/developer";
   };
-  "features/dashboard/page/views/instructor-view.tsx": {
-    id: "features/dashboard/page/views/instructor-view";
+  "features/dashboard/page/views/instructors/instructor-view.tsx": {
+    id: "features/dashboard/page/views/instructors/instructor-view";
     page: "/:userId/instructor";
   };
   "features/dashboard/page/views/help-view.tsx": {

@@ -2,7 +2,7 @@ import React from "react";
 import { useMe } from "@/features/auth/hooks/use-me";
 import { useRole } from "@/features/auth/hooks/use-auth";
 /** Canonical sets (narrowed via `as const` for literal unions) */
-const ROLES = [
+export const ROLES = [
     "owner",
     "advisor",
     "president",
@@ -18,7 +18,7 @@ const RESOURCES = ["events", "users", "points", "attendance", "rsvps"] as const;
 const ACTIONS = ["create", "delete", "update", "list"] as const;
 
 /** Literal unions */
-type Role = typeof ROLES[number];
+export type Role = typeof ROLES[number];
 type Resource = typeof RESOURCES[number];
 type Action = typeof ACTIONS[number];
 

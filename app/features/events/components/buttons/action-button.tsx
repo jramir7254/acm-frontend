@@ -54,7 +54,12 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     }
 
     return (
-        <Button className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto" onClick={action} disabled={disabled} variant={disabled ? "disabled" : "default"}>
+        <Button
+            className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto"
+            onClick={action}
+            disabled={disabled}
+            variant={disabled ? "disabled" : "default"}
+        >
             {label}
         </Button>
     );

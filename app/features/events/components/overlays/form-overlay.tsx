@@ -11,14 +11,18 @@ import {
 } from "@/components/primitives/dialog"
 import { useEventContext } from "../../context/event-context"
 import EditForm from "./event-form"
+import { useCreateEvent } from "../../hooks/use-events"
+import { useState } from "react"
 
 export function EventFormOverlay({ children }: { children: React.ReactNode }) {
+    const [open, setOpen] = useState(false)
     const event = useEventContext()
+    const { mutateAsync, isPending } = useCreateEvent()
 
     const insideEvent = event !== undefined; // only true if provider gave us an event
 
     return (
-        <Dialog modal>
+        <Dialog modal open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild >
                 {children}
             </DialogTrigger>
@@ -34,13 +38,13 @@ export function EventFormOverlay({ children }: { children: React.ReactNode }) {
                             "Add new event details here. Click add when you're done."}
                     </DialogDescription>
                 </DialogHeader>
-                <EditForm />
+                <EditForm mutateAsync={mutateAsync} setOpen={setOpen} />
                 <DialogFooter>
-                    <DialogClose asChild>
+                    <DialogClose asChild disabled={isPending}>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button form="event-form" type="submit">
-                        {insideEvent ? "Save changes" : "Create Event"}
+                    <Button form="event-form" type="submit" disabled={isPending}>
+                        {isPending ? "Please Wait" : insideEvent ? "Save changes" : "Create Event"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

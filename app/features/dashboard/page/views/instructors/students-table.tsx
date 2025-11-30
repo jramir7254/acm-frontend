@@ -1,4 +1,3 @@
-import Gradient from '@/components/layout/gradient'
 import React from 'react'
 import {
     type ColumnDef,
@@ -9,7 +8,6 @@ import {
     useReactTable,
     type SortingState,
 } from "@tanstack/react-table"
-import { useStudents } from '../../hooks/use-admin'
 
 type Student = {
     epccId: string
@@ -41,25 +39,6 @@ import {
 } from "@/components/primitives/select"
 
 
-export const columns: ColumnDef<Student>[] = [
-    { accessorKey: "epccId", header: "EPCC ID" },
-    { accessorKey: "firstName", header: "First Name" },
-    { accessorKey: "lastName", header: "Last Name" },
-    { accessorKey: "course", header: "Course" },
-    { accessorKey: "attendance", header: "Events Attended" },
-]
-
-export default function InstructorView() {
-    const { data, isLoading } = useStudents()
-
-    if (isLoading) return <p>Loading...</p>
-
-    return (
-        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full flex border-2 border-accent rounded-md">
-            <DataTable columns={columns} data={data || []} />
-        </Gradient>
-    )
-}
 
 
 interface DataTableProps<TData, TValue> {
@@ -93,7 +72,7 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="rounded-md  size-full flex-1">
+        <div className="rounded-md  size-full  max-h-[75%]">
             {/* Filters */}
             <div className="flex items-center gap-4 p-4">
 
@@ -125,8 +104,8 @@ export function DataTable<TData, TValue>({
             </div>
 
             {/* Scrollable Table */}
-            <div className="max-h-[50%] overflow-auto size-full">
-                <Table className='size-full'>
+            <div className=" overflow-auto max-h-[500px]">
+                <Table >
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>

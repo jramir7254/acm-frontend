@@ -9,7 +9,8 @@ export const PUBLIC_API: AxiosInstance = axios.create({
     withCredentials: true,
 });
 
-export type Courses = {
+export interface Courses {
+    id: number,
     instructorFirstName: string
     instructorLastName: string
     title: string

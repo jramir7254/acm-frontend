@@ -14,16 +14,16 @@ export interface ApiError {
     code: string;
 }
 
-export type CallParams = { root: RootRoutes, route?: string | string[], payload?: any, params?: any }
+export type CallParams = { root: RootRoutes, route?: string, payload?: any }
 
 
 
 export const backend = {
-    get: <T>({ root, route = '', params }: CallParams) => apiCall<T>('get', root, route, params),
-    post: <T>({ root, route = '', payload }: CallParams) => apiCall<T>('post', root, route, payload),
-    delete: <T>({ root, route = '', payload }: CallParams) => apiCall<T>('delete', root, route, payload),
-    put: <T>({ root, route = '', payload }: CallParams) => apiCall<T>('put', root, route, payload),
-    patch: <T>({ root, route = '', payload, }: CallParams) => apiCall<T>('patch', root, route, payload),
+    get: ({ root, route = '', payload }: CallParams) => apiCall('get', root, route, payload),
+    post: ({ root, route = '', payload }: CallParams) => apiCall('post', root, route, payload),
+    delete: ({ root, route = '', payload }: CallParams) => apiCall('delete', root, route, payload),
+    put: ({ root, route = '', payload }: CallParams) => apiCall('put', root, route, payload),
+    patch: ({ root, route = '', payload }: CallParams) => apiCall('patch', root, route, payload),
 }
 
 
@@ -34,10 +34,8 @@ export async function apiCall<T>(method: HttpMethods, root: string, route?: stri
 
         const normRoute = Array.isArray(route) ? route.join('/') : route
 
-
-
-        logger.debug(`<Request>: ${method} /${root}/${normRoute}`, { payload })
-        const { data } = await PrivateApi[method]<T>(`/${root}/${normRoute}`, payload);
+        logger.debug(`<Request>: ${method} /${root}${normRoute}`, { payload })
+        const { data } = await PrivateApi[method]<T>(`/${root}${normRoute}`, payload);
         logger.debug(`<Response>: ${method} /${root}${normRoute}`, { data })
         return data;
     } catch (err: any) {

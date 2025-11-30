@@ -22,7 +22,7 @@ export default function Header() {
     if (isMobile) return <MobileNav />
 
     return (
-        <header className="fixed top-0 z-50 w-full h-16 flex items-center justify-between bg-matte-black text-white/90 border-b-2 border-b-accent">
+        <header className="fixed top-0 z-50 w-full h-18 flex items-center justify-between bg-matte-black text-white/90 border-b-2 border-b-accent">
             <div className="flex items-center ml-40" onClick={toHome}>
                 <img src="/epcc.png" width={50} alt="ACM EPCC logo" />
                 <h1 className="font-bold font-aldri text-[clamp(1rem,2vw,2rem)] ml-8">
@@ -41,13 +41,9 @@ export default function Header() {
                                 className={({ isActive }) =>
                                     cn(
                                         "transition-all duration-300",
-                                        isLast
-                                            ? isActive
-                                                ? "bg-white/70 text-white px-5 py-1 rounded-xl"
-                                                : "bg-white text-black px-5 py-1 rounded-xl hover:bg-gray-200"
-                                            : isActive
-                                                ? "underline"
-                                                : "hover:underline"
+                                        isActive
+                                            ? "underline"
+                                            : "hover:underline"
                                     )
                                 }
                             >

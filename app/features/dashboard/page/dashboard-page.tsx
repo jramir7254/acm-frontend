@@ -22,9 +22,9 @@ export default function DashboardPage() {
                 <DashboardSidebar />
                 <SidebarTrigger className='md:hidden absolute top-5 left-10 z-10' />
                 <EventsIndexProvider>
-                    <Container className='flex-1 m-2' classNameLarge='md:m-10' classNameMac='md:m-5'>
+                    <div className='flex-1 md:m-5 xl:m-10' >
                         <Outlet />
-                    </Container>
+                    </div>
                 </EventsIndexProvider>
             </SidebarProvider>
         </Page>

@@ -44,16 +44,19 @@ function EventsPageInner() {
                 <h1 className="font-quick text-5xl md:text-8xl">Events</h1>
             </section>
 
-            <Container
-                className="min-h-screen bg-background py-20 pb-[100vh] flex flex-col gap-5 border-y-2 border-accent"
-                classNameMac="px-10"
-                classNameLarge="px-30"
-                classNameMobile="px-10">
+            <Container className="min-h-screen bg-background py-20 pb-[100vh] px-[5vw] flex flex-col gap-5 border-y-2 border-accent">
                 <div className="ml-auto">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
                 </div>
+
                 <Separator />
-                <Container className="grid gap-6 lg:grid-cols-3 sm:grid-cols-1" classNameMac="">
+
+                <Container className="
+                    grid gap-5 p-4
+                    grid-cols-1 
+                    md:grid-cols-2 
+                    xl:grid-cols-3 
+                ">
                     <EventsIndexProvider>
                         <EventsList filters={filters} />
                     </EventsIndexProvider>

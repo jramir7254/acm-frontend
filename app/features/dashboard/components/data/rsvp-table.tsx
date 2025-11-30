@@ -27,10 +27,10 @@ export function RsvpTable() {
                     {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
                         <SkeletonRow key={i * 53} />
                     ))}
-                    {!rsvpsLoading && rsvps && rsvps.map((er) => {
+                    {!rsvpsLoading && Array.isArray(rsvps) && rsvps.map((er) => {
                         return (
                             <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
-                                <EventRow checkedIn={er.checkedIn} feedback={er?.feedback} />
+                                <EventRow checkedIn={!!er.checkedInAt} feedback={er?.feedback} />
                             </EventProvider>
                         );
                     })}
@@ -99,7 +99,7 @@ const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boole
 
                 <div className="max-w-[300px] truncate overflow-hidden text-ellipsis">   {e.title}</div>
             </TableCell>
-            <TableCell>{`${date} | ${time}`}
+            <TableCell>{`${date}  ${time}`}
 
             </TableCell>
             <TableCell>{action}</TableCell>

@@ -19,7 +19,7 @@ export default [
         route("admin/events", "features/dashboard/page/views/admin/events/events-view.tsx"),
         route("admin/events/:eventId", "features/dashboard/page/views/admin/events/event-view.tsx"),
         route("admin/developer", "features/dashboard/page/views/developer-view.tsx"),
-        route("instructor", "features/dashboard/page/views/instructor-view.tsx"),
+        route("instructor", "features/dashboard/page/views/instructors/instructor-view.tsx"),
         route("help", "features/dashboard/page/views/help-view.tsx"),
     ]),
 ] satisfies RouteConfig;

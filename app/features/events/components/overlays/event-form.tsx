@@ -24,11 +24,10 @@ import { Button } from "@/components/primitives/button";
 
 type EventFormValues = z.infer<typeof eventSchema>;
 
-export default function EventForm() {
+export default function EventForm({ mutateAsync, setOpen }: { mutateAsync: any, setOpen: any }) {
     const event = useEventContext();
     const insideEvent = event !== undefined; // only true if provider gave us an event
     const updateEvent = useEditEvent()
-    const createEvent = useCreateEvent();
 
     // Adjust these to your actual event shape
     const defaultValues: Partial<EventFormValues> = insideEvent
@@ -58,7 +57,8 @@ export default function EventForm() {
             await updateEvent.mutateAsync({ id: event?.id, form: values });
             return;
         }
-        await createEvent.mutateAsync(values);
+        await mutateAsync(values);
+        setOpen(false)
     };
 
     const imgUrl = form.watch("imageUrl");
@@ -146,6 +146,7 @@ export default function EventForm() {
                     {(field) => <Textarea className="resize-none h-[15vh]" {...field} />}
                 </FormInput>
             </form>
+
         </Form>
     );
 }

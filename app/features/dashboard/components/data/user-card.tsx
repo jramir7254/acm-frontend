@@ -1,7 +1,6 @@
 import { useMe } from "@/features/auth/hooks/use-me"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/primitives/avatar"
 
-
 export function UserCard() {
     const { data: user } = useMe()
 

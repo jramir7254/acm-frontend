@@ -23,7 +23,7 @@ export default function AboutPage() {
         let timer: ReturnType<typeof setTimeout>
 
         if ('navigateTo' in step) {
-            navigate(step.navigateTo)
+            navigate(step.navigateTo as string)
         } else {
             timer = setTimeout(() => setIndex(index + 1), step.delay)
         }

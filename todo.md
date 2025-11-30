@@ -1,5 +1,3 @@
-// TODO: Refactor this function
-
-[x] Manually add people to events feature
-[x] Task 2
-[x] Task 3 (Completed)
+[] Manually add people to events feature
+[] Manually add roles and perms
+[] Generate reports

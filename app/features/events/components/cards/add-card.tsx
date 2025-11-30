@@ -10,7 +10,7 @@ export function AddEventCard() {
 
     return (
         <EventFormOverlay>
-            <Card className="flex flex-col size-full cursor-pointer transition duration-500 hover:bg-white/20 items-center justify-center overflow-hidden pt-0">
+            <Card className="flex flex-col aspect-square 2xl:aspect-auto max-h-[500px] cursor-pointer transition duration-500 hover:bg-white/20 items-center justify-center overflow-hidden pt-0">
                 <PlusCircle size={100} />
             </Card>
         </EventFormOverlay>
