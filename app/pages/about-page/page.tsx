@@ -12,7 +12,7 @@ export default function AboutPage() {
         { message: '', delay: 5_000 },
         { message: "JK, I haven't finished this page yet.", delay: 10_000 },
         { message: 'You can go somewhere else now...', delay: 10_000 },
-        { message: "I guess I'll just take you home.", delay: 2_000 }, // 👈 shorter delay before navigate
+        { message: "I guess I'll just take you home then.", delay: 2_000 }, // 👈 shorter delay before navigate
         { navigateTo: '/' },
     ]
 
