@@ -32,4 +32,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./build/client/
           server-dir: ./public_html/acm-website/ # adjust if deploying to subdirectory
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
+          exclude: |
+            node_modules/**
+            .git/**
+            .env
