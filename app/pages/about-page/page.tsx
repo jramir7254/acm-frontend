@@ -7,7 +7,7 @@ export default function AboutPage() {
     const navigate = useNavigate()
     const [index, setIndex] = useState(0)
 
-    // Each step has its own delay (in ms)
+    // Each step has its own delay (in ms)f
     const timeline = [
         { message: '', delay: 5_000 },
         { message: "JK, I haven't finished this page yet.", delay: 10_000 },
