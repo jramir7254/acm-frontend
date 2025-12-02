@@ -10,10 +10,13 @@ import GridItem from '../../components/layout/grid-item';
 import { Points, UserCard } from '../../components/data';
 import { UnderConstructionCard } from '@/components/layout';
 import ProfileForm from '../../components/forms/profile-form';
+import { RoleBadge } from '../../components/ui/role-badge';
+import { useRole } from '@/features/auth/hooks/use-auth';
 
 
 export default function ProfileSettings() {
     const { data: user, isLoading } = useMe();
+    const { data: role } = useRole()
 
     if (!user) return null
 
@@ -33,12 +36,19 @@ export default function ProfileSettings() {
                         Finish setting up your profile to earn 20 points!
                     </h2>
                     <Gradient via="rgba(50,50,50,0.20)" className="border border-white/20 p-5 rounded-md  flex space-x-3">
-                        <UserCard />
+                        <UserCard >
+                        </UserCard>
+
                         <Separator orientation='vertical' className='min-h-10' />
                         <div className='flex items-center gap-2'>
                             <Points />
                             <p>Points</p>
                         </div>
+                        <div className='flex items-center'>
+                            <RoleBadge role={role?.role} />
+
+                        </div>
+
                     </Gradient>
                 </div>
 

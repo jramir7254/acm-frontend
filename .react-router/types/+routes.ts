@@ -84,8 +84,8 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
   };
-  "features/home/home-page.tsx": {
-    id: "features/home/home-page";
+  "pages/home-page/page.tsx": {
+    id: "pages/home-page/page";
     page: "/";
   };
   "features/events/page/events-page.tsx": {
@@ -104,8 +104,8 @@ type RouteFiles = {
     id: "features/auth/page/views/verify-view";
     page: "/auth/verify";
   };
-  "features/about/about-page.tsx": {
-    id: "features/about/about-page";
+  "pages/about-page/page.tsx": {
+    id: "pages/about-page/page";
     page: "/about";
   };
   "features/dashboard/page/dashboard-page.tsx": {

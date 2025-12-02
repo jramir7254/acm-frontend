@@ -9,6 +9,8 @@ import { tokenStore } from "../services/token-store";
 import { clearPersistedQueryCache } from "@/providers/query-client";
 import { prefetchUserQueries } from "@/features/dashboard/hooks/use-user";
 
+
+
 export const useAuth = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();

@@ -37,6 +37,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/primitives/select"
+import { logger } from '@/lib/logger'
 
 
 
@@ -70,6 +71,9 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     })
+
+
+    logger.debug(table.getCoreRowModel())
 
     return (
         <div className="rounded-md  size-full  max-h-[75%]">

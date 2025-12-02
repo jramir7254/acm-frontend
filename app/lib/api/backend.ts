@@ -28,7 +28,12 @@ export const backend = {
 
 
 // Generic API wrapper
-export async function apiCall<T>(method: HttpMethods, root: string, route?: string | string[], payload?: any): Promise<T> {
+export async function apiCall<T>(
+    method: HttpMethods,
+    root: string,
+    route?: string | string[],
+    payload?: any
+): Promise<T> {
     try {
         setCorrelationId(`${root}${route}`)
 

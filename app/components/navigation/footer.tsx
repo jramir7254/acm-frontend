@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router"
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Paragraph } from "../text/typography";
 export default function Footer() {
     const isMobile = useIsMobile()
     const location = useLocation();
@@ -9,7 +10,7 @@ export default function Footer() {
 
     if (hideFooter) return null
     return (
-        <footer className="p-6 w-full h-fit text-white flex flex-col items-center justify-center bg-matte-black z-10">
+        <footer className="relative p-6 w-full h-fit text-white flex flex-col items-center justify-center bg-matte-black z-10">
 
             <nav >
                 <ul className="flex flex-col items-center justify-center">
@@ -22,6 +23,11 @@ export default function Footer() {
                 The EPCCCD does not discriminate on the basis of race, color, national
                 origin, religion, sex, age, disability and veteran status.
             </p>
+
+
+            <div className="absolute bottom-5 left-5">
+                <Paragraph>Created by: Jesus Ramirez</Paragraph>
+            </div>
 
         </footer>
     );

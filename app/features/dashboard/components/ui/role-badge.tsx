@@ -59,7 +59,7 @@ export function RoleBadge({ role }: { role: Role | null | undefined }) {
 
 
     return (
-        <Badge variant={roleVariants[role]['variant']} className={`font-nunit`}>
+        <Badge variant={roleVariants[role]['variant']} className={`font-nunit size-fit`}>
             <Circle fill={roleVariants[role].className} stroke='none' />
             {snakeToTitle(role)}
         </Badge>
