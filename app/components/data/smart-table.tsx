@@ -9,6 +9,9 @@ import { TableBody, TableCell, TableHead, TableHeader, TableRow, Table as STable
 import { columns } from '@/features/dashboard/page/views/instructors/instructor-view';
 import { logger } from '@/lib/logger';
 import { Separator } from '../primitives/separator';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../primitives/dropdown-menu';
+import { MoreHorizontal } from 'lucide-react';
+import { Button } from '../primitives/button';
 
 
 export const TableContext = createContext<Table<any> | null>(null)
@@ -91,13 +94,13 @@ export function SmartTableBody({ ...props }: React.ComponentProps<"tbody">) {
         <TableBody {...props}>
             {table.getRowModel().rows.length ? (
                 table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} className='bg-black/30'>
+                    <TableRow key={row.id}>
                         {row.getVisibleCells().map((cell) => (
                             <TableCell key={cell.id}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </TableCell>
                         ))}
-                    </TableRow>
+                    </TableRow >
                 ))
             ) : (
                 <TableRow >
@@ -159,5 +162,22 @@ export function FilteredColumn({ column, children }: { column: string, children:
 
             </Popover>
         </div>
+    )
+}
+
+export function RowActions({ children }: { children: React.ReactNode }) {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                {children}
+            </DropdownMenuContent>
+        </DropdownMenu>
     )
 }

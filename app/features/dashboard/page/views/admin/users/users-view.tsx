@@ -1,8 +1,8 @@
 import React from 'react'
 import { NumberCard } from '@/features/dashboard/components/data'
 import { Centered, UnderConstructionCard, Container as Grid } from '@/components/layout';
-import { UsersNumber, UsersTable } from './components';
-
+import { UsersNumber } from './components';
+import UsersTable from '@/features/users/components/smart-table-users';
 import GridItem from '@/features/dashboard/components/layout/grid-item';
 
 import Gradient from '@/components/layout/gradient'
