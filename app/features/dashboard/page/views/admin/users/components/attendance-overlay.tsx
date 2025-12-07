@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/primitives/button'
 
 import { RoleBadge } from '@/features/dashboard/components/ui/role-badge';
-import { ArrowRight, Edit2 } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import type { Role } from '@/components/layout';
 import { MdArrowRight } from 'react-icons/md';
 import { Separator } from '@/components/primitives/separator';
@@ -61,8 +61,8 @@ export function AddAttendanceOverlay({ attendance, epccId }: { attendance: Atten
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant={'secondary'}>
-                    Add to event
+                <Button size={'icon'} variant={'outline'}>
+                    <Plus />
                 </Button>
             </DialogTrigger>
             <DialogContent className="">

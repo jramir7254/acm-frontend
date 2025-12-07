@@ -1,7 +1,7 @@
 // auth-state.ts
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { tokenStore } from "@/features/auth/services/token-store";
+import { tokenStore } from "@/features/auth/lib/token-store";
 
 export function useAuthQueryDefaults() {
     const qc = useQueryClient();

@@ -22,6 +22,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/primitives/tooltip"
+import { logger } from "@/lib/logger"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -46,6 +47,7 @@ const SidebarContext = React.createContext<SidebarContextProps | null>(null)
 function useSidebar() {
     const context = React.useContext(SidebarContext)
     if (!context) {
+        logger.error("useSidebar must be used within a SidebarProvider.")
         throw new Error("useSidebar must be used within a SidebarProvider.")
     }
 

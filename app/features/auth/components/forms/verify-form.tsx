@@ -3,25 +3,39 @@
 import { useSearchParams } from "react-router";
 import { toast } from "sonner"
 import { z } from "zod"
-import { Form, SubmitButton, OtpInput } from '@/components/input'
+import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot,
+} from "@/components/primitives/input-otp"
+import { useAuthActions, type Purpose } from "../../hooks/use-auth";
+import { Field, FieldError, FieldLabel } from "@/components/primitives/field";
+import { Button } from "@/components/primitives/button";
 
-import { useAppNavigation } from "@/hooks/use-navigation";
-import { useAuth } from "../../hooks/use-auth";
-import type { Purpose } from "../../api/auth-api";
 
-export default function VerifyForm() {
+
+const formSchema = z.object({
+    otp: z.string().min(6, {
+        message: "Your one-time password must be 6 characters.",
+    }),
+});
+
+
+export function VerifyForm() {
     const [sp] = useSearchParams();
     const token = sp.get("token");
     const purpose = sp.get('purpose') as Purpose
-    const { toDashboard, toAuth } = useAppNavigation()
-    const { verify } = useAuth()
+    const { mutateAsync } = useAuthActions();
 
-    const FormSchema = z.object({
-        otp: z.string().min(6, {
-            message: "Your one-time password must be 6 characters.",
-        }),
-    });
-
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            otp: "",
+        },
+    })
 
     const onSubmit = async ({ otp }: { otp: string }) => {
         if (!token) {
@@ -29,43 +43,71 @@ export default function VerifyForm() {
             return;
         }
         try {
-
-            const epccId = await verify({ token, code: otp, purpose });
-
-            if (purpose === 'verify') {
-                toDashboard(epccId)
-                return
-            }
-
-
-            if (purpose === 'reset') {
-                toAuth('reset')
-                return
-            }
-
-
-
+            await mutateAsync({ mode: 'verify', data: { code: otp, token, purpose } })
         } catch (err: any) {
             const msg = err ?? "Verification failed";
+            form.setError('root', {
+                type: 'server',
+                message: 'msg'
+            })
             // toast.error(msg);
             throw msg
         }
     };
-
     return (
-
-        <Form onSubmit={onSubmit} schema={FormSchema} defaultValues={{ otp: "" }} className="w-fit">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-fit">
             <div className="mb-10 space-y-2">
                 <h2 className="md:text-3xl font-semibold">Verify your account</h2>
                 <p className="text-muted-foreground">
                     Check your inbox and enter the 6-digit code to verify your account.
                 </p>
             </div>
-            <OtpInput name='otp' label='Verification Code' className="p-5 md:p-8 md:text-lg" length={6} groups={2} />
-            <SubmitButton className="mt-3 w-full md:w-auto">
-                Submit
-            </SubmitButton>
-        </Form>
+            <Controller
+                name="otp"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor="form-rhf-demo-title">
+                            Your one-time password
+                        </FieldLabel>
+                        <InputOTP maxLength={6} {...field}>
+                            <InputOTPGroup>
+                                {[0, 1, 2].map(n => (
+                                    <InputOTPSlot
+                                        key={`otp-[${n}]`}
+                                        index={n}
+                                        className={`
+                                            p-5 md:p-8 md:text-lg 
+                                            ${form.formState.errors.root ? 'border-red-900 text-red-700 animate-shake' : ''}
+                                        `}
+                                    />
+                                ))}
 
-    );
+                            </InputOTPGroup>
+                            <InputOTPSeparator />
+                            <InputOTPGroup>
+                                {[3, 4, 5].map(n => (
+                                    <InputOTPSlot
+                                        key={`otp-[${n}]`}
+                                        index={n}
+                                        className={`
+                                            p-5 md:p-8 md:text-lg 
+                                            ${form.formState.errors.root ? 'border-red-900 text-red-700 animate-shake' : ''}
+                                        `}
+                                    />
+                                ))}
+                            </InputOTPGroup>
+                        </InputOTP>
+                        {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                        )}
+                    </Field>
+                )}
+            />
+
+            <Button type="submit" className="mt-3 w-full md:w-auto">
+                Submit
+            </Button>
+        </form>
+    )
 }

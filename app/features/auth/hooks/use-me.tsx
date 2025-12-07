@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as AuthAPI from "@/features/dashboard/api/user-api";
-import { tokenStore } from "../services/token-store";
+import { tokenStore } from "../lib/token-store";
 import type { ProfileFormValues } from "@/features/dashboard/types/profile-schema";
 
 export const userKeys = {

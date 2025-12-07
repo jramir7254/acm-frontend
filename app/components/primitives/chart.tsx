@@ -2,6 +2,7 @@ import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
 import { cn } from "@/lib/utils"
+import { logger } from "@/lib/logger"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
@@ -263,6 +264,8 @@ function ChartLegendContent({
     }) {
     const { config } = useChart()
 
+    // logger.debug(payload)
+
     if (!payload?.length) {
         return null
     }
@@ -280,6 +283,8 @@ function ChartLegendContent({
                 .map((item) => {
                     const key = `${nameKey || item.dataKey || "value"}`
                     const itemConfig = getPayloadConfigFromPayload(config, item, key)
+
+                    // logger.debug({ itemConfig, item, key, config })
 
                     return (
                         <div
@@ -325,10 +330,13 @@ function getPayloadConfigFromPayload(
 
     let configLabelKey: string = key
 
+    // logger.debug({ key, payloadPayload, payload })
+
     if (
         key in payload &&
         typeof payload[key as keyof typeof payload] === "string"
     ) {
+        // logger.info('this if', { inPayloud: key in payload })
         configLabelKey = payload[key as keyof typeof payload] as string
     } else if (
         payloadPayload &&
@@ -338,11 +346,20 @@ function getPayloadConfigFromPayload(
         configLabelKey = payloadPayload[
             key as keyof typeof payloadPayload
         ] as string
+        // logger.info('else if', { inPayloud: key in payload })
+
     }
 
-    return configLabelKey in config
+    // logger.info('configLableKey', { configLabelKey })
+
+    const ret = configLabelKey in config
         ? config[configLabelKey]
         : config[key as keyof typeof config]
+
+    // logger.info('ret', { ret })
+
+
+    return ret
 }
 
 export {

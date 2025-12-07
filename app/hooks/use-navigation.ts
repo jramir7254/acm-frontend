@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { type Purpose } from "@/features/auth/api/auth-api";
+import { type Purpose } from "archive/auth-api";
 
 export function useAppNavigation() {
     const navigate = useNavigate();

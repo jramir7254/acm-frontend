@@ -9,8 +9,10 @@ import { EventsIndexProvider } from '@/features/events/context/index-context'
 
 
 export default function DashboardPage() {
-    const { data: user } = useMe();
+    const { data: user, isLoading } = useMe();
     const navigate = useNavigate()
+
+    if (isLoading) return <p>loading</p>
 
 
     // if (!user) navigate('/auth')

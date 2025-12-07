@@ -84,28 +84,28 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
   };
-  "pages/home-page/page.tsx": {
-    id: "pages/home-page/page";
+  "pages/home/page.tsx": {
+    id: "pages/home/page";
     page: "/";
   };
   "features/events/page/events-page.tsx": {
     id: "features/events/page/events-page";
     page: "/events";
   };
-  "features/auth/page/auth-page.tsx": {
-    id: "features/auth/page/auth-page";
+  "pages/auth/page.tsx": {
+    id: "pages/auth/page";
     page: "/auth" | "/auth/verify";
   };
-  "features/auth/page/views/index-view.tsx": {
-    id: "features/auth/page/views/index-view";
+  "pages/auth/outlets/form-view.tsx": {
+    id: "pages/auth/outlets/form-view";
     page: "/auth";
   };
-  "features/auth/page/views/verify-view.tsx": {
-    id: "features/auth/page/views/verify-view";
+  "pages/auth/outlets/verify-view.tsx": {
+    id: "pages/auth/outlets/verify-view";
     page: "/auth/verify";
   };
-  "pages/about-page/page.tsx": {
-    id: "pages/about-page/page";
+  "pages/about/page.tsx": {
+    id: "pages/about/page";
     page: "/about";
   };
   "features/dashboard/page/dashboard-page.tsx": {

@@ -1,45 +1,53 @@
 // features/auth/components/auth-form.tsx
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router";
+import { motion } from "motion/react"
+import { authSchemas } from "../../types/form-schema";
+import { useAuthActions } from "../../hooks/use-auth";
+import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { logger } from "@/lib/logger";
+import type z from "zod";
 
-import { FormInput, Form, SubmitButton, GlobalFormError } from "@/components/input";
-import { type AuthFormValues, loginSchema, registerSchema, forgotSchema, resetSchema } from "../../types/form-schema";
-import { useAuth } from "../../hooks/use-auth";
-import { useAppNavigation } from "@/hooks/use-navigation";
-import { FeatureFlag } from "@/components/layout";
-import { toast } from "sonner";
-
+import { Field, FieldError, FieldLabel } from "@/components/primitives/field";
+import { Button } from "@/components/primitives/button";
+import { Input } from "@/components/primitives/input";
 type Mode = "login" | "register" | 'reset' | 'forgot'
-export default function AuthForm() {
+
+
+
+export function AuthForm() {
     const navigate = useNavigate();
-    const { login, register, forgot, reset } = useAuth();
+    const { mutateAsync, isPending } = useAuthActions();
     const [searchParams] = useSearchParams();
-    const { toVerify, toDashboard } = useAppNavigation()
+    const mode = (searchParams.get("type") as Mode) ?? "login";
 
-    const type = (searchParams.get("type") as Mode) ?? "login";
-
-    const resolverSchema = useMemo(
-        () => {
-            if (type === "register") return registerSchema
-            if (type === "login") return loginSchema
-            if (type === "forgot") return forgotSchema
-            if (type === "reset") return resetSchema
-        },
-        [type]
-    );
+    const currentSchema = authSchemas[mode] as typeof authSchemas[Mode];
 
 
-    const formOptions = {
+
+    const form = useForm<z.infer<typeof currentSchema>>({
+        resolver: zodResolver(currentSchema),
         defaultValues: {
-            epccId: "",
-            email: "",
-            password: "",
-            passwordConfirmed: "",
+            epccId: '',
+            epccEmail: '',
+            password: '',
+            passwordConfirmed: ''
         },
-        mode: "onSubmit",
         shouldUnregister: true,
-    }
+        mode: 'onSubmit',
+    })
 
+
+    useEffect(() => {
+        form.reset({
+            epccId: '',
+            epccEmail: '',
+            password: '',
+            passwordConfirmed: ''
+        })
+        form.clearErrors()
+    }, [mode])
 
 
     const setType = (next: Mode) => {
@@ -48,61 +56,104 @@ export default function AuthForm() {
         navigate(`/auth?${sp.toString()}`, { replace: true });
     };
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (vals: z.infer<typeof currentSchema>) => {
+
         try {
-            if (type === "login") {
-                const epccId = await login(
-                    { epccId: values.epccId, password: values.password },
-                );
-                toDashboard(epccId)
-            }
-            if (type === "register") {
-                const { token } = await register(
-                    { epccId: values.epccId, email: values.email, password: values.password },
-                );
-
-                toVerify(token, 'verify')
-            }
-
-            if (type === "forgot") {
-                const { token } = await forgot(
-                    { epccId: values.epccId, email: values.email },
-                );
-
-                toVerify(token, 'reset')
-                return
-            }
-
-
-            if (type === "reset") {
-                const epccId = await reset(
-                    values.password
-                );
-
-                toast.success('Password Reset Succesfully')
-                toDashboard(epccId)
-
-            }
-        } catch (error: any) {
-            const msg = error?.message ?? String(error);
-            throw msg
+            logger.debug({ mode, vals })
+            await mutateAsync({
+                mode,
+                data: vals
+            })
+        } catch (err: any) {
+            logger.debug('form error', err)
+            form.setError("root", {
+                type: "server",
+                message:
+                    err?.message || err || "An unexpected error occurred. Please try again.",
+            });
         }
-    };
+
+    }
 
 
-    const isLogin = type === 'login'
-    const isForgot = type === 'forgot'
-    const isReset = type === 'reset'
+    const isLogin = mode === 'login'
+    const isForgot = mode === 'forgot'
+    const isReset = mode === 'reset'
+
+    type FieldName = 'epccId' | 'epccEmail' | 'password' | 'passwordConfirmed';
+
+    const fields: Array<{
+        type: string,
+        name: FieldName,
+        label: string,
+        placeholder: string,
+        hidden: boolean
+    }> = [
+            {
+                type: 'text',
+                name: 'epccId',
+                label: 'EPCC ID',
+                placeholder: '888XXXXX',
+                hidden: isReset
+            },
+            {
+                type: 'email',
+                name: 'epccEmail',
+                label: 'EPCC Email',
+                placeholder: 'johndoe@my.epcc.edu',
+                hidden: isLogin || isReset
+            },
+            {
+                type: 'password',
+                name: 'password',
+                label: 'Password',
+                placeholder: '••••••••',
+                hidden: isForgot
+            },
+            {
+                type: 'password',
+                name: 'passwordConfirmed',
+                label: 'Confirm Password',
+                placeholder: '••••••••',
+                hidden: isLogin || isForgot
+            },
+        ]
+
+    const error = form.formState?.errors?.root?.message ?? null
+
 
     return (
-        <Form onSubmit={onSubmit} resetOn={[type]} schema={resolverSchema} {...formOptions} className="flex flex-col gap-5">
+        <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-5"
+        >
+            {fields.map(f => (
+                !f.hidden &&
+                <Controller
+                    key={f.name}
+                    name={f.name}
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor={f.name}>
+                                {f.label}
+                            </FieldLabel>
+                            <Input
+                                type={f.type}
+                                placeholder={f.placeholder}
+                                {...field}
+                            />
+                            {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
+                    )}
+                />
+            ))}
 
-            <FormInput name="epccId" label="EPCC ID" placeholder="888XXXXX" hidden={isReset} />
-            <FormInput name="email" label="EPCC Email" placeholder="johndoe@my.epcc.edu" hidden={isLogin || isReset} />
-            <FormInput type="password" name="password" label="Password" placeholder="••••••••" hidden={isForgot} />
-            <FormInput type="password" name="passwordConfirmed" placeholder="••••••••" label="Confirm Password" hidden={isLogin || isForgot} />
-
-            <GlobalFormError />
+            {error &&
+                <p className="text-red-700 animate-shake">{error}</p>
+            }
 
             <p>
                 {isLogin ? "Don't" : 'Already'} have an account?{" "}
@@ -115,14 +166,20 @@ export default function AuthForm() {
                 </button>
             </p>
 
-            <FeatureFlag ready>
-                {isLogin && <p className="cursor-pointer text-muted-foreground hover:text-gray-400 hover:underline " onClick={() => setType('forgot')}>Forgot your password?</p>}
-            </FeatureFlag>
+            {isLogin && (
+                <p
+                    className="cursor-pointer text-muted-foreground hover:text-gray-400 hover:underline"
+                    onClick={() => setType('forgot')}
+                >
+                    Forgot your password?
+                </p>
+
+            )}
 
 
-            <SubmitButton >
-                {isLogin ? "Sign in" : isForgot || isReset ? "Reset Password" : "Create account"}
-            </SubmitButton>
-        </Form>
-    );
+            <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? 'Please wait...' : isLogin ? "Sign in" : isForgot || isReset ? "Reset Password" : "Create account"}
+            </Button>
+        </form>
+    )
 }

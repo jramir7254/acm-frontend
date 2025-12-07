@@ -1,3 +1,0 @@
-export function Tabs({ children }) {
-    return <div className="tabs">{children}</div>;
-}

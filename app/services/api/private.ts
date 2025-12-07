@@ -6,7 +6,7 @@ import {
     isGlobalRefreshing,
     onRefreshDone,
 } from "@/lib/auth-refresh";
-import { tokenStore } from "@/features/auth/services/token-store";
+import { tokenStore } from "@/features/auth/lib/token-store";
 import { logger } from "../../lib/logger";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
