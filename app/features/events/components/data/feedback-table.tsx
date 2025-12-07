@@ -50,7 +50,7 @@ export function FeedbackTable({ eventId }: { eventId: number }) {
                             <TableCell >{u.q2}</TableCell>
                             <TableCell >{u.q3}</TableCell>
                             <TableCell >{u.q4}</TableCell>
-                            <TableCell className='overflow-ellipsis'>{u.q5 || <Italic muted>None</Italic>}</TableCell>
+                            <TableCell className='overflow-ellipsis max-w-20'>{u.q5 || <Italic muted>None</Italic>}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
