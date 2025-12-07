@@ -9,13 +9,13 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 let isRefreshingLocal = false;
 let waiters: Array<(t: string | null) => void> = [];
 
-export const clien: AxiosInstance = axios.create({
+export const client: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 15000,
     withCredentials: true,
 });
 
-clien.interceptors.request.use((config) => {
+client.interceptors.request.use((config) => {
 
     const token = tokenStore.get();
     if (token) {
@@ -34,14 +34,14 @@ clien.interceptors.request.use((config) => {
 
 
 
-clien.interceptors.response.use(
+client.interceptors.response.use(
     (response) => {
         apiLogger.debug(`<Response>`, {
             data: response.data,
             status: response.status,
         })
 
-        return response.data
+        return response
     },
 
     (error) => {
@@ -74,7 +74,7 @@ clien.interceptors.response.use(
                 waiters.push((newToken) => {
                     if (newToken) (config.headers ??= {}).Authorization = `Bearer ${newToken}`;
                     (config as any).__isRetry = true;
-                    resolve(clien(config));
+                    resolve(client(config));
                 });
             });
         }
@@ -84,11 +84,11 @@ clien.interceptors.response.use(
 
 export const backend = {
     get: async <T = any>(url: string, config?: AxiosRequestConfig) =>
-        clien.get<T>(url, config).then(res => res.data as T),
+        client.get<T>(url, config).then(res => res.data as T),
     post: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
-        clien.post<T>(url, data, config).then(res => res.data as T),
+        client.post<T>(url, data, config).then(res => res.data as T),
     put: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
-        clien.put<T>(url, data, config).then(res => res.data as T),
+        client.put<T>(url, data, config).then(res => res.data as T),
     delete: async <T = any>(url: string, config?: AxiosRequestConfig) =>
-        clien.delete<T>(url, config).then(res => res.data as T),
+        client.delete<T>(url, config).then(res => res.data as T),
 };

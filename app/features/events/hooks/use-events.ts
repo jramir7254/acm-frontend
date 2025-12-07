@@ -3,12 +3,7 @@ import * as Events from "../api/events";
 import { toast } from "sonner";
 import { backend } from "@/services/api/backend";
 
-export const eventsKeys = {
-    all: ["events"] as const,
-    list: () => [...eventsKeys.all, "list"] as const,
-    read: (id: string | number) => [...eventsKeys.all, "read", id] as const,
-};
-
+import { eventKeys } from "./event-keys";
 export type Event = {
     id: string,
     imageUrl: string,
@@ -33,7 +28,7 @@ import { logger } from "@/lib/logger";
 
 export function useEvents() {
     return useQuery({
-        queryKey: eventsKeys.all,
+        queryKey: eventKeys.lists.base(),
         queryFn: () => backend.get<Event[]>({ root: 'events' }),
         placeholderData: [],
         staleTime: 5 * 60_000,
@@ -50,25 +45,7 @@ export function useNumEvents() {
 }
 
 
-export function useEvent(eventId: string) {
-    const queryClient = useQueryClient();
 
-    return useQuery({
-        queryKey: eventsKeys.read(eventId),
-        queryFn: () => backend.get({ root: 'events', route: [eventId] }), // fetch if missing
-        staleTime: 5 * 60_000,
-        gcTime: 24 * 60 * 60_000,
-        enabled: !!eventId,
-
-        // 👇 If we already have the list, use that instead of refetching
-        // initialData: () => {
-        //     const events = queryClient.getQueryData<Awaited<ReturnType<typeof Events.listEvents>>>(
-        //         eventsKeys.all
-        //     );
-        //     return events?.find((e: Event) => e.id === eventId);
-        // },
-    });
-}
 
 
 

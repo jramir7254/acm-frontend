@@ -2,20 +2,19 @@
 
 import Gradient from '@/components/layout/gradient'
 import { Button } from '@/components/primitives/button';
-import { useEvent } from '@/features/events/hooks/use-events';
+import { useEvent } from '@/features/events/hooks/use-event';
 import { useAppNavigation } from '@/hooks';
 import { ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/primitives/tabs"
 import { useEventContext, EventProvider } from '@/features/events/context/event-context';
-import { RsvpsTable, AttendanceTable, SurveysTable } from './components';
-import jspdf, { jsPDF } from 'jspdf'
-import { useRef } from 'react';
+import { SurveysTable } from './components';
 import { logger } from '@/lib/logger';
-import { Heading, Paragraph } from '@/components/text/typography';
-
+import { Definition, Description, Heading, Italic, Item, Paragraph } from '@/components/text/typography';
 import { QuestionChart } from '@/features/events/components/data/question-chart';
+import { UsersTable } from '@/features/events/components/data/users-table';
 import { Separator } from '@/components/primitives/separator';
 import { ScrollArea } from '@/components/primitives/scroll-area';
+import { FeedbackTable } from '@/features/events/components/data/feedback-table';
 
 export default function EventView() {
     const { toEvents, eventId } = useAppNavigation()
@@ -30,12 +29,12 @@ export default function EventView() {
 
 const EventViewInner = () => {
     const { toEvents, eventId } = useAppNavigation()
-    const { data } = useEvent(eventId || '')
+    const { data } = useEvent(Number(eventId))
     const event = useEventContext()
 
 
 
-    const q1 = data?.eventSurveys.reduce((a, i) => {
+    const q1 = [] || data?.eventSurveys.reduce((a, i) => {
         const r = i.q1
         a[r - 1].count += 1
         return a
@@ -58,10 +57,17 @@ const EventViewInner = () => {
 
                 <div className='w-[45%] '>
                     <Heading>{event?.title || 'null'}</Heading>
-                    <Paragraph>{event?.formatted.date} {event?.formatted.time}</Paragraph>
-                    <Paragraph>{event?.location}</Paragraph>
-                    <Paragraph>{event?.host}</Paragraph>
-                    <Paragraph>{event?.description}</Paragraph>
+                    <Description>
+                        <Item>
+                            Date: <Italic muted>{event?.formatted.date} {event?.formatted.time}</Italic>
+                        </Item>
+                        <Item>Location: <Italic muted>{event?.location}</Italic></Item>
+                        <Item>Host: <Italic muted>{event?.host}</Italic></Item>
+                        <Separator />
+                        <Paragraph>
+                            {event?.description}
+                        </Paragraph>
+                    </Description>
                 </div>
 
                 <Separator orientation='vertical' />
@@ -73,15 +79,30 @@ const EventViewInner = () => {
                         <TabsTrigger value="surveys">Feedback</TabsTrigger>
                     </TabsList>
                     <TabsContent value="rsvps">
-                        <RsvpsTable eventRsvps={data?.eventRsvps} />
+                        <UsersTable eventId={Number(eventId)} field='rsvps' />
 
                     </TabsContent>
                     <TabsContent value="attendance">
-                        <AttendanceTable eventAttendance={data?.eventAttendance} />
+                        <UsersTable eventId={Number(eventId)} field='attendance' />
                     </TabsContent>
                     <TabsContent value="surveys">
-                        <h2>Feedback</h2>
-                        <ScrollArea >
+                        <Tabs defaultValue='all'>
+                            <TabsList>
+                                <TabsTrigger value='all'>All</TabsTrigger>
+                                {Array.from({ length: 4 }, (_, i) => (
+                                    <TabsTrigger value={`q${i + 1}`} key={i}>Question {i + 1}</TabsTrigger>
+                                ))}
+                            </TabsList>
+                            <TabsContent value='all'>
+                                <FeedbackTable eventId={Number(eventId)} />
+                            </TabsContent>
+                            {Array.from({ length: 4 }, (_, i) => (
+                                <TabsContent value={`q${i + 1}`} key={i}>
+                                    <QuestionChart eventId={Number(eventId)} questionNum={i + 1 as 1 | 2 | 3 | 4} />
+                                </TabsContent>
+                            ))}
+                        </Tabs>
+                        {/* <ScrollArea >
                             <div className='max-h-[500px]'>
                                 <QuestionChart questionNum={1} data={q1} />
                                 <QuestionChart questionNum={2} data={q1} />
@@ -90,7 +111,7 @@ const EventViewInner = () => {
 
                             </div>
 
-                        </ScrollArea>
+                        </ScrollArea> */}
                         {/* <SurveysTable eventSurveys={data?.eventSurveys} /> */}
                     </TabsContent>
 

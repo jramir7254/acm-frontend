@@ -74,7 +74,7 @@ export function useLogout() {
 }
 
 
-export const useRole = () => {
+export function useRole() {
     return useQuery({
         queryKey: ['user', 'role'],
         queryFn: () => backend.get(

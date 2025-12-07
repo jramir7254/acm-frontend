@@ -17,7 +17,7 @@ import { AssignRoleOverlay } from './components/role-overlay';
 import { AddAttendanceOverlay } from './components/attendance-overlay';
 
 export default function UserView() {
-    const { toUsers, reqUserId } = useAppNavigation()
+    const { toPrevious, reqUserId } = useAppNavigation()
     const { data } = useUser(reqUserId || '')
     const course = useCourse(data?.course || -1)
 
@@ -30,7 +30,7 @@ export default function UserView() {
     return (
         <Gradient via="rgba(50,50,50,0.20)" className=" p-10 size-full flex flex-col border-2 border-accent rounded-md">
             <header className='h-[7%] '>
-                <Button onClick={toUsers} size='icon' variant={'ghost'}><ArrowLeft /></Button>
+                <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
             </header>
             <div className='flex flex-1'>
 
