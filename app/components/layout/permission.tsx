@@ -1,6 +1,6 @@
 import React from "react";
 import { useMe } from "@/features/auth/hooks/use-me";
-import { useRole } from "archive/use-auth";
+import { useRole } from "@/features/auth/hooks/use-auth";
 /** Canonical sets (narrowed via `as const` for literal unions) */
 export const ROLES = [
     "owner",

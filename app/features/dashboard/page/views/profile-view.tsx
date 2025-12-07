@@ -11,8 +11,7 @@ import { Points, UserCard } from '../../components/data';
 import { UnderConstructionCard } from '@/components/layout';
 import ProfileForm from '../../components/forms/profile-form';
 import { RoleBadge } from '../../components/ui/role-badge';
-import { useRole } from 'archive/use-auth';
-
+import { useRole } from '@/features/auth/hooks/use-auth';
 
 export default function ProfileSettings() {
     const { data: user, isLoading } = useMe();
