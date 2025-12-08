@@ -8,7 +8,10 @@ export const eventKeys = {
 
     lists: {
         base: () =>
-            [...eventKeys.all, "list",] as const,
+            [...eventKeys.all, "list"] as const,
+        report: () =>
+            [...eventKeys.all, "list", "report"] as const,
+
     },
 
     detail: {

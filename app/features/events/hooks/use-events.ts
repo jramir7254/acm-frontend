@@ -44,6 +44,16 @@ export function useNumEvents() {
     return useEvents().data?.length ?? 0;
 }
 
+export function useEventsReport() {
+    return useQuery({
+        queryKey: eventKeys.lists.report(),
+        queryFn: () => backend.get<Event[]>({ root: 'admin', route: ['events', 'report'] }),
+        placeholderData: [],
+        staleTime: 5 * 60_000,
+        gcTime: 24 * 60 * 60_000,
+    });
+}
+
 
 
 
@@ -55,7 +65,7 @@ export function useDeleteEvent(id: string | number) {
     return useMutation({
         mutationFn: () => Events.deleteEvent(id),
         onSuccess: () => {
-            queryClient.setQueryData(eventsKeys.all, (prev: Event[]) => {
+            queryClient.setQueryData(eventKeys.all, (prev: Event[]) => {
                 logger.debug('prev', prev)
                 return prev.filter(e => e.id !== id)
             })
@@ -72,7 +82,7 @@ export function useEditEvent() {
     return useMutation({
         mutationFn: ({ id, form }: { id: string | number; form: any }) => Events.updateEvent(id, form),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
+            queryClient.invalidateQueries({ queryKey: eventKeys.all }); // refresh lists/details
             queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
 
         },
@@ -87,7 +97,7 @@ export function useCreateEvent() {
     return useMutation({
         mutationFn: (form: any) => backend.post<Event>({ root: 'events', payload: form }),
         onSuccess: (data: Event) => {
-            queryClient.setQueryData(eventsKeys.all, (prev: Event[]) => {
+            queryClient.setQueryData(eventKeys.all, (prev: Event[]) => {
                 logger.debug('prev', prev)
                 return [...prev, { ...data }]
             })

@@ -2,14 +2,24 @@ import React from 'react'
 import { NumberCard } from '@/features/dashboard/components/data'
 import { Centered, UnderConstructionCard, Container as Grid } from '@/components/layout';
 import { EventsNumber, EventsTable } from './components';
-
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import GridItem from '@/features/dashboard/components/layout/grid-item';
+
+
 
 import Gradient from '@/components/layout/gradient'
 import { ScrollArea } from '@/components/primitives/scroll-area'
+import { useEventsReport } from '@/features/events/hooks/use-events';
+import { Button } from '@/components/primitives/button';
+import { logger } from '@/lib/logger';
+
 
 
 export default function EventsView() {
+    const { data } = useEventsReport()
+
+    logger.debug(data)
 
     const grid = {
         mobile: 'h-full p-2 grid grid-cols-1',
@@ -21,11 +31,15 @@ export default function EventsView() {
             <Centered className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-1 row-span-1 border-2 bg-accent'>
                 <h3>Number of Events</h3>
                 <EventsNumber />
+                <Button onClick={() => pdfMake.createPdf(data).open()}>Report</Button>
             </Centered>
 
+
+
             <Gradient className=' col-span-5 row-span-4 overflow-hidden '>
+
                 <EventsTable />
             </Gradient>
-        </Grid>
+        </Grid >
     )
 }
