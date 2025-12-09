@@ -12,26 +12,21 @@ import { useReactToPrint } from "react-to-print";
 
 import Gradient from '@/components/layout/gradient'
 import { ScrollArea } from '@/components/primitives/scroll-area'
-import { useEventsReport } from '@/features/events/hooks/use-events';
+import { useEventsReport } from '@/features/admin/hooks/use-admin';
 import { Button } from '@/components/primitives/button';
 import { logger } from '@/lib/logger';
 
 
 
 export default function EventsView() {
-    const { data } = useEventsReport()
-    const contentRef = useRef(null)
+    const { mutate } = useEventsReport()
 
-    logger.debug(data)
 
     const grid = {
         mobile: 'h-full p-2 grid grid-cols-1',
         default: 'h-full grid gap-5 grid-cols-5 grid-rows-4'
     }
 
-    const handlePrint = useReactToPrint({
-        contentRef
-    });
 
     return (
         <Grid classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
@@ -42,7 +37,7 @@ export default function EventsView() {
             <Centered className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-1 row-span-1 border-2 bg-accent'>
                 <h3>Number of Events</h3>
                 <EventsNumber />
-                <Button onClick={() => pdfMake.createPdf(data).open()}>Report</Button>
+                <Button onClick={() => mutate()}>Report</Button>
             </Centered>
 
 
