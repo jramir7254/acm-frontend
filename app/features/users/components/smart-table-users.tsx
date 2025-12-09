@@ -1,6 +1,6 @@
 import React from 'react'
 import { Italic } from '@/components/text/typography'
-import { useStudents, useUsers } from '@/features/dashboard/hooks/use-admin'
+import { usersKeys, useStudents, useUsers } from '@/features/dashboard/hooks/use-admin'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 import {
     Popover,
@@ -8,7 +8,7 @@ import {
     PopoverTrigger,
 } from "@/components/primitives/popover"
 // import { DataTable } from './students-table'
-import { ListFilter } from 'lucide-react'
+import { ListFilter, RefreshCwIcon } from 'lucide-react'
 import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter, RowActions } from "@/components/data/smart-table";
 import { Button } from '@/components/primitives/button'
 import { ScrollArea } from '@/components/primitives/scroll-area'
@@ -17,6 +17,8 @@ import { TableRow } from '@/components/primitives/table'
 import { useAppNavigation } from '@/hooks'
 import { DropdownMenuItem } from '@/components/primitives/dropdown-menu'
 import { toast } from 'sonner'
+import { queryClient } from '@/providers/query-client'
+import { logger } from '@/lib/logger'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -118,10 +120,23 @@ export default function UsersTable() {
     })
 
 
+    const fetchUsers = () => {
+        logger.info('clicked')
+        queryClient.invalidateQueries({ queryKey: usersKeys.all })
+        logger.info('done')
+
+    }
+
+
     return (
         <TableContainer table={table}>
             <div className='flex-1 space-y-3'>
-                <GlobalFilter placeholder='Search Users' className='max-w-xs' />
+                <div className='inline-flex gap-2'>
+
+                    <GlobalFilter placeholder='Search Users' className='max-w-xs' />
+                    <Button variant={'outline'} size={'icon'} onClick={fetchUsers}><RefreshCwIcon /></Button>
+                </div>
+
 
                 <ScrollArea className='overflow-hidden rounded-t-lg w-[75%]'>
                     <SmartTable className=' flex-1 max-h-[500px] rounded-t-lg '>
