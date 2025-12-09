@@ -17,6 +17,7 @@ export default [
         route("admin/users", "features/dashboard/page/views/admin/users/users-view.tsx"),
         route("admin/users/:reqUserId", "features/dashboard/page/views/admin/users/user-view.tsx"),
         route("admin/events", "features/dashboard/page/views/admin/events/events-view.tsx"),
+        route("admin/events/report", "features/dashboard/page/views/admin/events/report-view.tsx"),
         route("admin/events/:eventId", "features/dashboard/page/views/admin/events/event-view.tsx"),
         route("admin/developer", "features/dashboard/page/views/developer-view.tsx"),
         route("instructor", "features/dashboard/page/views/instructors/instructor-view.tsx"),

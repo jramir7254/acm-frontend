@@ -11,6 +11,26 @@
     }
 }
 
+
+/* ----- Print Rules ----- */
+@media print {
+    @page {
+        size: letter;
+        margin: 0;
+    }
+
+    .print-page {
+        width: 8.5in;
+        height: 11in;
+        page-break-after: always;
+    }
+
+    .break-before-page {
+        break-before: page;
+    }
+}
+
+
 @theme {
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
         "Apple atom Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto atom Emoji";

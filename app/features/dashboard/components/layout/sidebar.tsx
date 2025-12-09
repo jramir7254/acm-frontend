@@ -73,7 +73,7 @@ export function DashboardSidebar() {
                     </FeatureFlag>
                 </SidebarGroup>
 
-                <PermissionGuard resource="users" requiredRoles={['instructor']}>
+                <PermissionGuard resource="" requiredRoles={['instructor']}>
                     <Separator />
                     <SidebarGroup label="Instructors">
                         <FeatureFlag ready>
@@ -106,6 +106,12 @@ export function DashboardSidebar() {
                             <SidebarItem to='admin/developer'>
                                 <CodeXml className="h-4 w-4" />
                                 <span>Dev</span>
+                            </SidebarItem>
+                        </PermissionGuard>
+                        <PermissionGuard resource="users" requiredRoles={[]}>
+                            <SidebarItem to='admin/events/report'>
+                                <CodeXml className="h-4 w-4" />
+                                <span>Report</span>
                             </SidebarItem>
                         </PermissionGuard>
 

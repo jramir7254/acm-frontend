@@ -56,6 +56,11 @@ type Pages = {
       "userId": string;
     };
   };
+  "/:userId/admin/events/report": {
+    params: {
+      "userId": string;
+    };
+  };
   "/:userId/admin/events/:eventId": {
     params: {
       "userId": string;
@@ -82,7 +87,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/report" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
   };
   "pages/home/page.tsx": {
     id: "pages/home/page";
@@ -110,7 +115,7 @@ type RouteFiles = {
   };
   "features/dashboard/page/dashboard-page.tsx": {
     id: "features/dashboard/page/dashboard-page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/report" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
   };
   "features/dashboard/page/views/main-view.tsx": {
     id: "features/dashboard/page/views/main-view";
@@ -135,6 +140,10 @@ type RouteFiles = {
   "features/dashboard/page/views/admin/events/events-view.tsx": {
     id: "features/dashboard/page/views/admin/events/events-view";
     page: "/:userId/admin/events";
+  };
+  "features/dashboard/page/views/admin/events/report-view.tsx": {
+    id: "features/dashboard/page/views/admin/events/report-view";
+    page: "/:userId/admin/events/report";
   };
   "features/dashboard/page/views/admin/events/event-view.tsx": {
     id: "features/dashboard/page/views/admin/events/event-view";

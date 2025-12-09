@@ -13,7 +13,7 @@ export const ROLES = [
     "student",
 ] as const;
 
-const RESOURCES = ["events", "users", "points", "attendance", "rsvps"] as const;
+const RESOURCES = ["events", "users", "points", "attendance", "rsvps", ""] as const;
 
 const ACTIONS = ["create", "delete", "update", "list"] as const;
 
@@ -82,6 +82,8 @@ function isPermitted(
 ) {
     if (!requiredActions || requiredActions.length === 0) return true;
 
+    if (!resource.length || resource === "") return true
+
     // Fast global wildcard
     if (userPerms.includes("*:*")) return true;
 
@@ -113,7 +115,7 @@ export function PermissionGuard({
     const permissions = normalizePermissions(userPermissions);
 
     if (!role) return null;
-    if (permissions.length === 0) return null;
+    if (!permissions) return null;
 
     const roleAllowed = isRoleAllowed(role, requiredRoles);
     const permissionAllowed = isPermitted(permissions, resource, requiredActions);
