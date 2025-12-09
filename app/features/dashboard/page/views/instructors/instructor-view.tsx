@@ -1,6 +1,6 @@
 import Gradient from '@/components/layout/gradient'
 import { Italic, Paragraph } from '@/components/text/typography'
-import { useStudents } from '@/features/dashboard/hooks/use-admin'
+import { usersKeys, useStudents } from '@/features/dashboard/hooks/use-admin'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 import {
     Popover,
@@ -8,12 +8,14 @@ import {
     PopoverTrigger,
 } from "@/components/primitives/popover"
 // import { DataTable } from './students-table'
-import { InfoIcon, ListFilter } from 'lucide-react'
+import { InfoIcon, ListFilter, RefreshCwIcon } from 'lucide-react'
 import { Checkbox } from '@/components/primitives/checkbox'
 import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter } from "@/components/data/smart-table";
 import React from 'react'
 import { Button } from '@/components/primitives/button'
 import { ScrollArea } from '@/components/primitives/scroll-area'
+import { logger } from '@/lib/logger'
+import { queryClient } from '@/providers/query-client'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -118,6 +120,13 @@ export default function InstructorView() {
         getFilteredRowModel: getFilteredRowModel(),
     })
 
+    const fetchUsers = () => {
+        logger.info('clicked')
+        queryClient.invalidateQueries({ queryKey: usersKeys.students() })
+        logger.info('done')
+
+    }
+
 
     if (isLoading) return <p>Loading...</p>
 
@@ -125,7 +134,11 @@ export default function InstructorView() {
         <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full flex  border-2 border-accent rounded-md">
             <TableContainer table={table}>
                 <div className='flex-1 space-y-3'>
-                    <GlobalFilter placeholder='Search Students' className='max-w-xs' />
+                    <div className='inline-flex items-center gap-1'>
+                        <GlobalFilter placeholder='Search Students' className='max-w-xs' />
+                        <Button variant={'outline'} size={'icon'} onClick={fetchUsers}><RefreshCwIcon /></Button>
+
+                    </div>
 
                     <ScrollArea className='overflow-hidden rounded-t-lg'>
                         <SmartTable className=' flex-1 max-h-[500px] rounded-t-lg'>
