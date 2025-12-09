@@ -1,5 +1,5 @@
 import Gradient from '@/components/layout/gradient'
-import { Italic } from '@/components/text/typography'
+import { Italic, Paragraph } from '@/components/text/typography'
 import { useStudents } from '@/features/dashboard/hooks/use-admin'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 import {
@@ -8,7 +8,7 @@ import {
     PopoverTrigger,
 } from "@/components/primitives/popover"
 // import { DataTable } from './students-table'
-import { ListFilter } from 'lucide-react'
+import { InfoIcon, ListFilter } from 'lucide-react'
 import { Checkbox } from '@/components/primitives/checkbox'
 import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter } from "@/components/data/smart-table";
 import React from 'react'
@@ -30,7 +30,8 @@ type Student = {
     firstName: string
     lastName: string
     course: string
-    attendance: number
+    attendance: number,
+    missing: number
 }
 export const columns: ColumnDef<Student>[] = [
     { accessorKey: "epccId", header: "EPCC ID", },
@@ -67,6 +68,30 @@ export const columns: ColumnDef<Student>[] = [
         },
     },
     { accessorKey: "attendance", header: "Events Attended" },
+    {
+        accessorKey: "missing",
+        header(props) {
+            return <p className='inline-flex items-center gap-1'>
+                Missing Surveys
+                <span
+                    className='relative'
+                    title={`
+                    This number represents the events a student has attended without completing the 
+                required feedback survey. While it is up to your discretion whether to count these 
+                events toward a student’s attendance, we strongly encourage you to remind students 
+                to complete all feedback surveys. These surveys are essential for external evaluation 
+                and help ensure the continued improvement and support of our programs.
+                `}>
+                    <small className='absolute top-[-15px] left-[-15px] text-muted-foreground'>Hover me</small>
+                    <InfoIcon className='cursor-pointer text-red-400' size={15} />
+                </span>
+            </p>
+        },
+        cell({ getValue }) {
+            const v = getValue()
+            return <Paragraph className='text-red-400'>{v as string} </Paragraph>
+        },
+    },
 ]
 
 
