@@ -2,12 +2,7 @@ import React, { useRef } from 'react'
 import { NumberCard } from '@/features/dashboard/components/data'
 import { Centered, UnderConstructionCard, Container as Grid } from '@/components/layout';
 import { EventsNumber, EventsTable } from './components';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-import GridItem from '@/features/dashboard/components/layout/grid-item';
-import html2pdf from 'html2canvas-pro'
-import { jsPDF } from 'jspdf'
-import { useReactToPrint } from "react-to-print";
+
 
 
 import Gradient from '@/components/layout/gradient'
@@ -30,9 +25,7 @@ export default function EventsView() {
 
     return (
         <Grid classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
-            {/* <Button onClick={handlePrint}>Download</Button> */}
 
-            {/* <div ref={contentRef}> */}
 
             <Centered className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-1 row-span-1 border-2 bg-accent'>
                 <h3>Number of Events</h3>
@@ -47,7 +40,6 @@ export default function EventsView() {
                 <EventsTable />
 
             </Gradient>
-            {/* </div> */}
         </Grid >
     )
 }

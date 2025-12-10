@@ -15,6 +15,7 @@ import { RoleBadge } from '@/features/dashboard/components/ui/role-badge';
 import { Item } from '@/components/primitives/item';
 import { AssignRoleOverlay } from './components/role-overlay';
 import { AddAttendanceOverlay } from './components/attendance-overlay';
+import ReminderButton from '@/features/admin/components/buttons/reminder-button';
 
 export default function UserView() {
     const { toPrevious, reqUserId } = useAppNavigation()
@@ -35,6 +36,7 @@ export default function UserView() {
             <div className='flex flex-1'>
 
                 <div className=' w-1/3 h-full p-3'>
+                    <ReminderButton epccId={epccId} />
                     <Paragraph>{firstName} {lastName}</Paragraph>
                     <Paragraph>{epccEmail} </Paragraph>
                     <Paragraph>{epccId}</Paragraph>

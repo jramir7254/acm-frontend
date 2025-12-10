@@ -26,6 +26,7 @@ export interface Rsvp {
 export interface Attendance {
     eventId: number,
     checkedInAt: string
+    status: string,
 }
 
 export const usersKeys = {

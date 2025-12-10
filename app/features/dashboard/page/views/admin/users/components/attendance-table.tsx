@@ -4,6 +4,7 @@ import { ScrollArea } from '@/components/primitives/scroll-area'
 import { EventProvider, useEventContext } from '@/features/events/context/event-context'
 import { type Attendance } from '@/features/dashboard/hooks/use-admin'
 import { formatDateAndTime } from '@/utils/format-date'
+import { CustomBadge, type BadgeConfig } from '@/components/ui/custom-badge'
 export default function AttendanceTable({ attendance }: { attendance: Attendance[] }) {
     return (
         <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">
@@ -14,6 +15,7 @@ export default function AttendanceTable({ attendance }: { attendance: Attendance
                         <TableHead className="first:pl-6 w-[150px]">Title</TableHead>
                         <TableHead >Date</TableHead>
                         <TableHead >Checked In</TableHead>
+                        <TableHead >Status</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -37,6 +39,12 @@ export default function AttendanceTable({ attendance }: { attendance: Attendance
 const EventRow = ({ attendance }: { attendance: Attendance }) => {
     const e = useEventContext()
 
+    const badgeConfig: BadgeConfig = {
+        complete: { variant: 'outline', color: 'green' },
+        missing: { variant: 'outline', color: 'red' },
+
+    }
+
     const { date, time } = formatDateAndTime(e?.startAt, null, true)
 
 
@@ -50,6 +58,9 @@ const EventRow = ({ attendance }: { attendance: Attendance }) => {
             </TableCell>
             <TableCell>
                 {attendance.checkedInAt}
+            </TableCell>
+            <TableCell>
+                <CustomBadge config={badgeConfig} itemKey={attendance.status} />
             </TableCell>
         </TableRow>
     )

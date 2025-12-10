@@ -16,6 +16,7 @@ import { Button } from '@/components/primitives/button'
 import { ScrollArea } from '@/components/primitives/scroll-area'
 import { logger } from '@/lib/logger'
 import { queryClient } from '@/providers/query-client'
+import { RefetchButton } from '@/components/ui/refetch-button'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -136,7 +137,7 @@ export default function InstructorView() {
                 <div className='flex-1 space-y-3'>
                     <div className='inline-flex items-center gap-1'>
                         <GlobalFilter placeholder='Search Students' className='max-w-xs' />
-                        <Button variant={'outline'} size={'icon'} onClick={fetchUsers}><RefreshCwIcon /></Button>
+                        <RefetchButton queryKey={usersKeys.students()} />
 
                     </div>
 
