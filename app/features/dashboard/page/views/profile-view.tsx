@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { useMe } from '@/features/auth/hooks/use-me'
+import { useMe } from '@/features/users/hooks/me/queries';
 import Gradient from '@/components/layout/gradient';
 import { Separator } from '@/components/primitives/separator';
 import InputDisplay from '@/components/ui/input-display';

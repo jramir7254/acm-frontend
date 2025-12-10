@@ -15,7 +15,6 @@ export function RefetchButton({ queryKey }: { queryKey: QueryKeys }) {
         mutationFn: () => {
             setLoading(true)
             return queryClient.invalidateQueries({ queryKey })
-
         },
         onSuccess: () => {
             toast.success(`Refetched ${queryKey}`)

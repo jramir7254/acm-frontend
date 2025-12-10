@@ -1,7 +1,7 @@
 import { backend } from "@/lib/backend-api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { eventKeys } from "./event-keys";
-import type { EventFields, Event } from "../types/event";
+import { queryKeys } from "@/lib/query-keys";
+import type { EventFields, Event } from "../../types/event";
 
 
 
@@ -11,7 +11,7 @@ export function useEvent(eventId: number) {
     const queryClient = useQueryClient();
 
     return useQuery({
-        queryKey: eventKeys.detail.base(eventId),
+        queryKey: queryKeys.events.detail.base(eventId),
         queryFn: () => backend.get(
             `/events/${eventId}`,
         ),
@@ -21,7 +21,7 @@ export function useEvent(eventId: number) {
 
         initialData: () => {
             const events = queryClient.getQueryData<Event[]>(
-                eventKeys.lists.base()
+                queryKeys.events.list()
             );
             return events?.find((e: Event) => e.id === eventId);
         },
@@ -29,15 +29,10 @@ export function useEvent(eventId: number) {
 }
 
 
-
-
-
-
-
 export function useEventField(eventId: number, field: EventFields = 'base') {
 
     return useQuery({
-        queryKey: eventKeys.detail.field(eventId, field),
+        queryKey: queryKeys.events.detail.field(eventId, field),
         queryFn: () => backend.get(
             `/events/${eventId}`,
             { params: { field } }

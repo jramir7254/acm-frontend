@@ -1,5 +1,5 @@
 import { Button } from '@/components/primitives/button'
-import { backend } from '@/lib/api/client'
+import { backend } from '@/lib/backend-api'
 import { useMutation } from '@tanstack/react-query'
 import { Bell } from 'lucide-react'
 import React from 'react'

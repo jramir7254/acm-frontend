@@ -1,8 +1,8 @@
 import { AnimatedNumber } from '@/components/ui/number'
-import { useUserPoints } from '../../hooks/use-user'
+import { useMyPoints } from '@/features/users/hooks/me/queries'
 
 export function Points() {
-    const { data, isRefetching, isLoading } = useUserPoints()
+    const { data, isRefetching, isLoading } = useMyPoints()
     return (
         <AnimatedNumber
             num={data?.points}

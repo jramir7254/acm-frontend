@@ -1,8 +1,9 @@
 import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
 import * as UserAPI from "../api/user-api";
-import * as EventAPI from '@/features/events/api/events'
 import { toast } from "sonner";
 import type { ProfileFormValues } from "../types/profile-schema";
+import { backend } from "@/lib/backend-api";
+import { queryKeys } from "@/lib/query-keys";
 
 export const userKeys = {
     all: ['user'] as const,
@@ -28,27 +29,27 @@ export function useUpdateMe() {
 
 
 
-export const prefetchUserQueries = async (queryClient: QueryClient) => {
+// export const prefetchUserQueries = async (queryClient: QueryClient) => {
 
-    await Promise.all([
-        queryClient.prefetchQuery({
-            queryKey: userKeys.me,
-            queryFn: () => UserAPI.me(),
-        }),
-        queryClient.prefetchQuery({
-            queryKey: userKeys.rsvps,
-            queryFn: () => UserAPI.userRsvps(),
-        }),
-        queryClient.prefetchQuery({
-            queryKey: userKeys.attendance,
-            queryFn: () => UserAPI.getUserData(['attendance']),
-        }),
-        queryClient.prefetchQuery({
-            queryKey: userKeys.points,
-            queryFn: () => UserAPI.getUserData(['points']),
-        }),
-    ]);
-}
+//     await Promise.all([
+//         queryClient.prefetchQuery({
+//             queryKey: userKeys.me,
+//             queryFn: () => UserAPI.me(),
+//         }),
+//         queryClient.prefetchQuery({
+//             queryKey: userKeys.rsvps,
+//             queryFn: () => UserAPI.userRsvps(),
+//         }),
+//         queryClient.prefetchQuery({
+//             queryKey: userKeys.attendance,
+//             queryFn: () => UserAPI.getUserData(['attendance']),
+//         }),
+//         queryClient.prefetchQuery({
+//             queryKey: userKeys.points,
+//             queryFn: () => UserAPI.getUserData(['points']),
+//         }),
+//     ]);
+// }
 
 
 export function useMe() {
@@ -64,11 +65,13 @@ export function useMe() {
 export function useCheckIn() {
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: ({ eventId, form }: { eventId: string | number; form: { code: string } }) => EventAPI.checkIn(eventId, form),
+        mutationFn: ({ eventId, form }: { eventId: string | number; form: { code: string } }) => backend.post(
+            `/events/${eventId}/check-in`, form
+        ),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: userKeys.points });
-            qc.invalidateQueries({ queryKey: userKeys.attendance });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('points') });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('attendance') });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('rsvps') });
         },
     });
 }
@@ -77,11 +80,13 @@ export function useCheckIn() {
 export function useEventFeedback() {
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: ({ eventId, form }: { eventId: string | number; form: any }) => EventAPI.feedback(eventId, form),
+        mutationFn: ({ eventId, form }: { eventId: string | number; form: any }) => backend.post(
+            `/events/${eventId}/feedback`, form
+        ),
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: userKeys.points });
-            qc.invalidateQueries({ queryKey: userKeys.attendance });
-            qc.invalidateQueries({ queryKey: userKeys.rsvps });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('points') });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('attendance') });
+            qc.invalidateQueries({ queryKey: queryKeys.me.field('rsvps') });
             toast.success("Succesfully submitted feedback")
         },
     });
@@ -98,16 +103,6 @@ export function useHelp() {
 
 
 
-
-export function useAddPoints() {
-    const qc = useQueryClient();
-    return useMutation({
-        mutationFn: () => UserAPI.addPoints(),
-        onSuccess: () => {
-            qc.invalidateQueries({ queryKey: userKeys.points });
-        },
-    });
-}
 
 
 

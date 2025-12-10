@@ -1,7 +1,7 @@
 import { backend } from "@/lib/backend-api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { eventKeys } from "./event-keys";
-import type { EventFields, Event } from "../types/event";
+import { eventKeys } from "../event-keys";
+import type { EventFields, Event } from "../../types/event";
 
 
 

@@ -1,4 +1,4 @@
-import { backend } from "@/lib/api/client"
+import { backend } from "@/lib/backend-api"
 import { useQuery } from "@tanstack/react-query"
 
 export interface Courses {

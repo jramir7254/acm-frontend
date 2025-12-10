@@ -163,6 +163,8 @@ export function FilteredColumn({ column, children }: { column: string, children:
         </div>
     )
 }
+
+
 export function SortableColumn({ column }: { column: string }) {
     const table = useTableContext()
     if (!table) return

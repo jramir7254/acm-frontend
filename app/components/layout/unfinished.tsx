@@ -1,12 +1,7 @@
 import React from 'react'
 import { Skeleton } from '../primitives/skeleton'
-import { useIsDev } from '@/hooks'
+import { IS_DEV } from '@/lib/constants'
 
-export function Unfinished({ children, ...props }) {
-    return (
-        <div {...props}>{children}</div>
-    )
-}
 
 
 export function Tape({
@@ -72,8 +67,8 @@ export function UnderConstructionCard({
     className?: string,
     text?: string,
 }) {
-    const isDev = useIsDev()
-    if (children && isDev)
+
+    if (children && IS_DEV)
         return (
             <div className='border border-red-800'>
                 {children}

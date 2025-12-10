@@ -5,7 +5,7 @@ import {
     endGlobalRefresh,
     isGlobalRefreshing,
     onRefreshDone,
-} from "@/lib/auth-refresh";
+} from "./refresh";
 import { tokenStore } from "@/features/auth/lib/token-store";
 import { logger } from "../../lib/logger";
 const BASE_URL = import.meta.env.VITE_API_URL;

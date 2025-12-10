@@ -16,6 +16,7 @@ import { Item } from '@/components/primitives/item';
 import { AssignRoleOverlay } from './components/role-overlay';
 import { AddAttendanceOverlay } from './components/attendance-overlay';
 import ReminderButton from '@/features/admin/components/buttons/reminder-button';
+import { EditUserForm } from '@/features/admin/components/forms/edit-user-form';
 
 export default function UserView() {
     const { toPrevious, reqUserId } = useAppNavigation()
@@ -43,7 +44,8 @@ export default function UserView() {
                     <Paragraph>{course?.name}</Paragraph>
                     <Item className='p-0'>
                         <RoleBadge role={role} />
-                        <AssignRoleOverlay currentRole={role} userId={id} epccId={epccId} />
+                        <EditUserForm user={data} />
+                        {/* <AssignRoleOverlay currentRole={role} userId={id} epccId={epccId} /> */}
                     </Item>
                 </div>
                 <Separator orientation='vertical' className='' />

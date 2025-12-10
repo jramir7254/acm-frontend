@@ -1,6 +1,10 @@
 import { Link, useLocation } from "react-router"
+
+
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Paragraph } from "../text/typography";
+
+
 export default function Footer() {
     const isMobile = useIsMobile()
     const location = useLocation();
@@ -19,10 +23,10 @@ export default function Footer() {
                     <Link to='/about' className="list-item">About</Link>
                 </ul>
             </nav>
-            <p className="text-sm text-center">
+            <Paragraph className=" text-center">
                 The EPCCCD does not discriminate on the basis of race, color, national
                 origin, religion, sex, age, disability and veteran status.
-            </p>
+            </Paragraph>
 
 
             <div className="absolute bottom-5 left-5">

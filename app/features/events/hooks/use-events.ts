@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import * as Events from "../api/events";
 import { toast } from "sonner";
-import { backend } from "@/services/api/backend";
+// import { backend } from "@/services/api/backend";
+import { backend } from "@/lib/backend-api";
+
 
 import { eventKeys } from "./event-keys";
 export type Event = {
@@ -29,7 +30,7 @@ import { logger } from "@/lib/logger";
 export function useEvents() {
     return useQuery({
         queryKey: eventKeys.lists.base(),
-        queryFn: () => backend.get<Event[]>({ root: 'events' }),
+        queryFn: () => backend.get<Event[]>('/events'),
         placeholderData: [],
         staleTime: 5 * 60_000,
         gcTime: 24 * 60 * 60_000,
@@ -44,15 +45,7 @@ export function useNumEvents() {
     return useEvents().data?.length ?? 0;
 }
 
-export function useEventsReport() {
-    return useQuery({
-        queryKey: eventKeys.lists.report(),
-        queryFn: () => backend.get<Event[]>({ root: 'admin', route: ['events', 'report'] }),
-        placeholderData: [],
-        staleTime: 5 * 60_000,
-        gcTime: 24 * 60 * 60_000,
-    });
-}
+
 
 
 
@@ -63,7 +56,9 @@ export function useDeleteEvent(id: string | number) {
 
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => Events.deleteEvent(id),
+        mutationFn: () => backend.delete(
+            `/events/${id}`
+        ),
         onSuccess: () => {
             queryClient.setQueryData(eventKeys.all, (prev: Event[]) => {
                 logger.debug('prev', prev)
@@ -80,7 +75,10 @@ export function useEditEvent() {
 
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, form }: { id: string | number; form: any }) => Events.updateEvent(id, form),
+        mutationFn: ({ id, form }: { id: string | number; form: any }) => backend.patch(
+            `/events/${id}`,
+            form
+        ),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: eventKeys.all }); // refresh lists/details
             queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
@@ -95,15 +93,16 @@ export function useEditEvent() {
 export function useCreateEvent() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (form: any) => backend.post<Event>({ root: 'events', payload: form }),
+        mutationFn: (form: any) => backend.post<Event>(
+            `/events`,
+            form
+        ),
         onSuccess: (data: Event) => {
             queryClient.setQueryData(eventKeys.all, (prev: Event[]) => {
                 logger.debug('prev', prev)
                 return [...prev, { ...data }]
             })
             toast.success("Event created succesfully")
-            // queryClient.invalidateQueries({ queryKey: eventsKeys.all }); // refresh lists/details
-            // queryClient.invalidateQueries({ queryKey: userKeys.rsvps });
         },
         onError: () => { toast.error('Could not create event') }
     });
@@ -113,7 +112,9 @@ export function useRsvp(eventId: string | number) {
 
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => Events.rsvp(eventId),
+        mutationFn: () => backend.post(
+            `/events/${eventId}/rsvp`
+        ),
         onSuccess: () => {
             queryClient.setQueryData(userKeys.rsvps, (prev: UserRsvps[]) => {
                 logger.debug('prev', prev)
@@ -128,7 +129,9 @@ export function useRsvp(eventId: string | number) {
 export function useCancelRsvp(eventId: string | number) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => Events.cancelRsvp(eventId),
+        mutationFn: () => backend.delete(
+            `/events/${eventId}/rsvp`
+        ),
         onSuccess: () => {
             queryClient.setQueryData(userKeys.rsvps, (prev: UserRsvps[]) => {
                 logger.debug('prev', prev)

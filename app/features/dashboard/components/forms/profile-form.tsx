@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useMe } from '@/features/auth/hooks/use-me'
+import { useMe } from '@/features/users/hooks/me/queries';
 import { useUpdateMe } from '../../hooks/use-user';
 import { Form, FormInput, SelectInput, SubmitButton } from '@/components/input';
 import { Separator } from '@/components/primitives/separator';

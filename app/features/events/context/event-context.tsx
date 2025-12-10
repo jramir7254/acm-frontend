@@ -2,8 +2,8 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { useEventById } from "./index-context";
 import { useEventStatus } from "../hooks/use-status";
-import { formatDateAndTime } from "@/utils/format-date";
 import { logger } from "@/lib/logger";
+import { formatDateAndTime } from "@/lib/utils";
 
 export type EventType = 'meeting' | 'workshop' | 'external' | 'major' | 'recurring' | 'hackathon' | 'datathon' | 'extra_credit'
 

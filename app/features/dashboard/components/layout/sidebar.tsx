@@ -24,13 +24,11 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 
 import { LogoutButton } from "../buttons"
 import { Separator } from "@/components/primitives/separator"
-import { useAddPoints } from "../../hooks/use-user"
 import { UserCard } from "../data"
 
 
 export function DashboardSidebar() {
     const { state } = useSidebar()
-    const addPoints = useAddPoints()
 
     const isExpanded = state === 'expanded'
 
@@ -102,19 +100,6 @@ export function DashboardSidebar() {
                                 <span>Admin</span>
                             </SidebarItem>
                         </PermissionGuard>
-                        <PermissionGuard resource="users" requiredRoles={[]}>
-                            <SidebarItem to='admin/developer'>
-                                <CodeXml className="h-4 w-4" />
-                                <span>Dev</span>
-                            </SidebarItem>
-                        </PermissionGuard>
-                        <PermissionGuard resource="users" requiredRoles={[]}>
-                            <SidebarItem to='admin/events/report'>
-                                <CodeXml className="h-4 w-4" />
-                                <span>Report</span>
-                            </SidebarItem>
-                        </PermissionGuard>
-
                     </SidebarGroup>
                 </PermissionGuard>
 

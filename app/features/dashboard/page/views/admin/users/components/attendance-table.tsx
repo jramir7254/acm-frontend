@@ -3,8 +3,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { ScrollArea } from '@/components/primitives/scroll-area'
 import { EventProvider, useEventContext } from '@/features/events/context/event-context'
 import { type Attendance } from '@/features/dashboard/hooks/use-admin'
-import { formatDateAndTime } from '@/utils/format-date'
 import { CustomBadge, type BadgeConfig } from '@/components/ui/custom-badge'
+import { formatDateAndTime } from '@/lib/utils'
 export default function AttendanceTable({ attendance }: { attendance: Attendance[] }) {
     return (
         <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">

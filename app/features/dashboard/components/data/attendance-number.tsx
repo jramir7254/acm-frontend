@@ -1,10 +1,9 @@
 import React from 'react'
 import { AnimatedNumber } from '@/components/ui/number'
-import { useMe } from '@/features/auth/hooks/use-me'
-import { useUserAttendance } from '../../hooks/use-user'
+import { useMyAttendance } from '@/features/users/hooks/me/queries'
 
 export function Attendance({ type }: { type: 'complete' | 'pending' }) {
-    const { data, isRefetching, isLoading } = useUserAttendance()
+    const { data, isRefetching, isLoading } = useMyAttendance()
     return (
         <AnimatedNumber
             num={data?.attendance[type]}

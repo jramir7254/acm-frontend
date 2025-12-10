@@ -1,18 +1,20 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
 import { Skeleton } from '@/components/primitives/skeleton';
-import { useUserRsvps } from '../../hooks/use-user';
 import { CancelRsvpButton, CheckInButton, FeedbackButton } from '../../components/buttons'
 import { Button } from '@/components/primitives/button';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
-import { formatDateAndTime } from '@/utils/format-date';
 import { ScrollArea } from '@/components/primitives/scroll-area';
+import { formatDateAndTime } from '@/lib/utils';
+import { useMyRsvps } from '@/features/users/hooks/me/queries';
+
+
 export function RsvpTable() {
-    const { data: rsvps, isLoading: rsvpsLoading, isFetching } = useUserRsvps();
+    const { data, isLoading: rsvpsLoading, isFetching } = useMyRsvps();
 
 
 
     return (
-        <ScrollArea className=" max-h[500px] h-[500px] rounded-t-md ">
+        <ScrollArea className=" max-h[450px] h-[450px] rounded-t-md ">
 
             <Table>
                 <TableCaption>A list of your rsvp'd events.</TableCaption>
@@ -27,7 +29,7 @@ export function RsvpTable() {
                     {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
                         <SkeletonRow key={i * 53} />
                     ))}
-                    {!rsvpsLoading && Array.isArray(rsvps) && rsvps.map((er) => {
+                    {!rsvpsLoading && Array.isArray(data?.rsvps) && data?.rsvps.map((er) => {
                         return (
                             <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
                                 <EventRow checkedIn={!!er.checkedInAt} feedback={er?.feedback} />
@@ -46,13 +48,13 @@ const SkeletonRow = () => {
     return (
         <TableRow>
             <TableCell>
-                <Skeleton className='w-full h-8 bg-stone-700' />
+                <Skeleton className='w-full h-5 ' />
             </TableCell>
             <TableCell>
-                <Skeleton className='w-full h-8 bg-stone-700' />
+                <Skeleton className='w-full h-5 ' />
             </TableCell>
             <TableCell>
-                <Skeleton className='w-full h-8 bg-stone-700' />
+                <Skeleton className='w-full h-5' />
             </TableCell>
         </TableRow>
     )

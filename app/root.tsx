@@ -62,7 +62,7 @@ export default function App() {
 
     return (
         <AppProviders>
-            <div className="flex flex-col min-h-screen " >
+            <div className="flex flex-col min-h-screen max-h-screen" >
                 <Circuit
                     style={{
                         position: "fixed",

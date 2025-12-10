@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { type SelectInputValues } from "@/components/input"
+
+
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
@@ -18,7 +20,6 @@ export const snakeToTitle = (kebabStr: string): string => {
     if (!kebabStr || kebabStr.length === 0) return ""
     return kebabStr.split('_').map(i => i.charAt(0).toUpperCase().concat(i.substring(1))).join(" ").trim()
 }
-
 
 
 function areSameDay(a: Date, b: Date) {

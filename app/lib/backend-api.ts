@@ -1,27 +1,33 @@
+import { tokenStore } from "@/features/auth/lib/token-store";
 import axios, { isAxiosError, type AxiosInstance, type AxiosRequestConfig, type Method } from "axios";
 import { logger, setCorrelationId, clearCorrelationId } from "@/lib/logger";
 
-const apiLogger = logger.create('API')
-
-import { tokenStore } from "@/features/auth/lib/token-store";
 const BASE_URL = import.meta.env.VITE_API_URL;
+const apiLogger = logger.create('API')
 
 let isRefreshingLocal = false;
 let waiters: Array<(t: string | null) => void> = [];
 
-export const client: AxiosInstance = axios.create({
+
+
+const client: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 15000,
     withCredentials: true,
 });
 
-client.interceptors.request.use((config) => {
 
+
+
+
+client.interceptors.request.use((config) => {
     const token = tokenStore.get();
+
     if (token) {
         config.headers = config.headers ?? {};
         config.headers.Authorization = `Bearer ${token}`;
     }
+
     apiLogger.debug(`<Request>`, {
         method: config.method,
         url: config.url,
@@ -29,6 +35,7 @@ client.interceptors.request.use((config) => {
         body: config.data,
         headers: config.headers
     })
+
     return config;
 });
 
@@ -87,6 +94,8 @@ export const backend = {
         client.get<T>(url, config).then(res => res.data as T),
     post: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
         client.post<T>(url, data, config).then(res => res.data as T),
+    patch: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
+        client.patch<T>(url, data, config).then(res => res.data as T),
     put: async <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
         client.put<T>(url, data, config).then(res => res.data as T),
     delete: async <T = any>(url: string, config?: AxiosRequestConfig) =>

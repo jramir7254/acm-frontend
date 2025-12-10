@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
 import * as AdminAPI from "../api/admin-api";
-import { backend } from "@/services/api/backend";
-import * as EventAPI from '@/features/events/api/events'
+// import { backend } from "@/services/api/backend";
+import { backend } from "@/lib/backend-api";
+
 import { toast } from "sonner";
 import type { ProfileFormValues } from "../types/profile-schema";
 import { type Role } from "@/components/layout";
@@ -49,7 +50,7 @@ export function useUsers() {
 export function useStudents() {
     return useQuery({
         queryKey: usersKeys.students(),
-        queryFn: () => backend.get({ root: 'users', params: { params: { view: 'student' } } }),
+        queryFn: () => backend.get('/users', { params: { view: 'students' } }),
         staleTime: 60 * 60 * 1000, // 1h fresh
         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
@@ -59,7 +60,7 @@ export function useStudents() {
 export function useUser(reqUserId: string) {
     return useQuery({
         queryKey: usersKeys.one(reqUserId),
-        queryFn: () => backend.get<User>({ root: 'users', route: [reqUserId], params: { params: { view: 'full' } } }),
+        queryFn: () => backend.get<User>(`/users/${reqUserId}`, { params: { view: 'full' } }),
         staleTime: 60 * 60 * 1000, // 1h fresh
         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
@@ -69,11 +70,10 @@ export function useUser(reqUserId: string) {
 export function useAssignRole(epccId: string) {
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: (roleData: { id: number, name: Role }) => backend.put({
-            root: 'admin',
-            route: ['users', epccId, 'role'],
-            payload: roleData
-        }),
+        mutationFn: (roleData: { id: number, name: Role }) => backend.put(
+            `/admin/users/${epccId}/role`,
+            roleData
+        ),
         onSuccess: () => {
             toast.success("Role applied")
             // Option A: immediate UI update
@@ -90,11 +90,10 @@ export function useAssignRole(epccId: string) {
 export function useAddAttendance(epccId: string) {
     const qc = useQueryClient();
     return useMutation({
-        mutationFn: (events: number[]) => backend.put({
-            root: 'admin',
-            route: ['users', epccId, 'attendance'],
-            payload: events
-        }),
+        mutationFn: (events: number[]) => backend.put(
+            `/admin/users/${epccId}/attendance`,
+
+            events),
         onSuccess: () => {
             toast.success("Added to events")
             // Option A: immediate UI update

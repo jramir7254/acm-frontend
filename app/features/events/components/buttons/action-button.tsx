@@ -2,7 +2,7 @@ import { Button } from "@/components/primitives/button";
 import { useRsvp } from "../../hooks/use-events";
 import { useEventContext } from "@/features/events/context/event-context";
 import { toast } from "sonner";
-import { useMe } from "@/features/auth/hooks/use-me";
+import { useMe } from "@/features/users/hooks/me/queries";
 import { useUserRsvps } from "@/features/dashboard/hooks/use-user";
 import { useMemo } from "react";
 

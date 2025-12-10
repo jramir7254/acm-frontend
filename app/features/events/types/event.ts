@@ -12,8 +12,6 @@ export interface Event {
     location: string,
     host: string,
     description: string,
-    past: boolean,
-    isRsvpd?: boolean | undefined
 }
 
 
