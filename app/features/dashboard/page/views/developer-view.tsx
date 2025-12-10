@@ -4,7 +4,6 @@ import { DateTimePickerInput } from '@/components/input'
 import { Button } from '@/components/primitives/button'
 import { logger } from '@/lib/logger'
 
-import { backend } from '@/services/api/backend'
 import { formatDateAndTime } from '@/lib/utils'
 
 
@@ -17,7 +16,6 @@ export default function DeveloperView() {
         logger.debug({ start, end })
         const { date, time } = formatDateAndTime(start, end)
         logger.debug({ date, time })
-        backend.post({ root: 'auth', route: '/test/email', payload: { start, end, date, time } })
     }
 
     return (
