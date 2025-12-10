@@ -10,7 +10,7 @@ import { columns } from '@/features/dashboard/page/views/instructors/instructor-
 import { logger } from '@/lib/logger';
 import { Separator } from '../primitives/separator';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../primitives/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import { Button } from '../primitives/button';
 
 
@@ -127,7 +127,6 @@ export function FilteredColumn({ column, children }: { column: string, children:
     logger.debug('filters', filters)
 
 
-
     const toggle = (option: string) => {
         const next = current.includes(option)
             ? current.filter(x => x !== option)
@@ -163,6 +162,29 @@ export function FilteredColumn({ column, children }: { column: string, children:
             </Popover>
         </div>
     )
+}
+export function SortableColumn({ column }: { column: string }) {
+    const table = useTableContext()
+    if (!table) return
+
+    const col = table.getColumn(column);
+
+
+
+    return (
+        <div className='inline-flex items-center gap-1'>
+            <span>{column.charAt(0).toUpperCase() + column.slice(1)}</span>
+            <Button
+                variant="ghost"
+                size={'icon'}
+                onClick={() => col?.toggleSorting(col?.getIsSorted() === "asc")}
+            >
+                <ArrowUpDown className=" h-4 w-4" />
+            </Button>
+        </div>
+    )
+
+
 }
 
 export function RowActions({ children }: { children: React.ReactNode }) {

@@ -10,7 +10,7 @@ import {
 // import { DataTable } from './students-table'
 import { InfoIcon, ListFilter, RefreshCwIcon } from 'lucide-react'
 import { Checkbox } from '@/components/primitives/checkbox'
-import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter } from "@/components/data/smart-table";
+import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter, SortableColumn } from "@/components/data/smart-table";
 import React from 'react'
 import { Button } from '@/components/primitives/button'
 import { ScrollArea } from '@/components/primitives/scroll-area'
@@ -58,7 +58,6 @@ export const columns: ColumnDef<Student>[] = [
             return (
                 <FilteredColumn column='course'>
                     <Button size={'icon'} variant={'ghost'}>
-
                         <ListFilter />
                     </Button>
                 </FilteredColumn>
@@ -73,9 +72,9 @@ export const columns: ColumnDef<Student>[] = [
     { accessorKey: "attendance", header: "Events Attended" },
     {
         accessorKey: "missing",
-        header(props) {
+        header({ column }) {
             return <p className='inline-flex items-center gap-1'>
-                Missing Surveys
+                <SortableColumn column='missing' />
                 <span
                     className='relative'
                     title={`
