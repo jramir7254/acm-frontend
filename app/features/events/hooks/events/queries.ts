@@ -39,3 +39,12 @@ export function useNumEvents() {
 }
 
 
+export function useStats() {
+    return useQuery({
+        queryKey: queryKeys.events.list({}, 'stats'),
+        queryFn: () => backend.get<Event[]>('/events/list/stats'),
+
+        staleTime: 15 * 60 * 1000, // 1h fresh
+        gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
+    });
+}

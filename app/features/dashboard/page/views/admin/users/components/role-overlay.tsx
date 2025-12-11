@@ -17,8 +17,7 @@ import type { Role } from '@/components/layout';
 import { MdArrowRight } from 'react-icons/md';
 import { Separator } from '@/components/primitives/separator';
 import { HiArrowLongRight } from "react-icons/hi2";
-import { useAssignRole } from '@/features/dashboard/hooks/use-admin';
-
+import { useAssignRole } from '@/features/admin/hooks/use-admin';
 import { ROLES } from '@/components/layout';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';

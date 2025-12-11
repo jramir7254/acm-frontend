@@ -2,12 +2,12 @@
 
 import Gradient from '@/components/layout/gradient'
 import { Button } from '@/components/primitives/button';
-import { useEvent } from '@/features/events/hooks/use-event';
+import { useEvent } from '@/features/events/hooks/event/queries';
 import { useAppNavigation } from '@/hooks';
 import { ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/primitives/tabs"
 import { useEventContext, EventProvider } from '@/features/events/context/event-context';
-import { SurveysTable } from './components';
+// import { SurveysTable } from './components';
 import { logger } from '@/lib/logger';
 import { Definition, Description, Heading, Italic, Item, Paragraph } from '@/components/text/typography';
 import { QuestionChart } from '@/features/events/components/data/question-chart';

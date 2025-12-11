@@ -6,6 +6,7 @@ import { EventProvider, useEventContext, } from '@/features/events/context/event
 import { ScrollArea } from '@/components/primitives/scroll-area';
 import { formatDateAndTime } from '@/lib/utils';
 import { useMyRsvps } from '@/features/users/hooks/me/queries';
+import { logger } from '@/lib/logger';
 
 
 export function RsvpTable() {

@@ -17,16 +17,14 @@ import type { Role } from '@/components/layout';
 import { MdArrowRight } from 'react-icons/md';
 import { Separator } from '@/components/primitives/separator';
 import { HiArrowLongRight } from "react-icons/hi2";
-import { useAssignRole, type Attendance } from '@/features/dashboard/hooks/use-admin';
-import { useEvents } from '@/features/events/hooks/use-events';
-
+import { type Attendance } from '@/features/dashboard/hooks/use-admin';
+import { useEvents } from '@/features/events/hooks/events/queries';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { Checkbox } from '@/components/primitives/checkbox';
 import { Label } from '@/components/primitives/label';
 import { Paragraph } from '@/components/text/typography';
-import { useAddAttendance } from '@/features/dashboard/hooks/use-admin';
-
+import { useAddAttendance } from '@/features/admin/hooks/use-admin';
 
 export function AddAttendanceOverlay({ attendance, epccId }: { attendance: Attendance[], epccId: string }) {
     const [selectedEvents, setSelectedEvents] = useState<number[]>([])

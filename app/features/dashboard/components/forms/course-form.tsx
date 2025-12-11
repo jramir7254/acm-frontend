@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { toast } from "sonner"
 import { z } from "zod"
 import { Form, SubmitButton, FormInput, GlobalFormError } from '@/components/input'
-import { useAddCourse } from '../../hooks/use-courses'
+import { useAddCourse } from '@/features/edu/hooks/mutations'
 
 export function CourseForm() {
     const addCourse = useAddCourse()

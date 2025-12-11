@@ -6,8 +6,8 @@ import { Form, SubmitButton, TextAreaInput, RadioInput } from '@/components/inpu
 import { useEventContext } from '@/features/events/context/event-context'
 import { useOverlay } from '@/components/ui'
 import { Separator } from '@/components/primitives/separator'
-import { useEventFeedback } from '../../hooks/use-user'
 
+import { useEventFeedback } from '@/features/events/hooks/event/mutations'
 const Likert5 = (labels: string[]) => [
     { name: labels[4], id: 5 },
     { name: labels[3], id: 4 },

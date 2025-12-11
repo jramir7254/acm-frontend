@@ -93,8 +93,8 @@ type RouteFiles = {
     id: "pages/home/page";
     page: "/";
   };
-  "features/events/page/events-page.tsx": {
-    id: "features/events/page/events-page";
+  "pages/events/page.tsx": {
+    id: "pages/events/page";
     page: "/events";
   };
   "pages/auth/page.tsx": {

@@ -1,6 +1,5 @@
 import { AnimatedNumber } from '@/components/ui/number'
-import { useUsers } from "@/features/dashboard/hooks/use-admin"
-
+import { useUsers } from '@/features/users/hooks/users/queries'
 export function UsersNumber() {
     const { data, isRefetching, isLoading } = useUsers()
     return (

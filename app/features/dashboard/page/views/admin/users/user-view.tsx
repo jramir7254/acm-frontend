@@ -7,7 +7,7 @@ import { useUser } from '@/features/dashboard/hooks/use-admin';
 import { ArrowLeft, Edit2 } from 'lucide-react';
 import { Paragraph } from '@/components/text/typography';
 import { Badge } from '@/components/primitives/badge';
-import { useCourse } from '@/features/dashboard/hooks/use-courses';
+import { useCourse } from '@/features/edu/hooks/queries';
 import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/primitives/tabs';
 import AttendanceTable from './components/attendance-table';
 import { Separator } from '@/components/primitives/separator';

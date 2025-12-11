@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { toast } from "sonner"
 import { z } from "zod"
 import { Form, SubmitButton, FormInput, TextAreaInput, SelectInput, type SelectInputValues } from '@/components/input'
-import { useHelp } from '../../hooks/use-user'
-
+import { useHelp } from '@/features/events/hooks/event/mutations'
 const createVals = (val: string[]): SelectInputValues => {
     return val.map(i => ({ name: i, id: i }))
 }

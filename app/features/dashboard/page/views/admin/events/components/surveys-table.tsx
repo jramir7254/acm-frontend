@@ -1,6 +1,5 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
 
-import { useStats } from '../../../../../hooks/use-admin';
 import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
 import { ScrollArea } from '@/components/primitives/scroll-area';
 import { useAppNavigation } from '@/hooks';

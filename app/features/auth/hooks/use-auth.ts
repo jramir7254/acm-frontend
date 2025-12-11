@@ -1,7 +1,6 @@
 import { logger } from "@/lib/logger";
 
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { me } from "@/features/dashboard/api/user-api";
 import { tokenStore } from "../lib/token-store";
 import { clearPersistedQueryCache } from "@/providers/query-client";
 import { backend } from "@/lib/backend-api";

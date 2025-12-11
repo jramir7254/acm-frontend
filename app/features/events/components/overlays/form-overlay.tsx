@@ -11,9 +11,8 @@ import {
 } from "@/components/primitives/dialog"
 import { useEventContext } from "../../context/event-context"
 import EditForm from "./event-form"
-import { useCreateEvent } from "../../hooks/use-events"
 import { useState } from "react"
-
+import { useCreateEvent } from "../../hooks/event/mutations"
 export function EventFormOverlay({ children }: { children: React.ReactNode }) {
     const [open, setOpen] = useState(false)
     const event = useEventContext()

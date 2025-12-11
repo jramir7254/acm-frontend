@@ -1,8 +1,7 @@
 // features/events/context/EventsIndexProvider.tsx
 import React, { createContext, useContext, useMemo } from "react";
-import { useEvents } from "../hooks/use-events"; // your list query (array of events)
 import type { EventType } from "./event-context";
-
+import { useEvents } from "../hooks/events/queries";
 export type Event = {
     id: string | number,
     imageUrl: string,

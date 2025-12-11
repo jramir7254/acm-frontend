@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput, Textarea, DateTimePickerInput, SelectInput } from "@/components/input";
 import { Form } from "@/components/primitives/form";
-import { useEditEvent, useCreateEvent } from "../../hooks/use-events";
+import { useEditEvent, useCreateEvent } from "../../hooks/event/mutations";
 import { eventSchema } from "../../types/schemas"; // assumes schema with startAt/endAt (Date)
 import { useEventContext } from "../../context/event-context";
 import { buildSelectVals } from "@/lib/utils";

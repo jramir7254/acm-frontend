@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useMe } from '@/features/users/hooks/me/queries';
-import { useUpdateMe } from '../../hooks/use-user';
+import { useUpdateMe } from '@/features/users/hooks/me/mutations';
 import { Form, FormInput, SelectInput, SubmitButton } from '@/components/input';
 import { Separator } from '@/components/primitives/separator';
-import { useCourses } from '../../hooks/use-courses';
+import { useCourses } from '@/features/edu/hooks/queries';
 import { type ProfileFormValues, profileSchema } from '../../types/profile-schema';
 import { Button } from '@/components/primitives/button';
 

@@ -1,5 +1,6 @@
 import { AnimatedNumber } from '@/components/ui/number'
-import { useNumEvents } from '@/features/events/hooks/use-events'
+import { useNumEvents } from '@/features/events/hooks/events/queries'
+
 export function EventsNumber() {
     const numEvents = useNumEvents()
     return (

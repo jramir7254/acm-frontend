@@ -1,20 +1,22 @@
 // features/events/pages/EventsPage.tsx
-import { EventCard, AddEventCard, SkeletonCard } from "../components/cards";
+import { EventCard, AddEventCard, SkeletonCard } from "@/features/events/components/cards";
 import { Separator } from "@/components/primitives/separator";
 import { PermissionGuard, Page, Container } from "@/components/layout";
-import { FilterEventsButton } from "../components/buttons/filter-events";
+import { FilterEventsButton } from "@/features/events/components/buttons/filter-events";
 import { useMemo, useState } from "react";
+
+
 import {
     EventsIndexProvider,
     useEventsList,
     useEventsLoading,
     type Event
-} from "../context/index-context";
+} from "@/features/events/context/index-context";
 
 
 
 
-import { EventProvider } from "../context/event-context";
+import { EventProvider } from "@/features/events/context/event-context";
 import { logger } from "@/lib/logger";
 
 function GridSkeleton({ count = 6 }) {

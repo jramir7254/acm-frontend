@@ -12,21 +12,21 @@ export const queryKeys = {
 
     users: {
         all: ["users"] as const,
-        list: (filters?: Record<string, any>) =>
-            [...queryKeys.users.all, "list", filters] as const,
+        list: (filters?: Record<string, any>, view?: string) =>
+            [...queryKeys.users.all, "list", filters, view] as const,
         detail: {
-            base: (id: number) =>
-                [...queryKeys.users.all, "detail", id] as const,
+            base: (epccId: string) =>
+                [...queryKeys.users.all, "detail", epccId] as const,
 
-            field: (id: number, field: EventFields) =>
-                [...queryKeys.users.detail.base(id), field] as const,
+            field: (epccId: string, field: EventFields) =>
+                [...queryKeys.users.detail.base(epccId), field] as const,
         },
     },
 
     events: {
         all: ['events'] as const,
-        list: (filters?: Record<string, any>) =>
-            [...queryKeys.events.all, "list", filters] as const,
+        list: (filters?: Record<string, any>, view?: string) =>
+            [...queryKeys.events.all, "list", filters, view] as const,
         detail: {
             base: (id: number) =>
                 [...queryKeys.events.all, "detail", id] as const,

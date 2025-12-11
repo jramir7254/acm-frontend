@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/components/primitives/table"
 import { ScrollArea } from "@/components/primitives/scroll-area"
-import { useUsers } from "@/features/dashboard/hooks/use-admin"
+import { useUsers } from "@/features/users/hooks/users/queries"
 import { useAppNavigation } from "@/hooks"
 
 export function UsersTable() {

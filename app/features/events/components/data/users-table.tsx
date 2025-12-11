@@ -1,6 +1,6 @@
 import { ScrollArea } from '@/components/primitives/scroll-area'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/primitives/table'
-import { useEventField } from '../../hooks/use-event'
+import { useEventField } from '../../hooks/event/queries'
 import { Italic } from '@/components/text/typography'
 import { CustomBadge, type BadgeConfig } from '@/components/ui/custom-badge'
 import { useAppNavigation } from '@/hooks'

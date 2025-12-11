@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
-import { useCourses } from '../../hooks/use-courses';
+import { useCourses } from '@/features/edu/hooks/queries';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from '@/components/primitives/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/primitives/button';

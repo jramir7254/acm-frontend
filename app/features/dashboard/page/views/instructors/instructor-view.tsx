@@ -1,6 +1,6 @@
 import Gradient from '@/components/layout/gradient'
 import { Italic, Paragraph } from '@/components/text/typography'
-import { usersKeys, useStudents } from '@/features/dashboard/hooks/use-admin'
+import { useStudents } from '@/features/users/hooks/users/queries'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 import {
     Popover,
@@ -17,6 +17,7 @@ import { ScrollArea } from '@/components/primitives/scroll-area'
 import { logger } from '@/lib/logger'
 import { queryClient } from '@/providers/query-client'
 import { RefetchButton } from '@/components/ui/refetch-button'
+import { queryKeys } from '@/lib/query-keys'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -120,12 +121,6 @@ export default function InstructorView() {
         getFilteredRowModel: getFilteredRowModel(),
     })
 
-    const fetchUsers = () => {
-        logger.info('clicked')
-        queryClient.invalidateQueries({ queryKey: usersKeys.students() })
-        logger.info('done')
-
-    }
 
 
     if (isLoading) return <p>Loading...</p>
@@ -136,7 +131,7 @@ export default function InstructorView() {
                 <div className='flex-1 space-y-3'>
                     <div className='inline-flex items-center gap-1'>
                         <GlobalFilter placeholder='Search Students' className='max-w-xs' />
-                        <RefetchButton queryKey={usersKeys.students()} />
+                        <RefetchButton queryKey={queryKeys.users.list({}, 'students')} />
 
                     </div>
 
@@ -149,7 +144,6 @@ export default function InstructorView() {
 
                 </div>
             </TableContainer>
-            {/* <DataTable columns={columns} data={data || []} /> */}
         </Gradient>
     )
 }

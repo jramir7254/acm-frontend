@@ -1,13 +1,13 @@
 import { Button } from "@/components/primitives/button";
-import { useRsvp } from "../../hooks/use-events";
+import { useRsvp } from "../../hooks/event/mutations";
 import { useEventContext } from "@/features/events/context/event-context";
 import { toast } from "sonner";
 import { useMe } from "@/features/users/hooks/me/queries";
-import { useUserRsvps } from "@/features/dashboard/hooks/use-user";
+import { useMyRsvps } from "@/features/users/hooks/me/queries";
 import { useMemo } from "react";
 
 export function EventActionButton({ eventId }: { eventId: string | number }) {
-    const { data: rsvps } = useUserRsvps();
+    const { data: rsvps } = useMyRsvps();
     const { data: user } = useMe();
     const rsvp = useRsvp(eventId);
     const e = useEventContext();
@@ -17,7 +17,7 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     const { id, past, type, externalLink } = e;
 
     let isRsvpd = useMemo(
-        () => rsvps?.some(r => r.eventId === id) ?? false,
+        () => rsvps?.rsvps?.some(r => r.eventId === id) ?? false,
         [rsvps, id]
     );
 

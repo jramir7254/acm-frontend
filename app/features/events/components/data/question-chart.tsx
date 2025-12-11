@@ -12,7 +12,7 @@ import {
 import { Cell, Pie, PieChart } from 'recharts'
 
 import { FEEDBACK_QUESTIONS } from '@/lib/constants';
-import { useEventField } from '../../hooks/use-event';
+import { useEventField } from '../../hooks/event/queries';
 import { logger } from '@/lib/logger';
 
 type QuestionIds = 1 | 2 | 3 | 4

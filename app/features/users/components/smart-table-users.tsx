@@ -1,6 +1,7 @@
 import React from 'react'
 import { Italic } from '@/components/text/typography'
-import { usersKeys, useStudents, useUsers } from '@/features/dashboard/hooks/use-admin'
+import { RefetchButton } from '@/components/ui/refetch-button'
+import { useUsers } from '../hooks/users/queries'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 import {
     Popover,
@@ -19,6 +20,7 @@ import { DropdownMenuItem } from '@/components/primitives/dropdown-menu'
 import { toast } from 'sonner'
 import { queryClient } from '@/providers/query-client'
 import { logger } from '@/lib/logger'
+import { queryKeys } from '@/lib/query-keys'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -120,12 +122,6 @@ export default function UsersTable() {
     })
 
 
-    const fetchUsers = () => {
-        logger.info('clicked')
-        queryClient.invalidateQueries({ queryKey: usersKeys.all })
-        logger.info('done')
-
-    }
 
 
     return (
@@ -134,7 +130,7 @@ export default function UsersTable() {
                 <div className='inline-flex gap-2'>
 
                     <GlobalFilter placeholder='Search Users' className='max-w-xs' />
-                    <Button variant={'outline'} size={'icon'} onClick={fetchUsers}><RefreshCwIcon /></Button>
+                    <RefetchButton queryKey={queryKeys.users.list()} />
                 </div>
 
 

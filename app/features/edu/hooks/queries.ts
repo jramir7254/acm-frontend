@@ -23,3 +23,11 @@ export function useCourses() {
         gcTime: 24 * 60 * 60_000,
     });
 }
+
+export function useCourse(courseId: number) {
+    const { data } = useCourses()
+
+    const course = data?.find(c => c.id === courseId)
+    return course
+}
+

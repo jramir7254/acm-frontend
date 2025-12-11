@@ -1,8 +1,7 @@
 
 import { Button } from "@/components/primitives/button"
-import { useCancelRsvp } from "@/features/events/hooks/use-events";
 import ConfirmationModal from "@/components/ui/confirmation"
-
+import { useCancelRsvp } from "@/features/events/hooks/event/mutations";
 export function CancelRsvpButton({ eventId }: { eventId: string | number }) {
 
     const cancelRsvpMutation = useCancelRsvp(eventId);

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { toast } from "sonner"
 import { z } from "zod"
 import { Form, SubmitButton, OtpInput, GlobalFormError } from '@/components/input'
-import { useCheckIn } from '../../hooks/use-user'
+import { useCheckIn } from '@/features/events/hooks/event/mutations'
 import { useEventContext } from '@/features/events/context/event-context'
 import { useOverlay } from '@/components/ui'
 

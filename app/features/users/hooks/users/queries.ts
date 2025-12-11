@@ -1,49 +1,26 @@
 import { backend } from "@/lib/backend-api";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { eventKeys } from "../event-keys";
-import type { EventFields, Event } from "../../types/event";
+import { queryKeys } from "@/lib/query-keys";
 
 
 
-
-
-export function useEvent(eventId: number) {
-    const queryClient = useQueryClient();
-
+export function useUsers() {
     return useQuery({
-        queryKey: eventKeys.detail.base(eventId),
+        queryKey: queryKeys.users.list(),
         queryFn: () => backend.get(
-            `/events/${eventId}`,
+            `/users`,
         ),
-        staleTime: 5 * 60_000,
-        gcTime: 24 * 60 * 60_000,
-        enabled: !!eventId,
-
-        initialData: () => {
-            const events = queryClient.getQueryData<Event[]>(
-                eventKeys.lists.base()
-            );
-            return events?.find((e: Event) => e.id === eventId);
-        },
+        staleTime: 60 * 60 * 1000, // 1h fresh
+        gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
 }
 
 
-
-
-
-
-
-export function useEventField(eventId: number, field: EventFields = 'base') {
-
+export function useStudents() {
     return useQuery({
-        queryKey: eventKeys.detail.field(eventId, field),
-        queryFn: () => backend.get(
-            `/events/${eventId}`,
-            { params: { field } }
-        ),
-        staleTime: 5 * 60_000,
-        gcTime: 24 * 60 * 60_000,
-        enabled: !!eventId,
+        queryKey: queryKeys.users.list({}, 'students'),
+        queryFn: () => backend.get('/users', { params: { view: 'students' } }),
+        staleTime: 60 * 60 * 1000, // 1h fresh
+        gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
 }
