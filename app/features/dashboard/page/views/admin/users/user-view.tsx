@@ -3,7 +3,7 @@
 import Gradient from '@/components/layout/gradient'
 import { Button } from '@/components/primitives/button';
 import { useAppNavigation } from '@/hooks';
-import { useUser } from '@/features/dashboard/hooks/use-admin';
+import { useUser } from '@/features/users/hooks/user/queries';
 import { ArrowLeft, Edit2 } from 'lucide-react';
 import { Paragraph } from '@/components/text/typography';
 import { Badge } from '@/components/primitives/badge';
