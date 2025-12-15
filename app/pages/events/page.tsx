@@ -6,18 +6,12 @@ import { FilterEventsButton } from "@/features/events/components/buttons/filter-
 import { useMemo, useState } from "react";
 
 
-import {
-    EventsIndexProvider,
-    useEventsList,
-    useEventsLoading,
-    type Event
-} from "@/features/events/context/index-context";
+import { type Event } from "@/features/events/types/event";
 
 
-
-
-import { EventProvider } from "@/features/events/context/event-context";
 import { logger } from "@/lib/logger";
+import { useEvents } from "@/features/events/hooks/events/queries";
+import { CreateEventButton } from "@/features/events/components/buttons/admin/create-button";
 
 function GridSkeleton({ count = 6 }) {
     return (
@@ -49,8 +43,9 @@ function EventsPageInner() {
             </section>
 
             <Container className="min-h-screen bg-background py-20 pb-[100vh] px-[5vw] flex flex-col gap-5 border-y-2 border-accent">
-                <div className="ml-auto">
+                <div className="ml-auto space-x-3">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
+                    <CreateEventButton />
                 </div>
 
                 <Separator />
@@ -61,13 +56,11 @@ function EventsPageInner() {
                     md:grid-cols-2 
                     xl:grid-cols-3 
                 ">
-                    <EventsIndexProvider>
-                        <EventsList filters={filters} />
-                    </EventsIndexProvider>
-
+                    <EventsList filters={filters} />
+                    {/* 
                     <PermissionGuard resource="events" requiredActions={["create"]}>
                         <AddEventCard />
-                    </PermissionGuard>
+                    </PermissionGuard> */}
                 </Container>
             </Container>
         </Page>
@@ -77,9 +70,9 @@ function EventsPageInner() {
 
 
 function EventsList({ filters }: { filters: EventFilters }) {
-    const events = useEventsList();
-    const { isLoading, isFetching } = useEventsLoading();
+    const { data: events, isLoading, isFetching } = useEvents();
 
+    if (!events) return
 
 
     const visibleEvents = useMemo<Event[]>(() => {
@@ -113,8 +106,8 @@ function EventsList({ filters }: { filters: EventFilters }) {
     if (loading) return <GridSkeleton count={3} />
     if (!loading && !visibleEvents.length) {
         return (
-            <div className="flex items-center bg-matte-black  justify-center h-64 col-span-3 rounded-xl ">
-                <div className="text-center bg-matte-black p-8 max-w-md">
+            <div className="flex items-center   justify-center h-64 col-span-3 rounded-xl ">
+                <div className="text-center  p-8 max-w-md">
                     <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                         No events available
                     </h2>
@@ -130,9 +123,7 @@ function EventsList({ filters }: { filters: EventFilters }) {
         <>
 
             {visibleEvents.map((e) => (
-                <EventProvider key={e.id} eventId={e.id} fallback={<SkeletonCard />}>
-                    <EventCard /* inside, children can call useEventContext() */ />
-                </EventProvider>
+                <EventCard key={e.id} event={e} />
             ))}
         </>
     )

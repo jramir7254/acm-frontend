@@ -3,6 +3,8 @@ import { toast } from "sonner";
 import { backend } from "@/lib/backend-api";
 import { queryKeys } from "@/lib/query-keys";
 import { logger } from "@/lib/logger";
+import type { EventFormValues } from "../../types/schemas";
+import type { Event } from "../../types/event";
 
 
 
@@ -37,6 +39,22 @@ export function useEventFeedback() {
 }
 
 
+export function useCreateOrUpdateEvent(eventId?: number) {
+    const queryClient = useQueryClient();
+    const mode: 'create' | 'update' = eventId ? 'update' : 'create'
+
+    return useMutation({
+        mutationFn: (form: EventFormValues) => {
+            return mode === 'create' ? backend.post('/events', form) : backend.patch(`/events/${eventId}`, form)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.events.all });
+            toast.success(`Event ${mode}d`)
+        },
+        onError: () => { toast.error(`Error ${mode}ing event`) }
+
+    });
+}
 
 
 export function useDeleteEvent(id: string | number) {
@@ -47,7 +65,7 @@ export function useDeleteEvent(id: string | number) {
             `/events/${id}`
         ),
         onSuccess: () => {
-            queryClient.setQueryData(queryKeys.events.all, (prev: Event[]) => {
+            queryClient.setQueryData(queryKeys.events.list(), (prev: Event[]) => {
                 logger.debug('prev', prev)
                 return prev.filter(e => e.id !== id)
             })
@@ -111,6 +129,40 @@ export function useRsvp(eventId: string | number) {
     });
 }
 
+
+
+export function useActionButton({ id, type, externalLink }: Partial<Event>) {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: () => {
+            if (type === 'workshop') {
+                return backend.post(
+                    `/events/${id}/rsvp`
+                );
+            } else {
+                window.open(externalLink, "_blank", "noreferrer");
+                return Promise.resolve(null);
+            }
+        },
+        onSuccess: () => {
+            if (type === 'workshop') {
+
+                queryClient.setQueryData(queryKeys.me.field('rsvps'), (prev: { eventId: number }[]) => {
+                    logger.debug('prev', prev)
+                    return [...prev, { eventId: id }]
+                })
+
+                queryClient.invalidateQueries({ queryKey: queryKeys.me.field('events') })
+
+
+                toast.success("RSVP Confirmed");
+            }
+        },
+        onError: () => toast.error("RSVP Confirmed")
+    });
+}
+
+
 export function useCancelRsvp(eventId: string | number) {
     const queryClient = useQueryClient();
     return useMutation({
@@ -118,13 +170,15 @@ export function useCancelRsvp(eventId: string | number) {
             `/events/${eventId}/rsvp`
         ),
         onSuccess: () => {
-            queryClient.setQueryData(queryKeys.me.field('rsvps'), (prev: UserRsvps[]) => {
+            queryClient.setQueryData(queryKeys.me.field('rsvps'), (prev: { eventId: number }[]) => {
                 logger.debug('prev', prev)
-                return prev.filter(r => r.eventId !== eventId)
+                return prev?.filter(r => r.eventId !== eventId)
             })
+            queryClient.invalidateQueries({ queryKey: queryKeys.me.field('events') })
+
             toast.success("Succesfully canceled RSVP")
         },
-        onError: () => { toast.error('Could not cancel rsvp') }
+        onError: (error) => { toast.error('Could not cancel rsvp'), logger.error(error) }
 
     });
 }

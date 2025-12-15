@@ -7,7 +7,7 @@ export const queryKeys = {
     me: {
         all: ['me'] as const,
         base: () => [...queryKeys.me.all, "base"] as const,
-        field: (field: UserFields) => [...queryKeys.me.all, "field", field] as const,
+        field: (field: UserFields | string) => [...queryKeys.me.all, "field", field] as const,
     },
 
     users: {

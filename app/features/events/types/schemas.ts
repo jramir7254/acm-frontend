@@ -28,7 +28,7 @@ export const eventSchema = z
             .string()
             .min(1, "Title cannot be empty")
             .max(80, "Title cannot be more than 80 characters"),
-        host: z.string().min(1, "cannot be empty"),
+        host: z.string().min(1, "Field Cannot be empty"),
         imageUrl: imageUrlSchemaClient,
         location: z.string().min(1, "Location cannot be empty"),
 
@@ -36,9 +36,9 @@ export const eventSchema = z
         startAt: isDev ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
         endAt: isDev ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
         type: z.enum(['meeting', 'workshop', 'external', 'major', 'recurring', 'hackathon', 'datathon', 'extra_credit']),
-        resources: z.string().optional(),
-        requirements: z.string().optional(),
-        externalLink: z.string().optional(),
+        resources: z.string().optional().nullable(),
+        requirements: z.string().optional().nullable(),
+        externalLink: z.string().optional().nullable(),
 
         description: z
             .string()

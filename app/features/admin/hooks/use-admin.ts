@@ -7,17 +7,29 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { queryKeys } from "@/lib/query-keys";
 
-export function useEventsReport() {
+export function useEventsReportExcel() {
     return useMutation({
         mutationFn: () => backend.get(
             '/admin/events/report',
-            { responseType: 'blob' }
+            { responseType: 'blob', params: { type: 'excel' } }
         ),
         onSuccess: (data) => {
-            toast.success("Report Generated")
+            toast.success("Excel Downloaded")
             const blob = data
-            saveAs(blob, "sample.xlsx");
+            saveAs(blob, "epcc-2025-workshop-data.xlsx");
             // pdfMake.createPdf(data).open()
+        }
+    })
+}
+export function useEventsReportPdf() {
+    return useMutation({
+        mutationFn: () => backend.get(
+            '/admin/events/report',
+            { params: { type: 'pdf' } }
+        ),
+        onSuccess: (data) => {
+            toast.success("PDF Generated")
+            pdfMake.createPdf(data).open()
         }
     })
 }

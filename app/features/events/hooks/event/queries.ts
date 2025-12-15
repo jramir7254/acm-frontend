@@ -10,7 +10,7 @@ import type { EventFields, Event } from "../../types/event";
 export function useEvent(eventId: number) {
     const queryClient = useQueryClient();
 
-    return useQuery({
+    return useQuery<Event>({
         queryKey: queryKeys.events.detail.base(eventId),
         queryFn: () => backend.get(
             `/events/${eventId}`,

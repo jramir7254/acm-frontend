@@ -8,6 +8,8 @@ export interface Event {
     endAt: string,
     code: string,
     time: string,
+    type: "meeting" | "workshop" | "external" | "major" | "recurring" | "hackathon" | "datathon" | "extra_credit";
+    externalLink: string,
     title: string,
     location: string,
     host: string,

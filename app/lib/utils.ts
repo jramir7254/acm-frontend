@@ -21,6 +21,38 @@ export const snakeToTitle = (kebabStr: string): string => {
     return kebabStr.split('_').map(i => i.charAt(0).toUpperCase().concat(i.substring(1))).join(" ").trim()
 }
 
+export function camelToTitleCase(camelCase: string) {
+    if (!camelCase) return ""
+    // Insert space before all uppercase letters (except the first one)
+    const spaced = camelCase.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+    // Capitalize the first letter of the entire string
+    const titled = spaced.charAt(0).toUpperCase() + spaced.slice(1);
+
+    return titled;
+}
+
+
+type TimeParams = {
+    start: string,
+    end: string,
+    margin: number
+}
+
+
+export function isTimeWithin({ start, end, margin }: TimeParams) {
+    const now = new Date()
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    startDate.setMinutes(startDate.getMinutes() - margin)
+    endDate.setMinutes(endDate.getMinutes() + margin)
+
+    return now > startDate && now < endDate
+}
+
+
+
 
 function areSameDay(a: Date, b: Date) {
     return (
@@ -30,7 +62,7 @@ function areSameDay(a: Date, b: Date) {
     );
 }
 
-export function formatDateAndTime(startDate: string | Date, endDate: string | Date, simple: false) {
+export function formatDateAndTime(startDate: string | Date, endDate: string | Date, simple?: false) {
     const start = new Date(startDate);
     const end = new Date(endDate);
 

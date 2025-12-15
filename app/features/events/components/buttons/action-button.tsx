@@ -1,52 +1,36 @@
 import { Button } from "@/components/primitives/button";
-import { useRsvp } from "../../hooks/event/mutations";
-import { useEventContext } from "@/features/events/context/event-context";
+import { useRsvp, useActionButton } from "../../hooks/event/mutations";
 import { toast } from "sonner";
 import { useMe } from "@/features/users/hooks/me/queries";
 import { useMyRsvps } from "@/features/users/hooks/me/queries";
 import { useMemo } from "react";
+import type { Event } from "../../types/event";
 
-export function EventActionButton({ eventId }: { eventId: string | number }) {
+export function EventActionButton({ event }: { event: Event }) {
     const { data: rsvps } = useMyRsvps();
     const { data: user } = useMe();
-    const rsvp = useRsvp(eventId);
-    const e = useEventContext();
-    if (!e) return null; // provider not mounted
+    const { mutate } = useActionButton({ ...event });
+
+    const rsvpsList = rsvps?.map(r => r.eventId)
 
 
-    const { id, past, type, externalLink } = e;
 
-    let isRsvpd = useMemo(
-        () => rsvps?.rsvps?.some(r => r.eventId === id) ?? false,
-        [rsvps, id]
-    );
+    const { id, type, externalLink, endAt } = event;
 
-    const onSubmit = async () => {
-        try {
-            await rsvp.mutateAsync();
-            isRsvpd = true
-            toast.success("Successfully RSVP’d for event");
-        } catch {
-            toast.error("Error trying to RSVP for event");
-        }
-    };
+    const isRsvpd = rsvpsList?.includes(id)
+
 
     let label = "RSVP";
     let disabled = false;
-    let action = onSubmit
 
     if (!user) {
         label = "Log in or register to RSVP";
         disabled = true;
-    } else if (past) {
+    } else if (new Date() > new Date(endAt)) {
         label = "Past Event";
         disabled = true;
     } else if (type === 'external' && externalLink) {
         label = 'Visit Site'
-        action = () => {
-            window.open(externalLink, "_blank", "noreferrer");
-        };
-
     }
     else if (isRsvpd) {
         label = "RSVP Confirmed";
@@ -56,7 +40,7 @@ export function EventActionButton({ eventId }: { eventId: string | number }) {
     return (
         <Button
             className="text-xs w-full h-8 lg:text-sm md:w-auto md:h-auto"
-            onClick={action}
+            onClick={() => mutate()}
             disabled={disabled}
             variant={disabled ? "disabled" : "default"}
         >

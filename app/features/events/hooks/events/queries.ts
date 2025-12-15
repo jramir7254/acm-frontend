@@ -2,26 +2,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { backend } from "@/lib/backend-api";
 import { queryKeys } from "@/lib/query-keys";
 
-export type Event = {
-    id: string,
-    imageUrl: string,
-    startAt: string,
-    endAt: string,
-    code: string,
-    time: string,
-    title: string,
-    location: string,
-    host: string,
-    description: string,
-    past: boolean,
-    isRsvpd?: boolean | undefined
-}
-
-
-
+import { type Event } from "../../types/event";
 
 export function useEvents() {
-    return useQuery({
+    return useQuery<Event[]>({
         queryKey: queryKeys.events.list(),
         queryFn: () => backend.get<Event[]>('/events'),
         placeholderData: [],

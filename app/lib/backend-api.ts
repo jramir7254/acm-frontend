@@ -1,6 +1,6 @@
 import { tokenStore } from "@/features/auth/lib/token-store";
-import axios, { isAxiosError, type AxiosInstance, type AxiosRequestConfig, type Method } from "axios";
-import { logger, setCorrelationId, clearCorrelationId } from "@/lib/logger";
+import axios, { type AxiosInstance, type AxiosRequestConfig, } from "axios";
+import { logger } from "@/lib/logger";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const apiLogger = logger.create('API')

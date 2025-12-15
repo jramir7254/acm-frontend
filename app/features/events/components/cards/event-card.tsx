@@ -7,16 +7,23 @@ import { useEventContext } from "@/features/events/context/event-context";
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks';
 import { Paragraph, Heading } from '@/components/text/typography';
+import type { Event } from '../../types/event';
+import { formatDateAndTime } from '@/lib/utils';
 
 
 
 
-export function EventCard() {
+export function EventCard({ event }: { event: Event }) {
     const [showInfo, setShowInfo] = useState(false)
     const isMobile = useIsMobile()
-    const e = useEventContext();
-    if (!e) return null; // provider not mounted
-    const { id, imageUrl, title, startAt, endAt, host, location, description, isLive, formatted } = e
+
+    const { id, imageUrl, title, startAt, endAt, host, location, description, } = event
+
+    const { date, time } = formatDateAndTime(startAt, endAt)
+
+    const now = new Date()
+
+    const isLive = now > new Date(startAt) && now < new Date(endAt)
 
     const style = isMobile ? {
         opacity: showInfo ? '100%' : '0%'
@@ -30,7 +37,7 @@ export function EventCard() {
                 <PermissionGuard resource='events' requiredActions={['delete', 'update']}>
                     <div className='absolute flex top-2 right-2 z-10 gap-2 text-lg'>
                         <DeleteEventButton eventId={id} />
-                        <EditEventButton />
+                        <EditEventButton event={event} />
                         <ShowCodeButton isLive={isLive} />
                     </div>
                 </PermissionGuard>
@@ -64,9 +71,9 @@ export function EventCard() {
                     <div className="inline-flex items-center gap-1 md:h-5">
                         <Calendar className={isMobile ? "h-3 w-3" : 'h-4 w-4'} />
                         <Paragraph className='inline-flex gap-1'>
-                            <span>{formatted.date}</span>
+                            <span>{date}</span>
                             {/* <span>{<Separator orientation="vertical" className="bg-white/40" />}</span> */}
-                            <span>{formatted.time}</span>
+                            <span>{time}</span>
                         </Paragraph>
                     </div>
                     <div className="inline-flex items-center gap-1.5">
@@ -81,7 +88,7 @@ export function EventCard() {
 
 
             <CardFooter className="md:mt-auto flex gap-3">
-                <EventActionButton eventId={id} />
+                <EventActionButton event={event} />
             </CardFooter>
         </Card>
     );

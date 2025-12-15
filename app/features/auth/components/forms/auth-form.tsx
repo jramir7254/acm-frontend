@@ -1,7 +1,6 @@
 // features/auth/components/auth-form.tsx
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router";
-import { motion } from "motion/react"
 import { authSchemas } from "../../types/form-schema";
 import { useAuthActions } from "../../hooks/use-auth";
 import { Controller, useForm } from "react-hook-form"

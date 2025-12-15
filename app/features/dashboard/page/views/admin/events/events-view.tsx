@@ -7,14 +7,16 @@ import { EventsNumber, EventsTable } from './components';
 
 import Gradient from '@/components/layout/gradient'
 import { ScrollArea } from '@/components/primitives/scroll-area'
-import { useEventsReport } from '@/features/admin/hooks/use-admin';
+import { useEventsReportExcel, useEventsReportPdf } from '@/features/admin/hooks/use-admin';
 import { Button } from '@/components/primitives/button';
 import { logger } from '@/lib/logger';
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 
 
 
 export default function EventsView() {
-    const { mutate } = useEventsReport()
+    const { mutate: excel } = useEventsReportExcel()
+    const { mutate: pdf } = useEventsReportPdf()
 
 
     const grid = {
@@ -30,8 +32,19 @@ export default function EventsView() {
             <Centered className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-1 row-span-1 border-2 bg-accent'>
                 <h3>Number of Events</h3>
                 <EventsNumber />
-                <Button onClick={() => mutate()}>Report</Button>
             </Centered>
+
+            <div className='space-x-3 ml-auto'>
+
+                <Button variant={'default'} size={'icon'} onClick={() => excel()}>
+                    <FaFileExcel />
+                </Button>
+
+                <Button variant={'default'} size={'icon'} onClick={() => pdf()}>
+                    <FaFilePdf />
+                </Button>
+
+            </div>
 
 
 

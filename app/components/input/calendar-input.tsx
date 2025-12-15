@@ -1,5 +1,5 @@
 // calendar-input.tsx
-"use client";
+// "use client";
 
 import * as React from "react";
 import { CalendarIcon } from "lucide-react";
@@ -86,7 +86,7 @@ export function DateTimePickerInput({
                 id={id}
                 value={text}
                 placeholder={placeholder}
-                className="bg-background pr-10"
+                className="bg-background pr-5 text-sm"
                 disabled={disabled}
                 onChange={(e) => {
                     const raw = e.target.value;

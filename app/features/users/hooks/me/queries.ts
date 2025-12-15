@@ -1,7 +1,9 @@
 import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { backend } from "@/lib/backend-api";
 import { queryKeys } from "@/lib/query-keys";
+import { useEvents } from "@/features/events/hooks/events/queries";
+import type { Event } from "@/features/events/types/event";
+import { useMemo } from "react";
 
 
 
@@ -31,30 +33,48 @@ export function useMyPoints() {
 }
 
 export function useMyAttendance() {
-    return useQuery({
+    return useQuery<Array<{ eventId: number, checkedInAt: string, status: 'missing' | 'complete' }>>({
         queryKey: queryKeys.me.field('attendance'),
-        queryFn: () => backend.get('/users/me/partial', { params: { fields: 'attendance' } }),
+        queryFn: () => backend.get('/me', { params: { field: 'attendance' } }),
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });
 }
 
 export function useMyEvents() {
-    return useQuery({
-        queryKey: queryKeys.me.field('attendance'),
-        queryFn: () => backend.get('/users/me/partial', { params: { fields: ['events'] } }),
-        staleTime: 60 * 60 * 1000,
-        gcTime: 7 * 24 * 60 * 60 * 1000,
-    });
+    const { data: attendance, isLoading: attendanceLoading } = useMyAttendance()
+    const { data: rsvps, isLoading: rsvpsLoading } = useMyRsvps()
+    const { data: events, isLoading: eventsLoading } = useEvents()
+
+
+    const mergeUnique = (...arrays: [typeof rsvps, typeof attendance]) => {
+        const map = new Map();
+        arrays.flat().forEach(obj => map.set(obj?.eventId, obj));
+        return [...map.values()];
+    };
+
+    const data = useMemo(() => {
+        return mergeUnique(rsvps, attendance).map(d => {
+            const event = events?.find(e => e.id === d?.eventId)
+            return { ...d, event }
+        })
+
+    }, [attendance, rsvps, events])
+
+    const isLoading = attendanceLoading || rsvpsLoading || eventsLoading
+
+    return { data, isLoading }
 }
 
 
 export function useMyRsvps() {
 
-    return useQuery({
+    return useQuery<Array<{ eventId: number }>>({
         queryKey: queryKeys.me.field('rsvps'),
-        queryFn: () => backend.get('/users/me/partial', { params: { fields: 'rsvps' } }),
+        queryFn: () => backend.get('/me', { params: { field: 'rsvps' } }),
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });
 }
+
+

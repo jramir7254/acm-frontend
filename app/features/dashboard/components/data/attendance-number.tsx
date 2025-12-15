@@ -6,7 +6,7 @@ export function Attendance({ type }: { type: 'complete' | 'pending' }) {
     const { data, isRefetching, isLoading } = useMyAttendance()
     return (
         <AnimatedNumber
-            num={data?.attendance[type]}
+            num={0}
             shouldAnimate={isRefetching}
             shouldNot={isLoading}
             className="text-3xl font-rubik"

@@ -1,24 +1,22 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
-import { Skeleton } from '@/components/primitives/skeleton';
 import { CancelRsvpButton, CheckInButton, FeedbackButton } from '../../components/buttons'
 import { Button } from '@/components/primitives/button';
-import { EventProvider, useEventContext, } from '@/features/events/context/event-context';
 import { ScrollArea } from '@/components/primitives/scroll-area';
-import { formatDateAndTime } from '@/lib/utils';
-import { useMyRsvps } from '@/features/users/hooks/me/queries';
+import { formatDateAndTime, isTimeWithin } from '@/lib/utils';
+import { useMyEvents } from '@/features/users/hooks/me/queries';
 import { logger } from '@/lib/logger';
+import type { Event } from '@/features/events/types/event';
 
 
 export function RsvpTable() {
-    const { data, isLoading: rsvpsLoading, isFetching } = useMyRsvps();
-
+    const { data, isLoading } = useMyEvents();
 
 
     return (
-        <ScrollArea className=" max-h[450px] h-[450px] rounded-t-md ">
+        <ScrollArea className=" max-h[400px] h-[400px] rounded-t-md ">
 
             <Table>
-                <TableCaption>A list of your rsvp'd events.</TableCaption>
+                <TableCaption>A list of your rsvp'd and attended events.</TableCaption>
                 <TableHeader>
                     <TableRow className='hover:bg-inherit'>
                         <TableHead className="w-2/4">Title</TableHead>
@@ -26,15 +24,10 @@ export function RsvpTable() {
                         <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
-                    {rsvpsLoading && Array.from({ length: 3 }).map((_, i) => (
-                        <SkeletonRow key={i * 53} />
-                    ))}
-                    {!rsvpsLoading && Array.isArray(data?.rsvps) && data?.rsvps.map((er) => {
+                <TableBody isLoading={isLoading} cols={3}>
+                    {Array.isArray(data) && data.map((er) => {
                         return (
-                            <EventProvider key={`${er.eventId}-${"rsvp"}`} eventId={er.eventId}>
-                                <EventRow checkedIn={!!er.checkedInAt} feedback={er?.feedback} />
-                            </EventProvider>
+                            <EventRow key={`rsvps-table-${er?.eventId}`} data={er} />
                         );
                     })}
                 </TableBody>
@@ -45,67 +38,55 @@ export function RsvpTable() {
 }
 
 
-const SkeletonRow = () => {
-    return (
-        <TableRow>
-            <TableCell>
-                <Skeleton className='w-full h-5 ' />
-            </TableCell>
-            <TableCell>
-                <Skeleton className='w-full h-5 ' />
-            </TableCell>
-            <TableCell>
-                <Skeleton className='w-full h-5' />
-            </TableCell>
-        </TableRow>
-    )
+type Data = {
+    data: { event: Event, eventId: number, checkedInAt?: string | null, status?: 'complete' | 'missing' | null }
 }
 
+const EventRow = ({ data }: Data) => {
+    const { event } = data
 
+    if (!event) return
 
-const EventRow = ({ checkedIn, feedback }: { checkedIn: boolean, feedback: boolean }) => {
-    const e = useEventContext()
+    const { date, time } = formatDateAndTime(event?.startAt, null, true)
+    const isPast = new Date() > new Date(event?.endAt)
+    const isLive = isTimeWithin({ start: event?.startAt, end: event?.endAt, margin: 10 })
 
-    const { date, time } = formatDateAndTime(e?.startAt, null, true)
 
     let action: React.ReactNode;
-    // const isLive = useEventStatus(er.startAt, er.endAt);
-    if (e.past) {
-        if (feedback) {
+    if (isPast) {
+        if (data?.status === 'complete') {
             action = <Button disabled variant="disabled">Complete</Button>;
         }
-        else if (checkedIn) {
+        else if (data?.checkedInAt) {
             action = <FeedbackButton />;
         } else {
             action = <Button disabled variant="disabled">Past Event</Button>;
         }
-    } else if (e?.past2 && feedback) {
-        action = <Button disabled variant="disabled">Complete</Button>;
-
     }
-    else if (e.isLive && !checkedIn) {
+    else if (isLive && !data?.checkedInAt) {
         action = <CheckInButton />;
     }
-    else if (e.past2 && checkedIn) {
+    else if (isPast && data?.checkedInAt) {
         action = <FeedbackButton />;
 
-    } else if (checkedIn) {
+    } else if (data?.checkedInAt) {
         action = <Button disabled variant="disabled">Checked In</Button>;
 
     } else {
-        action = <CancelRsvpButton eventId={e.id} />;
+        action = <CancelRsvpButton eventId={data.eventId} />;
     }
 
     return (
         <TableRow className='hover:bg-black/40 cursor-pointer transition-colors duration-200'>
             <TableCell >
-
-                <div className="max-w-[300px] truncate overflow-hidden text-ellipsis">   {e.title}</div>
+                <div className="max-w-[300px] truncate overflow-hidden text-ellipsis">   {event.title || 'no title'}</div>
             </TableCell>
-            <TableCell>{`${date}  ${time}`}
-
+            <TableCell>
+                {`${date}  ${time}`}
             </TableCell>
-            <TableCell>{action}</TableCell>
+            <TableCell>
+                {action}
+            </TableCell>
         </TableRow>
     )
 }

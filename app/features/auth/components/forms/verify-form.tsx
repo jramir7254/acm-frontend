@@ -45,15 +45,14 @@ export function VerifyForm() {
         try {
             await mutateAsync({ mode: 'verify', data: { code: otp, token, purpose } })
         } catch (err: any) {
-            const msg = err ?? "Verification failed";
             form.setError('root', {
                 type: 'server',
                 message: 'msg'
             })
-            // toast.error(msg);
-            throw msg
         }
     };
+
+
     return (
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-fit">
             <div className="mb-10 space-y-2">

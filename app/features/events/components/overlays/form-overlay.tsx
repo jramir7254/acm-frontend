@@ -9,41 +9,54 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/primitives/dialog"
-import { useEventContext } from "../../context/event-context"
-import EditForm from "./event-form"
-import { useState } from "react"
-import { useCreateEvent } from "../../hooks/event/mutations"
-export function EventFormOverlay({ children }: { children: React.ReactNode }) {
-    const [open, setOpen] = useState(false)
-    const event = useEventContext()
-    const { mutateAsync, isPending } = useCreateEvent()
 
-    const insideEvent = event !== undefined; // only true if provider gave us an event
+import { EventForm } from "../forms/event-form"
+import { useState } from "react"
+import { useCreateOrUpdateEvent } from "../../hooks/event/mutations"
+import type { Event } from "../../types/event"
+import { type EventFormValues } from "../../types/schemas"
+
+
+export function EventFormOverlay({ children, event }: { children: React.ReactNode, event?: Event | null }) {
+    const [open, setOpen] = useState(false)
+    const { mutateAsync, isPending } = useCreateOrUpdateEvent(event?.id)
+
+    const handleSubmit = async (form: EventFormValues) => {
+        await mutateAsync(form)
+        setOpen(false)
+    }
 
     return (
         <Dialog modal open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild >
                 {children}
             </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => e.preventDefault()} onOpenAutoFocus={(e) => e.preventDefault()} className="lg:max-w-[75vw] bg-accent">
+            <DialogContent
+                onInteractOutside={(e) => e.preventDefault()}
+                onOpenAutoFocus={(e) => e.preventDefault()}
+                className="lg:max-w-[75vw] "
+            >
                 <DialogHeader>
                     <DialogTitle>
-                        {insideEvent ? "Edit Event" : "New Event"}
+                        {event ? "Edit Event" : "Create Event"}
                     </DialogTitle>
+
                     <DialogDescription>
-                        {insideEvent ?
+                        {event ?
                             "Make changes to this event here. Click save when you're done."
                             :
                             "Add new event details here. Click add when you're done."}
                     </DialogDescription>
                 </DialogHeader>
-                <EditForm mutateAsync={mutateAsync} setOpen={setOpen} />
+
+                <EventForm handleSubmit={handleSubmit} event={event} />
+
                 <DialogFooter>
                     <DialogClose asChild disabled={isPending}>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
                     <Button form="event-form" type="submit" disabled={isPending}>
-                        {isPending ? "Please Wait" : insideEvent ? "Save changes" : "Create Event"}
+                        {isPending ? "Please Wait" : event ? "Save changes" : "Create Event"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

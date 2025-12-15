@@ -1,14 +1,13 @@
 import { Button } from "@/components/primitives/button"
 import { Edit } from "lucide-react";
 import { EventFormOverlay } from "../overlays/form-overlay";
-import type { Event } from "../../types/event";
 
 
 
-export function EditEventButton({ event }: { event: Event }) {
+export function EditEventButton() {
 
     return (
-        <EventFormOverlay event={event} >
+        <EventFormOverlay >
             <Button variant='secondary' size='icon'><Edit /></Button>
         </EventFormOverlay>
     )
