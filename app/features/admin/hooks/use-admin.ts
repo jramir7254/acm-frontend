@@ -48,7 +48,7 @@ export function useAssignRole(epccId: string) {
             // Option A: immediate UI update
             // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
             // Option B (or in addition): refetch fresh data
-            qc.invalidateQueries({ queryKey: usersKeys.one(epccId) })
+            qc.invalidateQueries({ queryKey: queryKeys.users.detail.base(epccId) })
         },
         onError: () => {
             toast.error('Could not change role')

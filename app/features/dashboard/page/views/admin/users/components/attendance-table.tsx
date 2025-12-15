@@ -2,7 +2,6 @@ import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/primitives/table'
 import { ScrollArea } from '@/components/primitives/scroll-area'
 import { EventProvider, useEventContext } from '@/features/events/context/event-context'
-import { type Attendance } from '@/features/dashboard/hooks/use-admin'
 import { CustomBadge, type BadgeConfig } from '@/components/ui/custom-badge'
 import { formatDateAndTime } from '@/lib/utils'
 export default function AttendanceTable({ attendance }: { attendance: Attendance[] }) {

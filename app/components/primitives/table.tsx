@@ -33,11 +33,11 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
 
 
 type TableBodyProps = {
-    isLoading: boolean,
-    cols: number
+    isLoading?: boolean,
+    cols?: number
 }
 
-function TableBody({ className, children, cols, isLoading, ...props }: React.ComponentProps<"tbody"> & TableBodyProps) {
+function TableBody({ className, children, cols = 3, isLoading, ...props }: React.ComponentProps<"tbody"> & TableBodyProps) {
     return (
         <tbody
             data-slot="table-body"
