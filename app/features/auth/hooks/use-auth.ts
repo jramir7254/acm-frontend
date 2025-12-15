@@ -34,10 +34,6 @@ export function useAuthActions() {
                     }
                 }
 
-                await queryClient.prefetchQuery({
-                    queryKey: ["user", "me"],
-                    queryFn: me,
-                });
 
                 return toDashboard(epccId);
             }
