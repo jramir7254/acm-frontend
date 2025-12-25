@@ -35,11 +35,6 @@ type Pages = {
       "userId": string;
     };
   };
-  "/:userId/admin": {
-    params: {
-      "userId": string;
-    };
-  };
   "/:userId/admin/users": {
     params: {
       "userId": string;
@@ -56,20 +51,10 @@ type Pages = {
       "userId": string;
     };
   };
-  "/:userId/admin/events/report": {
-    params: {
-      "userId": string;
-    };
-  };
   "/:userId/admin/events/:eventId": {
     params: {
       "userId": string;
       "eventId": string;
-    };
-  };
-  "/:userId/admin/developer": {
-    params: {
-      "userId": string;
     };
   };
   "/:userId/instructor": {
@@ -87,7 +72,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/report" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
   };
   "pages/home/page.tsx": {
     id: "pages/home/page";
@@ -113,52 +98,40 @@ type RouteFiles = {
     id: "pages/about/page";
     page: "/about";
   };
-  "features/dashboard/page/dashboard-page.tsx": {
-    id: "features/dashboard/page/dashboard-page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/report" | "/:userId/admin/events/:eventId" | "/:userId/admin/developer" | "/:userId/instructor" | "/:userId/help";
+  "pages/dashboard/page.tsx": {
+    id: "pages/dashboard/page";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
   };
-  "features/dashboard/page/views/main-view.tsx": {
-    id: "features/dashboard/page/views/main-view";
+  "pages/dashboard/outlets/base/home-view.tsx": {
+    id: "pages/dashboard/outlets/base/home-view";
     page: "/:userId";
   };
-  "features/dashboard/page/views/profile-view.tsx": {
-    id: "features/dashboard/page/views/profile-view";
+  "pages/dashboard/outlets/base/profile-view.tsx": {
+    id: "pages/dashboard/outlets/base/profile-view";
     page: "/:userId/profile";
   };
-  "features/dashboard/page/views/admin-view.tsx": {
-    id: "features/dashboard/page/views/admin-view";
-    page: "/:userId/admin";
-  };
-  "features/dashboard/page/views/admin/users/users-view.tsx": {
-    id: "features/dashboard/page/views/admin/users/users-view";
+  "pages/dashboard/outlets/admin/users/users-view.tsx": {
+    id: "pages/dashboard/outlets/admin/users/users-view";
     page: "/:userId/admin/users";
   };
-  "features/dashboard/page/views/admin/users/user-view.tsx": {
-    id: "features/dashboard/page/views/admin/users/user-view";
+  "pages/dashboard/outlets/admin/users/user/user-view.tsx": {
+    id: "pages/dashboard/outlets/admin/users/user/user-view";
     page: "/:userId/admin/users/:reqUserId";
   };
-  "features/dashboard/page/views/admin/events/events-view.tsx": {
-    id: "features/dashboard/page/views/admin/events/events-view";
+  "pages/dashboard/outlets/admin/events/events-view.tsx": {
+    id: "pages/dashboard/outlets/admin/events/events-view";
     page: "/:userId/admin/events";
   };
-  "features/dashboard/page/views/admin/events/report-view.tsx": {
-    id: "features/dashboard/page/views/admin/events/report-view";
-    page: "/:userId/admin/events/report";
-  };
-  "features/dashboard/page/views/admin/events/event-view.tsx": {
-    id: "features/dashboard/page/views/admin/events/event-view";
+  "pages/dashboard/outlets/admin/events/event/event-view.tsx": {
+    id: "pages/dashboard/outlets/admin/events/event/event-view";
     page: "/:userId/admin/events/:eventId";
   };
-  "features/dashboard/page/views/developer-view.tsx": {
-    id: "features/dashboard/page/views/developer-view";
-    page: "/:userId/admin/developer";
-  };
-  "features/dashboard/page/views/instructors/instructor-view.tsx": {
-    id: "features/dashboard/page/views/instructors/instructor-view";
+  "pages/dashboard/outlets/admin/instructor-view.tsx": {
+    id: "pages/dashboard/outlets/admin/instructor-view";
     page: "/:userId/instructor";
   };
-  "features/dashboard/page/views/help-view.tsx": {
-    id: "features/dashboard/page/views/help-view";
+  "pages/dashboard/outlets/base/help-view.tsx": {
+    id: "pages/dashboard/outlets/base/help-view";
     page: "/:userId/help";
   };
 };
