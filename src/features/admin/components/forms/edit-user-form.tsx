@@ -21,7 +21,9 @@ import { useUpdateUser } from '@/features/users/hooks/user/mutations'
 
 export function EditUserPanel({ user }: { user: BaseUser }) {
 
-    const { mutateAsync } = useUpdateUser(user.epccId)
+    const { mutateAsync } = useUpdateUser(user?.epccId)
+
+    if (!user) return
 
     return (
         <Sheet>

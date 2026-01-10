@@ -13,7 +13,7 @@ export function AttendanceNumber({ type }: { type: 'complete' | 'missing' }) {
     return (
         <AnimatedNumber
             num={num}
-            className="text-3xl font-rubik"
+            className="text-xl md:text-3xl font-rubik"
         />
     )
 }

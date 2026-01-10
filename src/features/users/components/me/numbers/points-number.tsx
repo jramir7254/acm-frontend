@@ -5,8 +5,8 @@ export function PointsNumber() {
     const { data, isRefetching, isLoading } = useMyPoints()
     return (
         <AnimatedNumber
-            num={data?.points}
-            className="text-3xl font-rubik"
+            num={data}
+            className="text-xl md:text-3xl font-rubik"
         />
     )
 }

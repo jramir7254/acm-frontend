@@ -15,6 +15,8 @@ export interface Event {
     code: string,
     type: EventType;
     externalLink: string,
+    semesterCreatedId: number
+
 }
 
 

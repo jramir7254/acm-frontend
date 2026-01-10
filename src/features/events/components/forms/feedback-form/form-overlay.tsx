@@ -17,8 +17,10 @@ import { useEventFeedback } from "@/features/events/hooks/event/mutations"
 import type { FeedbackFormValues } from "./feedback-form"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Heading } from "@/components/text/typography"
+import type { EventIdentifiers } from '@/features/events/type'
 
-export function FeedbackFormOverlay({ children, event }: { children: React.ReactNode, event: Event }) {
+
+export function FeedbackFormOverlay({ children, event }: { children: React.ReactNode, event: EventIdentifiers }) {
     const [open, setOpen] = useState(false)
     const { mutateAsync, isPending } = useEventFeedback(event.id)
 

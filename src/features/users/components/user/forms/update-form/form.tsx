@@ -8,6 +8,7 @@ import { TextField } from './fields/text-field';
 import { useEffect, useState } from 'react';
 import { Separator } from '@/components/primitives/separator';
 import { Button } from '@/components/primitives/button';
+import { FormInput } from '@/components/form/form-input';
 
 export const profileSchema = (admin: boolean) => z.object({
     ...(admin && { epccId: z.string().min(8).max(8), epccEmail: z.email() }),
@@ -69,8 +70,8 @@ export default function ProfileForm({
     return (
         <form id='feedback-form' className='flex flex-col h-full ' onSubmit={form.handleSubmit(onSubmit)} >
             {admin && <div className="flex gap-5">
-                {(['epccId', 'epccEmail'] as const).map(field => (
-                    <TextField key={field} name={field} form={form} />
+                {([{ name: 'epccId', label: 'EPCC ID' }, { name: 'epccEmail', label: 'EPCC Email' }] as const).map(field => (
+                    <FormInput key={field.name} name={field.name} form={form} label={field.label} />
                 ))}
             </div>}
             <div className="flex gap-5">

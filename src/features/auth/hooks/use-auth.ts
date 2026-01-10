@@ -61,8 +61,9 @@ export function useLogout() {
             );
         } finally {
             tokenStore.clear();
+            queryClient.removeQueries({ queryKey: ['users'], });
             queryClient.removeQueries({ queryKey: ['user'], });
-            queryClient.removeQueries({ queryKey: ['me'], });
+            queryClient.removeQueries({ queryKey: ['me'], exact: false });
             clearPersistedQueryCache();
             toAuth('login')
         }

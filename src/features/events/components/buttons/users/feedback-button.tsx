@@ -3,9 +3,10 @@ import FeedbackForm from '../../forms/feedback-form/feedback-form'
 import { Overlay } from '@/components/ui'
 import { FeedbackFormOverlay } from '../../forms/feedback-form/form-overlay'
 import type { Event } from '@/features/events/types/event'
+import type { EventIdentifiers } from '@/features/events/type'
 
 
-export function FeedbackButton({ event }: { event: Event }) {
+export function FeedbackButton({ event }: { event: EventIdentifiers }) {
 
 
     return (

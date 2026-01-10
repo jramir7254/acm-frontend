@@ -4,10 +4,25 @@ export type UserFields = 'rsvps' | 'attendance' | 'points' | 'events'
 
 
 export const queryKeys = {
+    all: ["all"] as const,
+
+    app: {
+        all: ['app'] as const,
+        semesters: () => [...queryKeys.app.all, "semesters"] as const,
+        currentSemester: () => [...queryKeys.app.all, "semesters", "current"] as const,
+    },
+
+    auth: {
+        all: ['auth'] as const,
+        roles: () => [...queryKeys.auth.all, "roles"] as const,
+        permissions: () => [...queryKeys.auth.all, "perms"] as const,
+
+    },
     me: {
         all: ['me'] as const,
         base: () => [...queryKeys.me.all, "base"] as const,
         field: (field: UserFields | string) => [...queryKeys.me.all, "field", field] as const,
+        events: (semesterId: string | 'current') => [...queryKeys.me.all, "events", semesterId] as const,
     },
 
     users: {
@@ -33,6 +48,7 @@ export const queryKeys = {
         list: (params?: {
             filters?: Record<string, unknown>
             view?: 'public' | 'admin' | 'stats'
+            semesterId?: string | 'current'
         }) =>
             [...queryKeys.events.lists(), params ?? {}] as const,
 

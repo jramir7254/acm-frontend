@@ -1,6 +1,6 @@
 import { AnimatedNumber } from '@/components/ui/number'
 import { useUsers, useUsersStats } from '@/features/users/hooks/users/queries'
-import { TrendingUp } from 'lucide-react'
+import { Plus, TrendingUp } from 'lucide-react'
 import { MdOutlineTrendingFlat } from "react-icons/md";
 
 import React from 'react'
@@ -24,9 +24,11 @@ export function UsersNumberCard() {
                 </CardTitle>
                 <CardAction>
                     <Badge variant="outline">
-                        {stats > 0 ? <TrendingUp /> : <MdOutlineTrendingFlat />}
-                        {/* <TrendingUp /> */}
-                        {stats}
+                        <Plus />
+                        <AnimatedNumber
+                            num={stats}
+                            className=""
+                        />
                     </Badge>
                 </CardAction>
             </CardHeader>

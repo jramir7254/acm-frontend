@@ -2,10 +2,13 @@ import { Separator } from '@/components/primitives/separator';
 import { MyEventsTable } from '@/features/users/components/me/tables/my-events-table';
 import { AttendanceNumber, PointsNumber } from '@/features/users/components/me/numbers';
 import Gradient from '@/components/layout/gradient';
-import { Centered, UnderConstructionCard, Container as Grid } from '@/components/layout';
+import { Centered, UnderConstructionCard } from '@/components/layout';
 import { Button } from '@/components/primitives/button';
 import { InfoIcon } from 'lucide-react'
 import { ScrollArea } from '@/components/primitives/scroll-area';
+import { Select, SelectTrigger, SelectValue } from '@/components/primitives/select';
+import { SemesterSelect } from '@/features/app/components/semester-select';
+import { useSemsterSelect } from '@/features/app/components/use-semester-select';
 
 
 
@@ -13,15 +16,14 @@ import { ScrollArea } from '@/components/primitives/scroll-area';
 
 export default function HomeView() {
 
-    const grid = {
-        mobile: ' h-full  grid grid-cols-1',
-        default: 'size-full grid gap-5 grid-cols-6 grid-rows-5'
-    }
+    const { value, onChange, setValue } = useSemsterSelect()
+
+
 
     return (
-        <Grid className='size-full' classNameLarge={grid.default} classNameMac={grid.default} classNameMobile={grid.mobile}>
+        <div className='size-full grid gap-5 grid-cols-1 xl:grid-cols-6 xl:grid-rows-5 ' >
 
-            <Gradient via="rgba(80,80,80,0.20)" className='flex rounded-t-md rounded-b-none md:rounded-md p-6 col-span-1 md:col-span-6 row-span-1 border-2 border-accent'>
+            <Gradient via="rgba(80,80,80,0.20)" className='flex rounded-md p-6 col-span-1 md:col-span-6 row-span-1 border-2 border-accent'>
                 <Centered className='w-[30%] md:w-[15%]'>
                     <h3>Points</h3>
                     <PointsNumber />
@@ -48,13 +50,21 @@ export default function HomeView() {
             </div>
 
 
-            <div className='rounded-b-md rounded-t-none md:rounded-md col-span-1 md:col-span-4 row-span-4  border-2 border-accent overflow-hidden'>
+            <div className='rounded-md col-span-1 md:col-span-4 row-span-4  border-2 border-accent overflow-hidden'>
                 <Gradient via="rgba(50,50,50,0.20)" className='size-full p-5'>
-                    <h2 className='font-monts text-lg'>My events</h2>
-                    <MyEventsTable />
+                    <div className='inline-flex items-center gap-2'>
+                        <h2 className='font-monts text-lg'>My events</h2>
+                        <Select value={String(value)} onValueChange={onChange} >
+                            <SelectTrigger id='type' className="max-w-fit p-0! border-none bg-inherit! hover:underline hover:bg-none! font-nunit">
+                                <SelectValue placeholder="Select A Semester" />
+                            </SelectTrigger>
+                            <SemesterSelect />
+                        </Select>
+                    </div>
+                    <MyEventsTable semesterId={value} />
                 </Gradient>
             </div>
-        </Grid>
+        </div>
     )
 }
 

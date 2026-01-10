@@ -1,10 +1,12 @@
 import { NavLink } from "react-router"
-import { cn } from "@/lib/utils"
+import { capitalize, cn } from "@/lib/utils"
 import { useMe } from "@/features/users/hooks/me/queries"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { MenuIcon } from "lucide-react"
 import { Button } from "../primitives/button"
 import { useAppNavigation } from "@/hooks"
+import { useCurrentSemester } from '@/features/app/use-semester'
+
 import {
     Sheet,
     SheetClose,
@@ -15,19 +17,27 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/primitives/sheet"
+import { SemesterName } from "../text/semester-name"
+import { Separator } from "../primitives/separator"
 
 
 export default function Header() {
     const { toHome } = useAppNavigation()
     const isMobile = useIsMobile()
+    const { data: semester } = useCurrentSemester()
+
 
     return (
         <header className="fixed top-0 z-50 w-full h-18 flex items-center justify-between bg-matte-black text-white/90 border-b-2 border-b-accent">
             <div className="flex items-center ml-5 md:ml-10 cursor-pointer" onClick={toHome}>
-                <img src="/epcc.png" width={50} alt="ACM EPCC logo" />
-                <h1 className="font-bold font-aldri text-[clamp(1rem,2vw,2rem)] ml-8">
-                    ACM EPCC
-                </h1>
+                <img src="/epcc.png" width={isMobile ? 35 : 50} alt="ACM EPCC logo" />
+                <div className="ml-3 md:ml-5 flex h-full gap-2">
+                    <h1 className="font-bold font-aldri text-xl md:text-3xl">
+                        ACM EPCC
+                    </h1>
+                    <Separator orientation="vertical" className="h-full!" />
+                    <SemesterName className="text-xl! md:text-3xl!" />
+                </div>
             </div>
 
             <nav>

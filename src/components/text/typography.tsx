@@ -1,7 +1,10 @@
 import { cn } from "@/lib/utils";
+import { Skeleton } from "../primitives/skeleton";
 
-
-type TextProps = React.HTMLAttributes<HTMLElement>;
+type TextProps = React.HTMLAttributes<HTMLElement> & {
+    isLoading?: boolean,
+    fallBack?: string,
+}
 
 export function Heading({ className, ...props }: TextProps) {
     return <h3
@@ -9,7 +12,6 @@ export function Heading({ className, ...props }: TextProps) {
             font-nunit md:font-bold
             text-sm md:text-md 2xl:text-lg
             leading-5 md:leading-6
-            h-[calc(theme(lineHeight.5)*2)] md:h-[calc(theme(lineHeight.6)*2)]
             overflow-hidden`, className)}
         {...props}
     />
@@ -20,6 +22,20 @@ export function Paragraph({ className, ...props }: TextProps) {
         className={cn('font-nunit text-xs 2xl:text-sm', className)}
         {...props}
     />
+}
+
+
+export function Text({ isLoading, fallBack, children, className, ...props }: TextProps) {
+
+    if (isLoading) return <Skeleton className="h-4 w-10" />
+
+
+    return <p
+        className={cn('font-nunit text-xs 2xl:text-sm', className)}
+        {...props}
+    >
+        {children || <Italic muted>{fallBack || 'Empty'}</Italic>}
+    </p>
 }
 
 export function Bold({ className, ...props }: TextProps) {

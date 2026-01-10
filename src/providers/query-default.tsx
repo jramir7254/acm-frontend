@@ -22,7 +22,7 @@ export function useAuthQueryDefaults() {
 
         // If logged out, drop all user-scoped data
         if (!isAuthed) {
-            qc.removeQueries({ queryKey: ["user"], exact: false });
+            qc.removeQueries({ queryKey: ["me"], exact: false });
         }
     }, [isAuthed, qc]);
 }

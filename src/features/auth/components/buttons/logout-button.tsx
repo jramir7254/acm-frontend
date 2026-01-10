@@ -9,7 +9,7 @@ export function LogoutButton({ collapsed }: { collapsed: boolean }) {
     return (
         <ConfirmationModal title="Are you sure you want to logout?" onConfirm={logout}>
             <Button variant="outline" size={collapsed ? 'icon' : 'default'}>
-                {collapsed ? <LogOutIcon /> : 'Logout'}
+                {collapsed ? <LogOutIcon /> : 'Log out'}
             </Button>
         </ConfirmationModal>
     )

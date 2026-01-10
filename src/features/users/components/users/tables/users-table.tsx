@@ -12,6 +12,8 @@ import { queryKeys } from '@/lib/query-keys'
 import { ListFilter } from 'lucide-react'
 import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableHeader, GlobalFilter, RowActions } from "@/components/data/smart-table";
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type ColumnFiltersState, type FilterFn, type SortingState } from '@tanstack/react-table'
+import { CustomBadge } from '@/components/ui/custom-badge'
+import { roleBadgeConfig } from '@/components/ui/badge-configs'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -61,7 +63,7 @@ export const columns: ColumnDef<Student>[] = [
         filterFn: arrayIncludesSome,
         cell({ getValue }) {
             const v = getValue()
-            return <RoleBadge role={v as undefined} />
+            return <CustomBadge config={roleBadgeConfig} itemKey={v as string} />
         },
     },
     {

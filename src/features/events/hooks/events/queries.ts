@@ -15,10 +15,10 @@ export function useEvents() {
     });
 }
 
-export function useAdminEvents() {
-    return useQuery<EventWithStats[]>({
-        queryKey: queryKeys.events.list({ view: 'admin' }),
-        queryFn: () => backend.get<EventWithStats[]>('/events', { params: { view: 'admin' } }),
+export function useAdminEvents(semesterId: string = 'current') {
+    return useQuery<{ eventsData: EventWithStats[] } & RatedEvents>({
+        queryKey: queryKeys.events.list({ view: 'admin', semesterId }),
+        queryFn: () => backend.get<{ eventsData: EventWithStats[] } & RatedEvents>('/events', { params: { view: 'admin', semesterId } }),
         // placeholderData: [],
         staleTime: 5 * 60_000,
         gcTime: 24 * 60 * 60_000,

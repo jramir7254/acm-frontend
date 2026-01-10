@@ -86,7 +86,6 @@ export function UnderConstructionCard({
                     {text}
                 </h2>
             </div>
-            {/* {children} */}
         </div>
     );
 }

@@ -48,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Meta />
                 <Links />
             </head>
-            <body>
+            <body className="flex flex-col min-h-screen max-h-screen">
                 {children}
                 <ScrollRestoration />
                 <Scripts />
@@ -62,24 +62,22 @@ export default function App() {
 
     return (
         <AppProviders>
-            <div className="flex flex-col min-h-screen max-h-screen" >
-                <Circuit
-                    style={{
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        zIndex: -1,
-                        width: "100vw",
-                        height: "100%",
-                        pointerEvents: "none",
-                    }}
-                />
-                <Header />
-                <main className="relative" id="main-layout">
-                    <Outlet />
-                </main>
-                <Footer />
-            </div>
+            <Circuit
+                style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    zIndex: -1,
+                    width: "100vw",
+                    height: "100%",
+                    pointerEvents: "none",
+                }}
+            />
+            <Header />
+            <main>
+                <Outlet />
+            </main>
+            <Footer />
         </AppProviders>
     );
 }

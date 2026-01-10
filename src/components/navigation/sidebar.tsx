@@ -102,12 +102,12 @@ export function DashboardSidebar() {
                             <MdEventNote className="h-4 w-4" />
                             <span>Events</span>
                         </SidebarItem>
-                        {/* <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
-                            <SidebarItem to='admin'>
+                        <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
+                            <SidebarItem to='auth'>
                                 <PersonStanding className="h-4 w-4" />
                                 <span>Admin</span>
                             </SidebarItem>
-                        </PermissionGuard> */}
+                        </PermissionGuard>
                     </SidebarGroup>
                 </PermissionGuard>
 

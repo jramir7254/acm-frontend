@@ -27,7 +27,7 @@ export const eventSchema = z
         title: z
             .string()
             .min(1, "Title cannot be empty")
-            .max(80, "Title cannot be more than 80 characters"),
+            .max(50, "Title cannot be more than 50 characters"),
         host: z.string().min(1, "Field Cannot be empty"),
         imageUrl: imageUrlSchemaClient,
         location: z.string().min(1, "Location cannot be empty"),

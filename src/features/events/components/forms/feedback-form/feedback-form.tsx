@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { RadioFields } from './fields/radio-fields'
 import { TextField } from './fields/text-field'
 import { ScrollArea } from '@/components/primitives/scroll-area'
-import { logger } from '@/lib/logger'
 
 const formSchema = z.object({
     question1: z.enum(["1", "2", "3", "4", "5"], {
@@ -31,6 +30,8 @@ export type FeedbackFormValues = z.infer<typeof formSchema>;
 export type ReactFeedbackForm = {
     form: UseFormReturn<FeedbackFormValues>; // <-- critical for IntelliSense
 };
+
+
 
 
 export default function FeedbackForm({ handleSubmit }: { handleSubmit: (form: FeedbackFormValues) => Promise<void>, }) {
@@ -60,6 +61,7 @@ export default function FeedbackForm({ handleSubmit }: { handleSubmit: (form: Fe
                 <div className='mb-15 mt-5'>
                     <TextField form={form} />
                 </div>
+
                 {/* <Button type="submit" className="mt-3 w-full md:w-auto">
                 Submit
             </Button> */}

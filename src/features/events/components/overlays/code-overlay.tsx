@@ -25,7 +25,7 @@ export function ShowCodeOverlay({ event, children }: { children: React.ReactNode
             <DialogContent
                 onInteractOutside={(e) => e.preventDefault()}
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="bg-accent h-fit w-fit lg:min-w-[700px] lg:px-20">
+                className=" h-fit w-fit lg:min-w-[700px] lg:px-20">
                 <DialogHeader>
                     <DialogTitle className="text-3xl">
                         Check-In
@@ -35,7 +35,7 @@ export function ShowCodeOverlay({ event, children }: { children: React.ReactNode
                         <h2>{event.title}</h2>
                     </DialogDescription>
                     <div className="flex items-center justify-center py-10">
-                        <OtpDisplay code={data?.code} />
+                        <OtpDisplay code={data} />
                     </div>
                 </DialogHeader>
             </DialogContent>

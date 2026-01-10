@@ -11,7 +11,7 @@ type BadgeVariant = "default" | "secondary" | "destructive" | "outline" | null |
 export type BadgeConfig = {
     [k in string]: {
         variant?: BadgeVariant
-        color?: keyof typeof colorMap
+        color: keyof typeof colorMap
     }
 }
 
@@ -27,7 +27,7 @@ const colorMap = {
 }
 
 
-export function CustomBadge({ itemKey, config }: { itemKey: keyof BadgeConfig, config: BadgeConfig }) {
+export function CustomBadge({ itemKey, config, className }: { itemKey: keyof BadgeConfig, config: BadgeConfig, className?: string }) {
 
     if (!itemKey) {
         return (
@@ -39,9 +39,13 @@ export function CustomBadge({ itemKey, config }: { itemKey: keyof BadgeConfig, c
 
 
     return (
-        <Badge variant={config[itemKey].variant} className={`font-nunit size-fit`}>
-            <Circle fill={config[itemKey].color} stroke='none' />
+        <Badge variant={config[itemKey].variant} className={`font-nunit size-fit ${className}`}>
+            <Circle fill={colorMap[config[itemKey].color]} stroke='none' />
             {snakeToTitle(itemKey)}
         </Badge>
     )
 }
+
+
+
+

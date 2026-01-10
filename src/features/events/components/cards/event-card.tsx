@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/primitives/card';
 import { Separator } from '@/components/primitives/separator';
-import { PermissionGuard, Container } from '@/components/layout';
+import { PermissionGuard } from '@/components/layout';
 import { MapPin, Calendar } from "lucide-react";
 import { DeleteEventButton, EditEventButton, ShowCodeButton } from '../buttons/admin';
 import { InfoButton } from '../buttons';
@@ -43,9 +43,9 @@ export function EventCard({ event }: { event: Event }) {
                     </div>
                 </PermissionGuard>
 
-                <Container hideInLarge classNameMobile='absolute flex top-2 left-2 z-10 gap-2'>
+                <div className='absolute flex top-2 left-2 z-10 gap-2 md:hidden'>
                     <InfoButton showInfo={showInfo} setShowInfo={setShowInfo} />
-                </Container>
+                </div>
                 <img
                     src={imageUrl}
                     alt={title}

@@ -57,6 +57,11 @@ type Pages = {
       "eventId": string;
     };
   };
+  "/:userId/auth": {
+    params: {
+      "userId": string;
+    };
+  };
   "/:userId/instructor": {
     params: {
       "userId": string;
@@ -72,7 +77,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
   };
   "pages/home/page.tsx": {
     id: "pages/home/page";
@@ -100,7 +105,7 @@ type RouteFiles = {
   };
   "pages/dashboard/page.tsx": {
     id: "pages/dashboard/page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/instructor" | "/:userId/help";
+    page: "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
   };
   "pages/dashboard/outlets/base/home-view.tsx": {
     id: "pages/dashboard/outlets/base/home-view";
@@ -125,6 +130,10 @@ type RouteFiles = {
   "pages/dashboard/outlets/admin/events/event/event-view.tsx": {
     id: "pages/dashboard/outlets/admin/events/event/event-view";
     page: "/:userId/admin/events/:eventId";
+  };
+  "pages/dashboard/outlets/admin/auth-view.tsx": {
+    id: "pages/dashboard/outlets/admin/auth-view";
+    page: "/:userId/auth";
   };
   "pages/dashboard/outlets/admin/instructor-view.tsx": {
     id: "pages/dashboard/outlets/admin/instructor-view";

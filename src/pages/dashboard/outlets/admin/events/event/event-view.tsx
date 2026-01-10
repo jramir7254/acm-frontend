@@ -19,7 +19,7 @@ import { formatDateAndTime } from '@/lib/utils';
 import { EditEventButton } from '@/features/events/components/buttons/admin';
 
 export default function EventView() {
-    const { toEvents, eventId } = useAppNavigation()
+    const { toEvents, eventId, toPrevious } = useAppNavigation()
     const { data: event } = useEvent(Number(eventId))
 
     if (!event || !eventId) return
@@ -29,7 +29,7 @@ export default function EventView() {
     return (
 
         <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full  border-2 border-accent rounded-md">
-            <Button onClick={toEvents} size='icon' variant={'ghost'}><ArrowLeft /></Button>
+            <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
             <div className='flex size-full gap-5'>
 
                 <div className='w-[45%] '>

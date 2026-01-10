@@ -1,7 +1,7 @@
 // features/events/pages/EventsPage.tsx
 import { EventCard, SkeletonCard } from "@/features/events/components/cards";
 import { Separator } from "@/components/primitives/separator";
-import { PermissionGuard, Page, Container } from "@/components/layout";
+import { PermissionGuard, Page } from "@/components/layout";
 import { FilterEventsButton } from "@/features/events/components/buttons/filter-events";
 import { useMemo, useState } from "react";
 
@@ -12,6 +12,7 @@ import { type Event } from "@/features/events/types/event";
 import { logger } from "@/lib/logger";
 import { useEvents } from "@/features/events/hooks/events/queries";
 import { CreateEventButton } from "@/features/events/components/buttons/admin/create-button";
+import { useCurrentSemester } from "@/features/app/use-semester";
 
 function GridSkeleton({ count = 6 }) {
     return (
@@ -42,7 +43,7 @@ function EventsPageInner() {
                 <h1 className="font-quick text-5xl md:text-8xl">Events</h1>
             </section>
 
-            <Container className="min-h-screen bg-background py-20 pb-[100vh] px-[5vw] flex flex-col gap-5 border-y-2 border-accent">
+            <div className="min-h-screen bg-background py-20 pb-[100vh] px-[5vw] flex flex-col gap-5 border-y-2 border-accent">
                 <div className="ml-auto space-x-3">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
                     <CreateEventButton />
@@ -50,7 +51,7 @@ function EventsPageInner() {
 
                 <Separator />
 
-                <Container className="
+                <div className="
                     grid gap-5 p-4
                     grid-cols-1 
                     md:grid-cols-2 
@@ -61,8 +62,8 @@ function EventsPageInner() {
                     <PermissionGuard resource="events" requiredActions={["create"]}>
                         <AddEventCard />
                     </PermissionGuard> */}
-                </Container>
-            </Container>
+                </div>
+            </div>
         </Page>
     );
 }
@@ -71,6 +72,7 @@ function EventsPageInner() {
 
 function EventsList({ filters }: { filters: EventFilters }) {
     const { data: events, isLoading, isFetching } = useEvents();
+    const { data: semester } = useCurrentSemester()
 
     if (!events) return
 
@@ -82,7 +84,7 @@ function EventsList({ filters }: { filters: EventFilters }) {
         let list = events.filter((e) => {
             const endTime = new Date(e.endAt).getTime();
             const now = Date.now();
-            const isPast = endTime < now;
+            const isPast = endTime < now || e.semesterCreatedId !== semester?.id;
 
             if (showPast && isPast) return true;
             if (showUpcoming && !isPast) return true;

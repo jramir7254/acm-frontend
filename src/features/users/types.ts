@@ -1,3 +1,4 @@
+import type { Event } from "../events/type"
 
 
 export interface User {
@@ -16,8 +17,20 @@ export type BaseUser = User & {
     fullName: string,
 }
 
+export type DetailedUser = BaseUser & {
+    createdAt: string,
+    updatedAt: string,
+}
+
 export type Student = User & {
     course: string
     attendance: number,
     missing: number
+}
+
+
+export type UserEvent = Pick<Event, | 'title' | 'startAt' | 'endAt' | 'semesterCreatedId'> & {
+    eventId: number
+    checkedInAt: string | null
+    complete: boolean | null
 }

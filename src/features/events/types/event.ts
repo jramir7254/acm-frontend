@@ -14,6 +14,8 @@ export interface Event {
     location: string,
     host: string,
     description: string,
+    semesterCreatedId: number
+
 }
 
 export type EventWithStats = Pick<Event, 'title' | 'id'> & {

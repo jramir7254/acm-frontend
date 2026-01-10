@@ -24,6 +24,7 @@ export default [
         route("admin/events/:eventId", "pages/dashboard/outlets/admin/events/event/event-view.tsx"),
 
 
+        route("auth", "pages/dashboard/outlets/admin/auth-view.tsx"),
         route("instructor", "pages/dashboard/outlets/admin/instructor-view.tsx"),
         route("help", "pages/dashboard/outlets/base/help-view.tsx"),
     ]),

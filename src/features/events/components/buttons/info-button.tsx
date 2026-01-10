@@ -1,4 +1,3 @@
-import { Container } from "@/components/layout"
 import { Button } from "@/components/primitives/button"
 import { Info } from "lucide-react"
 

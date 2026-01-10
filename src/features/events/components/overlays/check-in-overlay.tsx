@@ -14,7 +14,8 @@ import { useCheckIn } from '../../hooks/event/mutations'
 
 import { CheckInForm } from '../forms/check-in-form/check-in-form'
 import type { Event } from '../../types/event'
-export function CheckInOverlay({ event, children }: { event: Event, children: React.ReactNode }) {
+import type { EventIdentifiers } from '../../type'
+export function CheckInOverlay({ event, children }: { event: EventIdentifiers, children: React.ReactNode }) {
     const { mutateAsync } = useCheckIn(event.id)
     const [open, setOpen] = useState(false)
 
@@ -29,7 +30,7 @@ export function CheckInOverlay({ event, children }: { event: Event, children: Re
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="w-[500px] h-[250px] bg-accent">
+            <DialogContent className="w-[500px] h-[250px]">
                 <DialogHeader>
                     <DialogTitle>Check in for event</DialogTitle>
                     <DialogDescription>

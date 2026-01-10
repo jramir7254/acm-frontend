@@ -17,35 +17,27 @@ import { AssignRoleOverlay, AddAttendanceOverlay } from '@/features/admin/compon
 import ReminderButton from '@/features/admin/components/buttons/reminder-button';
 import { EditUserPanel } from '@/features/admin/components/forms/edit-user-form';
 
+import { UserCard } from '@/features/users/components/user/user-card';
+
 export default function UserView() {
     const { toPrevious, reqUserId } = useAppNavigation()
-    const { data } = useUser(reqUserId || '')
-    const course = useCourse(data?.courseId || -1)
+    const { data, isLoading } = useUser(reqUserId || '')
 
 
 
     if (!data) return <p>load</p>
 
-    const { firstName, lastName, epccEmail, epccId, rsvps, attendance, role, id } = data
+    // const { firstName, lastName, epccEmail, epccId, rsvps, attendance, role, id } = data
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className=" p-10 size-full flex flex-col border-2 border-accent rounded-md">
-            <header className='h-[7%] '>
+        <Gradient via="rgba(50,50,50,0.20)" className=" py-5 px-10 size-full flex flex-col border-2 border-accent rounded-md">
+            <header className='h-[5%] '>
                 <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
             </header>
             <div className='flex flex-1'>
 
-                <div className=' w-1/3 h-full p-3'>
-                    <ReminderButton epccId={epccId} />
-                    <Paragraph>{firstName} {lastName}</Paragraph>
-                    <Paragraph>{epccEmail} </Paragraph>
-                    <Paragraph>{epccId}</Paragraph>
-                    <Paragraph>{course?.name}</Paragraph>
-                    <Item className='p-0'>
-                        <RoleBadge role={role} />
-                        <EditUserPanel user={data} />
-                        {/* <AssignRoleOverlay currentRole={role} userId={id} epccId={epccId} /> */}
-                    </Item>
+                <div className=' w-1/3 h-full pr-3'>
+                    <UserCard user={data} />
                 </div>
                 <Separator orientation='vertical' className='' />
                 <div className='w-2/3 px-2'>
@@ -55,7 +47,7 @@ export default function UserView() {
                             <TabsTrigger value='attendance'>Attendance</TabsTrigger>
                         </TabsList>
                         <TabsContent value='attendance'>
-                            <AddAttendanceOverlay attendance={attendance} epccId={epccId} />
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
                             {/* <AttendanceTable attendance={attendance} /> */}
                         </TabsContent>
                     </Tabs>

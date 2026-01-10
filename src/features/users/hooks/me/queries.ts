@@ -1,17 +1,16 @@
 import { useQuery, useMutation, useQueryClient, QueryClient } from "@tanstack/react-query";
 import { backend } from "@/lib/backend-api";
 import { queryKeys } from "@/lib/query-keys";
-import { useEvents } from "@/features/events/hooks/events/queries";
-import type { Event } from "@/features/events/types/event";
-import { useMemo } from "react";
-import type { BaseUser } from "../../types";
-
+import type { BaseUser, UserEvent } from "../../types";
+import { useCurrentSemester } from "@/features/app/use-semester";
+import { tokenStore } from "@/features/auth/lib/token-store";
 
 
 export function useMe() {
     return useQuery<BaseUser>({
         queryKey: queryKeys.me.base(),
-        queryFn: () => backend.get('/auth/me'),
+        queryFn: () => backend.get('/users/me'),
+        enabled: !!tokenStore.get(),
         staleTime: 60 * 60 * 1000, // 1h fresh
         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
     });
@@ -22,7 +21,9 @@ export function useMe() {
 export function useMyPoints() {
     return useQuery({
         queryKey: queryKeys.me.field('points'),
-        queryFn: () => backend.get('/users/me/partial', { params: { fields: 'points' } }),
+        queryFn: () => backend.get('/users/me/points'),
+        enabled: !!tokenStore.get(),
+
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });
@@ -31,35 +32,27 @@ export function useMyPoints() {
 export function useMyAttendance() {
     return useQuery<Array<{ eventId: number, checkedInAt: string, status: 'missing' | 'complete' }>>({
         queryKey: queryKeys.me.field('attendance'),
-        queryFn: () => backend.get('/me', { params: { field: 'attendance' } }),
+        queryFn: () => backend.get('/users/me/attendance'),
+        enabled: !!tokenStore.get(),
+
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });
 }
 
-export function useMyEvents() {
-    const { data: attendance, isLoading: attendanceLoading } = useMyAttendance()
-    const { data: rsvps, isLoading: rsvpsLoading } = useMyRsvps()
-    const { data: events, isLoading: eventsLoading } = useEvents()
+
+export function _useMyEvents(semesterId?: string | 'current') {
 
 
-    const mergeUnique = (...arrays: [typeof rsvps, typeof attendance]) => {
-        const map = new Map();
-        arrays.flat().forEach(obj => map.set(obj?.eventId, obj));
-        return [...map.values()];
-    };
+    return useQuery<UserEvent[]>({
+        queryKey: queryKeys.me.events(semesterId || 'current'),
+        queryFn: () => backend.get('/users/me/events', { params: { semesterId: semesterId || 'current' } }),
+        enabled: !!tokenStore.get(),
 
-    const data = useMemo(() => {
-        return mergeUnique(rsvps, attendance).map(d => {
-            const event = events?.find(e => e.id === d?.eventId)
-            return { ...d, event }
-        })
+        staleTime: 60 * 1000,
 
-    }, [attendance, rsvps, events])
-
-    const isLoading = attendanceLoading || rsvpsLoading || eventsLoading
-
-    return { data, isLoading }
+        gcTime: 7 * 24 * 60 * 60 * 1000,
+    });
 }
 
 
@@ -67,7 +60,9 @@ export function useMyRsvps() {
 
     return useQuery<Array<{ eventId: number }>>({
         queryKey: queryKeys.me.field('rsvps'),
-        queryFn: () => backend.get('/me', { params: { field: 'rsvps' } }),
+        queryFn: () => backend.get('/users/me/rsvps'),
+        enabled: !!tokenStore.get(),
+
         staleTime: 60 * 60 * 1000,
         gcTime: 7 * 24 * 60 * 60 * 1000,
     });

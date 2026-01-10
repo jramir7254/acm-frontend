@@ -34,7 +34,17 @@ export function camelToTitleCase(camelCase: string) {
 }
 
 
-export function createCourseName(course: Course) {
+export function capitalize(value: string | undefined) {
+    if (!value) return ""
+    const first = value.charCodeAt(0)
+    const upperFirst = first >= 97 && first <= 122 ? String.fromCharCode(first - 32) : value[0]
+    return value.length === 1 ? upperFirst : upperFirst + value.slice(1)
+}
+
+
+
+export function createCourseName(course: Course | undefined) {
+    if (course === undefined) return null
     const { courseNumber, instructorLastName, subject } = course
     return courseNumber === '-1' ? "None/Graduated" : `[${instructorLastName}] ${subject} ${courseNumber}`
 }

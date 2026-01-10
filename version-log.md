@@ -7,3 +7,9 @@
 - Removed dashboard from features folder
 - adding stats to event page
 - Updated stats cards
+
+# [Version 2.1.0 ]:
+
+- Added semesters thing
+- Cleaned up admin events page
+- Added semester functionality

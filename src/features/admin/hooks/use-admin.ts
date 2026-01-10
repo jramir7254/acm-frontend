@@ -6,6 +6,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 // DO NOT DELETE THIS IMPORT
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { queryKeys } from "@/lib/query-keys";
+import type { SemesterFormValues } from "../components/overlays/change-semester-overlay";
 
 export function useEventsReportExcel() {
     return useMutation({
@@ -69,6 +70,27 @@ export function useAddAttendance(epccId: string) {
             // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
             // Option B (or in addition): refetch fresh data
             qc.invalidateQueries({ queryKey: queryKeys.users.detail.base(epccId) })
+        },
+        onError: () => {
+            toast.error('Could not add to events')
+        }
+    });
+}
+
+
+export function useChangeSemester() {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (semesterData: SemesterFormValues) => backend.put(
+            `/admin/semesters/`,
+
+            semesterData),
+        onSuccess: () => {
+            toast.success("Semester updated")
+            // Option A: immediate UI update
+            // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
+            // Option B (or in addition): refetch fresh data
+            qc.invalidateQueries({ queryKey: [queryKeys.app.semesters(), queryKeys.me.field('events')] })
         },
         onError: () => {
             toast.error('Could not add to events')
