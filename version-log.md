@@ -13,3 +13,7 @@
 - Added semesters thing
 - Cleaned up admin events page
 - Added semester functionality
+
+# [Version 2.1.1 ]:
+
+- Fixed update profile api url

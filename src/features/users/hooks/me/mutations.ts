@@ -10,7 +10,7 @@ export function useUpdateMe() {
     const qc = useQueryClient();
     return useMutation({
         mutationFn: (form: any) => backend.patch(
-            `/auth/me`, form
+            `/users/me`, form
         ),
         onSuccess: () => {
             toast.success("Profile updated")
