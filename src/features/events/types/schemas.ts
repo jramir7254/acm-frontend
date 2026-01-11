@@ -33,8 +33,8 @@ export const eventSchema = z
         location: z.string().min(1, "Location cannot be empty"),
 
         // Replaced `date` + `time` with two DateTimes
-        startAt: isDev ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
-        endAt: isDev ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
+        startAt: true ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
+        endAt: true ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
         type: z.enum(['meeting', 'workshop', 'external', 'major', 'recurring', 'hackathon', 'datathon', 'extra_credit']),
         resources: z.string().optional().nullable(),
         requirements: z.string().optional().nullable(),

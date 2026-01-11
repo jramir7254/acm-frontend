@@ -48,11 +48,7 @@ export default function EventsView() {
 
 
             <div className='flex gap-5 max-h-full '>
-                <div className='flex flex-col gap-5'>
-                    <RatedEventsCard semesterId={searchParams.get('semester') ?? 'current'} />
-                    <div className='hidden lg:block col-span-2 row-span-4 bg-accent rounded-[12px] border-8 flex-1'>
-                        <UnderConstructionCard className="size-full" />
-                    </div>                </div>
+
                 <Card className='w-full max-h-full'>
                     <CardHeader className=''>
                         <CardTitle>
@@ -89,6 +85,12 @@ export default function EventsView() {
                     </CardContent>
 
                 </Card>
+                <div className='flex flex-col gap-5'>
+                    <RatedEventsCard semesterId={searchParams.get('semester') ?? 'current'} />
+                    <div className='hidden lg:block col-span-2 row-span-4 bg-accent rounded-[12px] border-8 flex-1'>
+                        <UnderConstructionCard className="size-full" />
+                    </div>
+                </div>
             </div >
         </div >
     )
