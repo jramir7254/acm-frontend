@@ -25,13 +25,13 @@ export function Paragraph({ className, ...props }: TextProps) {
 }
 
 
-export function Text({ isLoading, fallBack, children, className, ...props }: TextProps) {
+export function Text({ isLoading, fallBack, muted, children, className, ...props }: TextProps & { muted?: boolean }) {
 
     if (isLoading) return <Skeleton className="h-4 w-10" />
 
 
     return <p
-        className={cn('font-nunit text-xs 2xl:text-sm', className)}
+        className={cn('font-nunit text-xs 2xl:text-sm', muted && 'text-muted-foreground', className)}
         {...props}
     >
         {children || <Italic muted>{fallBack || 'Empty'}</Italic>}

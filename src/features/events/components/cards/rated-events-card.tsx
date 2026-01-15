@@ -8,6 +8,7 @@ import React from 'react'
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/primitives/card'
 import { Badge } from '@/components/primitives/badge'
 import { Separator } from '@/components/primitives/separator';
+import { Italic, Text } from '@/components/text/typography';
 
 export function RatedEventsCard({ semesterId = 'current' }) {
     // const { data } = useStats()
@@ -25,17 +26,22 @@ export function RatedEventsCard({ semesterId = 'current' }) {
                 <CardHeader>
                     <CardDescription className='font-nunit'>Highest Rated Event</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-center">
-                        <AnimatedNumber
-                            decimal
-                            num={highestRated.avgRating}
-                        // className="text-5xl font-rubik"
-                        />
+                        {highestRated ? (
+                            <AnimatedNumber
+                                decimal
+                                num={highestRated.avgRating}
+                            // className="text-5xl font-rubik"
+                            />
+                        ) : (
+                            <Text >N/A</Text>
+                        )}
+
                     </CardTitle>
 
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm font-nunit">
                     <div className="line-clamp-1 flex gap-2 font-medium">
-                        {highestRated.title}
+                        {highestRated ? highestRated.title : <Italic muted>No event available</Italic>}
                     </div>
 
                 </CardFooter>
@@ -46,17 +52,22 @@ export function RatedEventsCard({ semesterId = 'current' }) {
                 <CardHeader>
                     <CardDescription className='font-nunit'>Lowest Rated Event</CardDescription>
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-center">
-                        <AnimatedNumber
-                            decimal
-                            num={lowestRated.avgRating}
-                            className="font-rubik"
-                        />
+                        {lowestRated ? (
+                            <AnimatedNumber
+                                decimal
+                                num={lowestRated.avgRating}
+                            // className="text-5xl font-rubik"
+                            />
+                        ) : (
+                            <Text >N/A</Text>
+                        )}
+
                     </CardTitle>
 
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm font-nunit">
                     <div className=" flex gap-2 font-medium">
-                        {lowestRated.title}
+                        {lowestRated ? lowestRated.title : <Italic muted>No event available</Italic>}
                     </div>
 
                 </CardFooter>

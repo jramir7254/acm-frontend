@@ -62,8 +62,8 @@ export function BChart({ semesterId = 'current' }) {
     }))
 
 
-    const newEvent = eventsData[eventsData.length - 1].attended
-    const prevEvent = eventsData[eventsData.length - 2].attended
+    const newEvent = eventsData[eventsData.length - 1]?.attended
+    const prevEvent = eventsData[eventsData.length - 2]?.attended
 
 
     const p = eventsData.length < 2 ?

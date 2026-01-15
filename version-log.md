@@ -17,3 +17,7 @@
 # [Version 2.1.1 ]:
 
 - Fixed update profile api url
+
+# [Version 2.1.2 ]:
+
+- Fixed update profile api url
