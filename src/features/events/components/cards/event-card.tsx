@@ -35,7 +35,7 @@ export function EventCard({ event }: { event: Event }) {
         <Card className=" aspect-square 2xl:aspect-auto max-h-[500px] overflow-hidden pb-2 md:pb-6 pt-0   ">
 
             <CardHeader className="p-0 group relative  h-[40%] md:h-1/2 overflow-hidden transition-all duration-600">
-                <PermissionGuard resource='events' requiredActions={['delete', 'update']}>
+                <PermissionGuard resource='events' requiredRoles={['president', 'advisor', 'instructor']}>
                     <div className='absolute flex top-2 right-2 z-10 gap-2 text-lg'>
                         <DeleteEventButton eventId={id} />
                         <EditEventButton event={event} />

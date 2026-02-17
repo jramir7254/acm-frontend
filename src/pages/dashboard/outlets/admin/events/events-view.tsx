@@ -38,7 +38,7 @@ export default function EventsView() {
 
 
     return (
-        <div className='flex flex-col gap-5 p-5 size-full'>
+        <div className='flex flex-col gap-5  size-full'>
             <header className='flex flex-col lg:flex-row gap-5'>
                 <EventsNumberCard semesterId={searchParams.get('semester') ?? 'current'} />
                 <BChart semesterId={searchParams.get('semester') ?? 'current'} />
@@ -48,12 +48,19 @@ export default function EventsView() {
 
 
             <div className='flex gap-5 max-h-full '>
+                <div className='w-full space-y-5'>
+                    <Select value={searchParams.get('semester') || 'current'} onValueChange={oc}>
+                        <SelectTrigger id='type' className="max-w-fit font-nunit">
+                            <SelectValue placeholder="Select A Semester" />
+                        </SelectTrigger>
+                        <SemesterSelect />
+                    </Select>
+                    <EventsTable semesterId={searchParams.get('semester') ?? 'current'} />
+                </div>
 
-                <Card className='w-full max-h-full'>
+                {/* <Card className='w-2/3 max-h-full bg-transparent border-none hidden'>
                     <CardHeader className=''>
-                        <CardTitle>
-                            <Heading>Events</Heading>
-                        </CardTitle>
+      
                         <CardAction>
                             <Select value={searchParams.get('semester') || 'current'} onValueChange={oc}>
                                 <SelectTrigger id='type' className="max-w-fit p-0! border-none bg-inherit! hover:underline hover:bg-none! font-nunit">
@@ -64,11 +71,9 @@ export default function EventsView() {
                         </CardAction>
 
                     </CardHeader>
-                    <Separator />
 
                     <CardContent className='lg:flex gap-5'>
                         <div className='w-2/3'>
-                            {/* <Heading>Events</Heading> */}
                             <EventsTable semesterId={searchParams.get('semester') ?? 'current'} />
                         </div>
                         <Separator orientation='vertical' />
@@ -84,12 +89,12 @@ export default function EventsView() {
                         </aside>
                     </CardContent>
 
-                </Card>
-                <div className='flex flex-col gap-5'>
+                </Card> */}
+                <div className='flex flex-col gap-5 w-1/3'>
                     <RatedEventsCard semesterId={searchParams.get('semester') ?? 'current'} />
-                    <div className='hidden lg:block col-span-2 row-span-4 bg-accent rounded-[12px] border-8 flex-1'>
+                    {/* <div className='hidden lg:block col-span-2 row-span-4 bg-accent rounded-[12px] border-8 flex-1'>
                         <UnderConstructionCard className="size-full" />
-                    </div>
+                    </div> */}
                 </div>
             </div >
         </div >

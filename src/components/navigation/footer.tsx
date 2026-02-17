@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router"
 
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Paragraph } from "../text/typography";
+import { Bold, Paragraph, Text } from "../text/typography";
 
 
 export default function Footer() {
@@ -14,19 +14,18 @@ export default function Footer() {
 
     if (hideFooter) return null
     return (
-        <footer className="relative p-6 w-full h-fit text-white flex flex-col items-center justify-center bg-matte-black z-10">
-
+        <footer className="relative p-6 w-full h-[500px] text-white flex flex-col gap-5 items-center justify-center bg-matte-black z-10">
             <nav >
-                <ul className="flex flex-col items-center justify-center">
-                    <Link to='/' className="list-item">Home</Link>
-                    <Link to='/events' className="list-item">Events</Link>
-                    <Link to='/about' className="list-item">About</Link>
+                <ul className="flex items-center justify-center gap-5">
+                    <Link to='/' className="list-item"><Bold>Home</Bold></Link>
+                    <Link to='/events' className="list-item"><Bold>Events</Bold></Link>
+                    <Link to='/about' className="list-item"><Bold>About</Bold></Link>
                 </ul>
             </nav>
-            <Paragraph className=" text-center">
+            <Text className=" text-center">
                 The EPCCCD does not discriminate on the basis of race, color, national
                 origin, religion, sex, age, disability and veteran status.
-            </Paragraph>
+            </Text>
 
 
             <div className="absolute bottom-5 left-5">

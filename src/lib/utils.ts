@@ -18,7 +18,7 @@ export const kebabToTitle = (kebabStr: string): string => {
 }
 
 export const snakeToTitle = (kebabStr: string): string => {
-    if (!kebabStr || kebabStr.length === 0) return ""
+    if (!kebabStr || typeof kebabStr !== 'string' || kebabStr.length === 0) return ""
     return kebabStr.split('_').map(i => i.charAt(0).toUpperCase().concat(i.substring(1))).join(" ").trim()
 }
 

@@ -20,4 +20,4 @@
 
 # [Version 2.1.2 ]:
 
-- Fixed update profile api url
+- Fix for events view page crashing with no events

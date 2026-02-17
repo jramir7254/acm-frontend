@@ -16,6 +16,7 @@ import { Item } from '@/components/primitives/item';
 import { AssignRoleOverlay, AddAttendanceOverlay } from '@/features/admin/components/overlays';
 import ReminderButton from '@/features/admin/components/buttons/reminder-button';
 import { EditUserPanel } from '@/features/admin/components/forms/edit-user-form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/primitives/select';
 
 import { UserCard } from '@/features/users/components/user/user-card';
 
@@ -34,19 +35,48 @@ export default function UserView() {
             <header className='h-[5%] '>
                 <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
             </header>
-            <div className='flex flex-1'>
+            <div className='flex flex-col flex-1'>
 
-                <div className=' w-1/3 h-full pr-3'>
+                <div className=' w-full pr-3'>
                     <UserCard user={data} />
                 </div>
-                <Separator orientation='vertical' className='' />
+                <Separator className='' />
                 <div className='w-2/3 px-2'>
-                    <Tabs defaultValue='rsvps'>
-                        <TabsList>
-                            <TabsTrigger value='rsvps'>Rsvps</TabsTrigger>
-                            <TabsTrigger value='attendance'>Attendance</TabsTrigger>
+                    <Tabs defaultValue=''>
+                        <TabsList asChild >
+                            <Select>
+                                <SelectTrigger className="max-w-fit p-0! border-none bg-inherit! hover:underline hover:bg-none! font-nunit">
+                                    <TabsTrigger value='' asChild>
+
+                                        <SelectValue placeholder="Something" />
+                                    </TabsTrigger>
+
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <TabsTrigger value='rsvps' asChild>
+                                        <SelectItem value='rsvps'>RSVPS</SelectItem>
+                                    </TabsTrigger>
+                                    <TabsTrigger value='attendance' asChild>
+                                        <SelectItem value='attendance'>Attendance</SelectItem>
+                                    </TabsTrigger>
+                                </SelectContent>
+                            </Select>
+                            {/* <TabsTrigger value='rsvps'>Rsvps</TabsTrigger>
+                            <TabsTrigger value='attendance'>Attendance</TabsTrigger> */}
                         </TabsList>
+                        <TabsContent value=''>
+                            <p>EMPTY</p>
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
+                            {/* <AttendanceTable attendance={attendance} /> */}
+                        </TabsContent>
+                        <TabsContent value='rsvps'>
+                            <p>RSVPS</p>
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
+                            {/* <AttendanceTable attendance={attendance} /> */}
+                        </TabsContent>
                         <TabsContent value='attendance'>
+                            <p>Attendance</p>
+
                             {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
                             {/* <AttendanceTable attendance={attendance} /> */}
                         </TabsContent>

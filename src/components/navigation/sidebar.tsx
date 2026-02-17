@@ -26,6 +26,7 @@ import { LogoutButton } from "@/features/auth/components/buttons/logout-button";
 import { Separator } from "@/components/primitives/separator"
 import { MeCard } from "@/features/users/components/me/cards/me-card";
 import { SidebarMenu, SidebarMenuItem } from "@/components/primitives/sidebar";
+import { Text } from "../text/typography";
 
 
 export function DashboardSidebar() {
@@ -39,7 +40,7 @@ export function DashboardSidebar() {
             <SidebarHeader className="relative mt-5 list-none ">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton onClick={toggleSidebar} size="lg" asChild>
+                        <SidebarMenuButton className="cursor-pointer" onClick={toggleSidebar} size="lg" asChild>
                             <a >
                                 <MeCard />
                                 <SidebarTrigger className="ml-auto" />
@@ -62,19 +63,19 @@ export function DashboardSidebar() {
                 <SidebarGroup label="Dashboard">
                     <SidebarItem to="">
                         <Home className="size-3.5 shrink-0" />
-                        <span>Home</span>
+                        <Text>Home</Text>
                     </SidebarItem>
 
                     <SidebarItem to='profile'>
                         <UserCircle2 className="size-3.5 shrink-0" />
-                        <span>Profile</span>
+                        <Text>Profile</Text>
                     </SidebarItem>
 
 
                     <FeatureFlag ready>
                         <SidebarItem to='help'>
                             <BadgeHelp className="h-4 w-4" />
-                            <span>Help</span>
+                            <Text>Help</Text>
                         </SidebarItem>
                     </FeatureFlag>
                 </SidebarGroup>
@@ -85,7 +86,7 @@ export function DashboardSidebar() {
                         <FeatureFlag ready>
                             <SidebarItem to='instructor'>
                                 <FaChalkboardTeacher className="h-4 w-4" />
-                                <span>Students</span>
+                                <Text>Students</Text>
                             </SidebarItem>
                         </FeatureFlag>
                     </SidebarGroup>
@@ -96,16 +97,16 @@ export function DashboardSidebar() {
                     <SidebarGroup label="Admin">
                         <SidebarItem to='admin/users'>
                             <Users className="h-4 w-4" />
-                            <span>Users</span>
+                            <Text>Users</Text>
                         </SidebarItem>
                         <SidebarItem to='admin/events'>
                             <MdEventNote className="h-4 w-4" />
-                            <span>Events</span>
+                            <Text>Events</Text>
                         </SidebarItem>
                         <PermissionGuard resource="users" requiredRoles={['advisor', 'instructor', 'president']}>
                             <SidebarItem to='auth'>
                                 <PersonStanding className="h-4 w-4" />
-                                <span>Admin</span>
+                                <Text>Admin</Text>
                             </SidebarItem>
                         </PermissionGuard>
                     </SidebarGroup>
