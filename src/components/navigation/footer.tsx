@@ -29,7 +29,10 @@ export default function Footer() {
 
 
             <div className="absolute bottom-5 left-5">
-                <Paragraph>Created by: Jesus Ramirez</Paragraph>
+                <a href="https://www.jesusramirez.dev/">
+                    <Paragraph >Created by: Jesus Ramirez</Paragraph>
+
+                </a>
             </div>
 
 
