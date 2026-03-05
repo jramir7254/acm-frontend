@@ -13,11 +13,6 @@ export function SelectTypeField({ form }: EventReactForm) {
         'meeting',
         'workshop',
         'external',
-        'major',
-        'recurring',
-        'hackathon',
-        'datathon',
-        'extra_credit'
     ]
 
     return (

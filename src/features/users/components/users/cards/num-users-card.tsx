@@ -6,14 +6,15 @@ import { MdOutlineTrendingFlat } from "react-icons/md";
 import React from 'react'
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/primitives/card'
 import { Badge } from '@/components/primitives/badge'
+import { SemestersName } from '@/components/text/semester-name';
 
-export function UsersNumberCard() {
+export function UsersNumberCard({ semesterId = 'current' }) {
     const { data, isRefetching, isLoading } = useUsers()
     const { data: stats } = useUsersStats()
 
 
     return (
-        <Card className='w-fit' >
+        <Card className='w-[250px]' >
             <CardHeader>
                 <CardDescription>Total Users</CardDescription>
                 <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl ">
@@ -22,22 +23,14 @@ export function UsersNumberCard() {
                         className=""
                     />
                 </CardTitle>
-                <CardAction>
-                    <Badge variant="outline">
-                        <Plus />
-                        <AnimatedNumber
-                            num={stats}
-                            className=""
-                        />
-                    </Badge>
-                </CardAction>
+
             </CardHeader>
-            <CardFooter className="flex-col items-start gap-1.5 text-sm">
-                <div className="line-clamp-1 flex gap-2 font-medium">
-                    Trending up this month <TrendingUp className="size-4" />
+            <CardFooter className="flex-col items-start gap-1.5 text-sm mb-0">
+                <div className=" font-medium">
+                    {stats} Users this semester
                 </div>
                 <div className="text-muted-foreground">
-                    New users this week
+                    <SemestersName semesterId={semesterId} />
                 </div>
             </CardFooter>
 

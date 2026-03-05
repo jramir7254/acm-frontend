@@ -96,7 +96,7 @@ export function useActionButton({ id, type, externalLink }: Partial<Event>) {
 
     return useMutation({
         mutationFn: () => {
-            if (type === 'workshop') {
+            if (type === 'workshop' || type === 'meeting') {
                 return backend.post(
                     `/events/${id}/rsvp`
                 );
@@ -106,7 +106,7 @@ export function useActionButton({ id, type, externalLink }: Partial<Event>) {
             }
         },
         onSuccess: (data: UserEvent) => {
-            if (type === 'workshop') {
+            if (type === 'workshop' || type === 'meeting') {
 
                 queryClient.setQueryData(queryKeys.me.events('current'), (prev: UserEvent[]) => {
                     logger.debug('prev', prev)
