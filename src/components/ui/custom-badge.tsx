@@ -39,8 +39,8 @@ export function CustomBadge({ itemKey, config, className }: { itemKey: keyof Bad
 
 
     return (
-        <Badge variant={config[itemKey].variant} className={`font-nunit size-fit ${className}`}>
-            <Circle fill={colorMap[config[itemKey].color]} stroke='none' />
+        <Badge variant={config[itemKey]?.variant} className={`font-nunit size-fit ${className}`}>
+            <Circle fill={colorMap[config[itemKey]?.color]} stroke='none' />
             {snakeToTitle(itemKey)}
         </Badge>
     )

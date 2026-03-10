@@ -31,11 +31,11 @@ export default function Header() {
         <header className="fixed top-0 z-50 w-full h-18 flex items-center justify-between bg-matte-black text-white/90 border-b-2 border-b-accent">
             <div className="flex items-center ml-5 md:ml-10 cursor-pointer" onClick={toHome}>
                 <img src="/epcc.png" width={isMobile ? 35 : 50} alt="ACM EPCC logo" />
-                <div className="ml-3 md:ml-5 flex h-full gap-2">
+                <div className="ml-2 md:ml-5 flex h-full gap-2">
                     <h1 className="font-bold font-aldri text-xl md:text-3xl">
                         ACM EPCC
                     </h1>
-                    <Separator orientation="vertical" className="h-full!" />
+                    <Separator orientation="vertical" className="h-10" />
                     <SemesterName className="text-xl! md:text-3xl!" />
                 </div>
             </div>
@@ -81,7 +81,7 @@ function MobileNav() {
     return (
         <Sheet>
             <SheetTrigger asChild>
-                <Button variant="outline" size={'icon'} className="mr-5">
+                <Button variant="outline" size={'icon'} className="mr-10">
                     <MenuIcon />
                 </Button>
             </SheetTrigger>

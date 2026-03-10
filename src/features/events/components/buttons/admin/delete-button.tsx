@@ -4,7 +4,7 @@ import { Trash } from "lucide-react";
 import { useDeleteEvent } from "@/features/events/hooks/event/mutations";
 import { PermissionGuard } from "@/components/layout/permission";
 
-export function DeleteEventButton({ eventId }: { eventId: string | number }) {
+export function DeleteEventButton({ eventId }: { eventId: number }) {
     const { mutate } = useDeleteEvent(eventId)
 
     return (

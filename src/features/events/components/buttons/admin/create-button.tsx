@@ -6,7 +6,7 @@ import { PermissionGuard } from '@/components/layout/permission'
 
 export function CreateEventButton() {
     return (
-        <PermissionGuard resource="events" requiredActions={["create"]}>
+        <PermissionGuard resource="events" requiredRoles={['president']}>
             <EventFormOverlay>
                 <Button variant={'default'} size={'icon'}><Plus /></Button>
             </EventFormOverlay>

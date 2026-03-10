@@ -29,7 +29,7 @@ export type Student = User & {
 }
 
 
-export type UserEvent = Pick<Event, | 'title' | 'startAt' | 'endAt' | 'semesterCreatedId'> & {
+export type UserEvent = Pick<Event, | 'title' | 'startAt' | 'endAt' | 'semesterCreatedId' | 'type'> & {
     eventId: number
     checkedInAt: string | null
     complete: boolean | null

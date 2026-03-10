@@ -2,7 +2,6 @@
 import { useMe } from "@/features/users/hooks/me/queries"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/primitives/avatar"
 import { useRole } from "@/features/auth/hooks/use-auth"
-import { RoleBadge } from "../role-badge"
 import type { BaseUser } from "../../types"
 import { Card, CardAction, CardContent, CardHeader } from "@/components/primitives/card"
 import { Separator } from "@/components/primitives/separator"
@@ -20,7 +19,7 @@ import { CourseName } from "@/components/text/course-name"
 export function UserCard({ user }: { user: BaseUser }) {
 
     return (
-        <Card>
+        <Card className="border-none bg-transparent">
             <CardHeader>
                 <CardAction>
                     <EditUserPanel user={user} />
@@ -38,24 +37,19 @@ export function UserCard({ user }: { user: BaseUser }) {
                             <Text fallBack="First Name" >{user?.firstName}</Text>
                             <Text fallBack="Last Name" >{user?.lastName}</Text>
                         </div>
+                        <Text > {user?.epccId}</Text>
                         <CustomBadge className="py-0" config={roleBadgeConfig} itemKey={user?.role} />
+                        <div className="inline-flex items-center gap-1">
+                            <Mail size={15} />
+                            <Text >{user?.epccEmail}</Text>
+                        </div>
+
                     </div>
-                </div>
-
-
-
-                <div>
-                    <Text > {user?.epccId}</Text>
-                    <div className="inline-flex items-center gap-1">
-                        <Mail size={15} />
-                        <Text >{user?.epccEmail}</Text>
-                    </div>
-
                 </div>
 
             </CardHeader>
             <CardContent className="space-y-3">
-                <Separator />
+                {/* <Separator /> */}
                 <div>
                     <CourseName courseId={user?.courseId} />
 

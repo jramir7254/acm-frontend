@@ -21,6 +21,7 @@ import { useAssignRole } from '@/features/admin/hooks/use-admin';
 import { ROLES } from '@/components/layout';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
+import clsx from 'clsx';
 
 const roleIds = ROLES.map((r, i) => ({ id: i + 1, name: r })).filter(r => r.name !== 'owner')
 
@@ -63,12 +64,12 @@ export function AssignRoleOverlay({ currentRole, userId, epccId }: { currentRole
                             <div
                                 key={`role-${r.name}`}
                                 onClick={() => setSelectedRole(r)}
-                                className={'cursor-pointer relative size-fit '}
+                                className={clsx('cursor-pointer relative size-fit px-2 rounded ', selectedRole?.id === r.id && 'bg-accent')}
                             >
-                                <div className={cn(
+                                {/* <div className={cn(
                                     'absolute size-full border-yellow-400 border rounded',
                                     selectedRole?.id !== r.id && 'hidden'
-                                )} />
+                                )} /> */}
                                 <RoleBadge role={r.name} />
                             </div>
                         ))}

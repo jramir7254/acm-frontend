@@ -13,6 +13,13 @@ import { formatDateAndTime } from '@/lib/utils';
 
 
 
+/**
+ * 
+ * @param param0 
+ * @returns 
+ * 
+ * @todo Fix code button icon before 10 mins
+ */
 
 export function EventCard({ event }: { event: Event }) {
     const [showInfo, setShowInfo] = useState(false)

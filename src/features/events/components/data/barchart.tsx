@@ -71,11 +71,10 @@ export function BChart({ semesterId = 'current' }) {
         :
         ((newEvent - prevEvent) / (prevEvent === 0 ? 1 : prevEvent)) * 100
 
-    console.log({ p, newEvent, prevEvent })
 
 
     return (
-        <Card className='max-w-full w-full overflow-x-auto pb-0'>
+        <Card className='max-w-full w-full overflow-x-auto pb-0 '>
             <CardHeader>
                 <CardTitle>Attendance This Semester</CardTitle>
                 <CardAction>
