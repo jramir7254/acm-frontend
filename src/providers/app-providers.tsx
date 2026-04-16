@@ -9,7 +9,7 @@ export default function AppProviders({ children }: { children: React.ReactNode }
             <AuthQueryDefaults />
             {children}
             <Toaster position="top-center" />
-            <ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
+            <ReactQueryDevtools buttonPosition="bottom-right" initialIsOpen={false} />
         </WithPersistedQueryClient>
     )
 }

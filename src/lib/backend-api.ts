@@ -53,7 +53,7 @@ client.interceptors.response.use(
 
     (error) => {
         apiLogger.error('<Raw Error>:', error)
-        const err = error.response?.data || {
+        const err = error.response || {
             success: false,
             message: "Unknown error",
             code: "UNKNOWN",
@@ -62,7 +62,7 @@ client.interceptors.response.use(
 
 
         const { response, config } = error || {};
-        if (!response || response.status !== 401 || (config as any)?.__isRetry) return Promise.reject(err);
+        if (!response || response.status !== 401) return Promise.reject(err);
 
         const hadAuthHeader = !!config?.headers?.Authorization;
         const isRefreshCall = config?.url?.includes("/auth/refresh");

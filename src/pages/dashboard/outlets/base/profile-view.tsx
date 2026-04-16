@@ -14,6 +14,7 @@ import { UnderConstructionCard } from '@/components/layout';
 import { useRole } from '@/features/auth/hooks/use-auth';
 import { PointsNumber } from '@/features/users/components/me/numbers';
 import { useUpdateMe } from '@/features/users/hooks/me/mutations';
+import { ScrollArea } from '@/components/primitives/scroll-area';
 
 export default function ProfileSettings() {
     const { data: user, isLoading } = useMe();
@@ -30,7 +31,7 @@ export default function ProfileSettings() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className=" p-10 size-full grid grid-cols-1 md:grid-cols-2 border-2 border-accent rounded-md">
+        <ScrollArea className=" p-10 size-full h-[85vh] grid grid-cols-1 ">
             <div className="space-y-4 flex flex-col">
                 <div>
                     <h2 hidden={accountComplete} className='font-bold text-xl mb-2'>
@@ -57,16 +58,16 @@ export default function ProfileSettings() {
 
                 <Separator />
 
-                <div className='h-full flex flex-col ' >
+                <div className='h-screen flex flex-col ' >
 
                     <ProfileForm user={user} handleSubmit={mutateAsync} />
 
                 </div>
             </div>
 
-            <div className='hidden lg:block mx-10 bg-accent rounded-[12px] border-8'>
+            {/* <div className='hidden lg:block mx-10 bg-accent rounded-[12px] border-8'>
                 <UnderConstructionCard className='size-full' />
-            </div>
-        </Gradient>
+            </div> */}
+        </ScrollArea>
     );
 }

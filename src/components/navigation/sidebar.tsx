@@ -9,56 +9,50 @@ import {
     SidebarItem,
     SidebarFooter,
     SidebarGroup,
-    SidebarRail,
-    SidebarTrigger,
-    SidebarMenuButton,
-    SidebarMenuBadge,
-    SidebarSeparator,
-    useSidebar
+    SidebarMenuButton
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2, CodeXml, BadgeHelp, Users, GalleryVerticalEnd } from "lucide-react"
+import { Home, PersonStanding, UserCircle2, BadgeHelp, Users } from "lucide-react"
 import { MdEventNote } from "react-icons/md";
 
 import { FaChalkboardTeacher } from "react-icons/fa";
 
-import { LogoutButton } from "@/features/auth/components/buttons/logout-button";
 import { Separator } from "@/components/primitives/separator"
-import { MeCard } from "@/features/users/components/me/cards/me-card";
 import { SidebarMenu, SidebarMenuItem } from "@/components/primitives/sidebar";
 import { Text } from "../text/typography";
+import { SidebarUserFooter } from "./sidebar-footer";
+import { useAppNavigation } from "@/hooks";
+import { Avatar, AvatarFallback, AvatarImage } from "../primitives/avatar";
+import { SemesterName } from "../text/semester-name";
 
 
 export function DashboardSidebar() {
-    const { state, toggleSidebar } = useSidebar()
 
-    const isExpanded = state === 'expanded'
+    const { toHome } = useAppNavigation()
+
 
 
     return (
-        <Sidebar className="px-3" collapsible="icon">
-            <SidebarHeader className="relative mt-5 list-none ">
+        <Sidebar className="" collapsible="icon" variant="inset">
+            <SidebarHeader className="">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton className="cursor-pointer" onClick={toggleSidebar} size="lg" asChild>
-                            <a >
-                                <MeCard />
-                                <SidebarTrigger className="ml-auto" />
-                            </a>
+                        <SidebarMenuButton size="lg" onClick={toHome}>
+                            <Avatar className="size-7 md:size-8 rounded-md bg-black">
+                                <AvatarImage src="/epcc.png" />
+                                <AvatarFallback className="rounded-lg">EPCC</AvatarFallback>
+                            </Avatar>
+                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                <span className="truncate font-medium">ACM EPCC</span>
+                                <span className="truncate text-xs"><SemesterName /></span>
+                            </div>
+
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
-                {/* <div>
-                    {isExpanded &&
-                        
-                    }
-                    <SidebarMenuBadge className="pointer-events-auto group-data-[collapsible=icon]:block">
-                        <SidebarTrigger className=" md:flex" />
-                    </SidebarMenuBadge>
-                </div> */}
+
             </SidebarHeader>
 
-            <Separator />
             <SidebarContent>
                 <SidebarGroup label="Dashboard">
                     <SidebarItem to="">
@@ -115,13 +109,9 @@ export function DashboardSidebar() {
             </SidebarContent>
 
 
-            <SidebarFooter className="mb-10 list-none">
-                <SidebarMenuButton asChild>
-                    <LogoutButton collapsed={!isExpanded} />
-                </SidebarMenuButton>
+            <SidebarFooter className="">
+                <SidebarUserFooter />
             </SidebarFooter>
-
-            <SidebarRail />
         </Sidebar>
     )
 }

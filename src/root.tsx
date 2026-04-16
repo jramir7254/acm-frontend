@@ -13,10 +13,6 @@ import {
 
 import AppProviders from "./providers/app-providers";
 
-import Header from "./components/navigation/header";
-import Circuit from "./components/primitives/circuit";
-import Footer from "./components/navigation/footer";
-
 
 
 export const links: Route.LinksFunction = () => [
@@ -62,22 +58,7 @@ export default function App() {
 
     return (
         <AppProviders>
-            <Circuit
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    zIndex: -1,
-                    width: "100vw",
-                    height: "100%",
-                    pointerEvents: "none",
-                }}
-            />
-            <Header />
-            <main>
-                <Outlet />
-            </main>
-            <Footer />
+            <Outlet />
         </AppProviders>
     );
 }

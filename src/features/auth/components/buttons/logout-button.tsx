@@ -3,13 +3,14 @@ import { Button } from "@/components/primitives/button"
 import { useLogout } from "@/features/auth/hooks/use-auth"
 import { LogOutIcon } from "lucide-react"
 
-export function LogoutButton({ collapsed }: { collapsed: boolean }) {
+export function LogoutButton() {
     const logout = useLogout()
 
     return (
         <ConfirmationModal title="Are you sure you want to logout?" onConfirm={logout}>
-            <Button variant="outline" size={collapsed ? 'icon' : 'default'}>
-                {collapsed ? <LogOutIcon /> : 'Log out'}
+            <Button variant="ghost" className="w-full flex justify-start" >
+                <LogOutIcon />
+                Log out
             </Button>
         </ConfirmationModal>
     )

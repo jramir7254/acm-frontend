@@ -16,13 +16,13 @@ type Pages = {
   "/events": {
     params: {};
   };
+  "/about": {
+    params: {};
+  };
   "/auth": {
     params: {};
   };
   "/auth/verify": {
-    params: {};
-  };
-  "/about": {
     params: {};
   };
   "/:userId": {
@@ -77,7 +77,11 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/auth" | "/auth/verify" | "/about" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
+  };
+  "pages/public-layout.tsx": {
+    id: "pages/public-layout";
+    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify";
   };
   "pages/home/page.tsx": {
     id: "pages/home/page";
@@ -86,6 +90,10 @@ type RouteFiles = {
   "pages/events/page.tsx": {
     id: "pages/events/page";
     page: "/events";
+  };
+  "pages/about/page.tsx": {
+    id: "pages/about/page";
+    page: "/about";
   };
   "pages/auth/page.tsx": {
     id: "pages/auth/page";
@@ -98,10 +106,6 @@ type RouteFiles = {
   "pages/auth/outlets/verify-view.tsx": {
     id: "pages/auth/outlets/verify-view";
     page: "/auth/verify";
-  };
-  "pages/about/page.tsx": {
-    id: "pages/about/page";
-    page: "/about";
   };
   "pages/dashboard/page.tsx": {
     id: "pages/dashboard/page";

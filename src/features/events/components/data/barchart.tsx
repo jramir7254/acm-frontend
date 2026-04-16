@@ -74,7 +74,7 @@ export function BChart({ semesterId = 'current' }) {
 
 
     return (
-        <Card className='max-w-full w-full overflow-x-auto pb-0 '>
+        <Card className='max-w-full w-full overflow-x-auto p-0 bg-transparent border-none'>
             <CardHeader>
                 <CardTitle>Attendance This Semester</CardTitle>
                 <CardAction>

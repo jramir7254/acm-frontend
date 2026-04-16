@@ -1,15 +1,18 @@
 // app/routes.ts
 
-import { type RouteConfig, index, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
 
 export default [
-    index("pages/home/page.tsx"),
-    route("events", "pages/events/page.tsx"),
-    route("auth", "pages/auth/page.tsx", [
-        index("pages/auth/outlets/form-view.tsx"),
-        route("verify", "pages/auth/outlets/verify-view.tsx"),
+    layout("pages/public-layout.tsx", [
+
+        index("pages/home/page.tsx"),
+        route("events", "pages/events/page.tsx"),
+        route("about", "pages/about/page.tsx"),
+        route("auth", "pages/auth/page.tsx", [
+            index("pages/auth/outlets/form-view.tsx"),
+            route("verify", "pages/auth/outlets/verify-view.tsx"),
+        ]),
     ]),
-    route("about", "pages/about/page.tsx"),
     route(":userId/", "pages/dashboard/page.tsx", [
         index("pages/dashboard/outlets/base/home-view.tsx"),
         route("profile", "pages/dashboard/outlets/base/profile-view.tsx"),

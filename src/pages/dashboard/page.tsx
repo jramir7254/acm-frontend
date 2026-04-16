@@ -1,10 +1,9 @@
-import { Page, } from '@/components/layout/page'
-import { SidebarProvider, SidebarTrigger } from '@/components/primitives/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/primitives/sidebar'
 
 import { Outlet } from 'react-router'
 import { useMe } from '@/features/users/hooks/me/queries'
 import { DashboardSidebar } from '@/components/navigation/sidebar'
-import { ScrollArea } from '@/components/primitives/scroll-area'
+import { Separator } from '@/components/primitives/separator'
 
 
 export default function DashboardPage() {
@@ -16,16 +15,24 @@ export default function DashboardPage() {
 
 
     return (
-        <Page className='bg-background flex flex-1 relative overflow-hidden'>
-            <SidebarProvider>
-                <DashboardSidebar />
-                <SidebarTrigger className='md:hidden absolute top-5 left-10 z-10' />
-                {/* <ScrollArea className='flex-1'> */}
-                <div className='m-5 lg:m-7 2xl:m-8 flex-1 max-h-full'>
+        <SidebarProvider className=' min-h-screen bg-background'>
+            <DashboardSidebar />
+            <SidebarInset className=''>
+                <header className="flex h-16 shrink-0 items-center gap-3 px-4 sm:px-5 lg:px-6">
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
+                        <SidebarTrigger className="size-8" />
+                        <Separator
+                            className="data-[orientation=vertical]:h-4"
+                            orientation="vertical"
+                        />
+                    </div>
+                </header>
+                <Separator />
+
+                <div className=' lg:m-7 2xl:m-8 flex-1  '>
                     <Outlet />
                 </div>
-                {/* </ScrollArea> */}
-            </SidebarProvider>
-        </Page>
+            </SidebarInset>
+        </SidebarProvider>
     )
 }

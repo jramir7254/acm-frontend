@@ -32,7 +32,7 @@ export default function AboutPage() {
     }, [index, navigate, timeline])
 
     return (
-        <Page className="w-screen h-[calc(100vh-64px)] relative bg-card p-10 md:p-20">
+        <Page className="w-screen  relative bg-card p-10 md:p-20">
             <div className="flex flex-col space-y-10">
                 <div className="flex md:flex-row flex-col space-x-0 md:space-x-5 space-y-5 justify-between">
                     <Skeleton className="w-[85vw] h-[20vh] md:block md:h-[50vh] md:w-[500px] rounded-xl" />

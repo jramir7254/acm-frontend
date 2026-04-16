@@ -17,14 +17,14 @@ export function MyEventsTable({ semesterId }: { semesterId: string | undefined }
 
 
     return (
-        <ScrollArea className=" max-h[400px] h-[400px] rounded-t-md overflow-x-auto">
+        <ScrollArea className=" max-h[400px] h-[400px] rounded-t-md ">
 
             <Table>
                 <TableCaption>A list of your rsvp'd and attended events.</TableCaption>
-                <TableHeader>
+                <TableHeader className="sticky top-0 bg-accent  z-5 ">
                     <TableRow className='hover:bg-inherit'>
-                        <TableHead className="w-2/4">Title</TableHead>
-                        <TableHead className='hidden md:block'>Date</TableHead>
+                        <TableHead className="">Title</TableHead>
+                        <TableHead className=''>Date</TableHead>
                         <TableHead>Action</TableHead>
                     </TableRow>
                 </TableHeader>

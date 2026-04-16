@@ -38,7 +38,7 @@ function EventsPageInner() {
 
 
     return (
-        <Page>
+        <Page className="flex flex-col">
             <section className="h-[25vh] md:h-[45vh] flex justify-center items-center">
                 <h1 className="font-quick text-5xl md:text-8xl">Events</h1>
             </section>

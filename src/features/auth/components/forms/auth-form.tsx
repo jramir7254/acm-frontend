@@ -68,7 +68,7 @@ export function AuthForm() {
             form.setError("root", {
                 type: "server",
                 message:
-                    err?.message || err || "An unexpected error occurred. Please try again.",
+                    err?.data?.message || "An unexpected error occurred. Please try again.",
             });
         }
 
