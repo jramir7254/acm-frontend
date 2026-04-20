@@ -37,7 +37,7 @@ export default function Footer() {
 
 
             <div className="absolute bottom-5 right-5">
-                <Paragraph>V 2.1.2</Paragraph>
+                <Paragraph>V 2.2.2</Paragraph>
             </div>
 
         </footer>
