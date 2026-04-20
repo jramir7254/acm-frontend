@@ -118,25 +118,25 @@ export default function InstructorView() {
     if (isLoading) return <p>Loading...</p>
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full flex  border-2 border-accent rounded-md">
-            <TableContainer table={table}>
-                <div className='flex-1 space-y-3'>
-                    <div className='inline-flex items-center gap-1'>
-                        <GlobalFilter placeholder='Search Students' className='max-w-xs' />
-                        <RefetchButton queryKey={queryKeys.users.all} />
-
-                    </div>
-
-                    <ScrollArea className='overflow-hidden rounded-t-lg'>
-                        <SmartTable className=' flex-1 max-h-[500px] rounded-t-lg'>
-                            <SmartTableHeader className='sticky top-0 rounded-t-lg bg-accent overflow-hidden z-5 ' />
-                            <SmartTableBody className='' />
-                        </SmartTable>
-                    </ScrollArea>
+        // <div via="rgba(50,50,50,0.20)" className="p-10 size-full flex  border-2 border-accent rounded-md">
+        <TableContainer table={table}>
+            <div className='flex-1 space-y-3'>
+                <div className='inline-flex items-center gap-1'>
+                    <GlobalFilter placeholder='Search Students' className='max-w-xs' />
+                    <RefetchButton queryKey={queryKeys.users.all} />
 
                 </div>
-            </TableContainer>
-        </Gradient>
+
+                <ScrollArea className='overflow-hidden rounded-t-lg'>
+                    <SmartTable className=' flex-1 max-h-[500px] rounded-t-lg'>
+                        <SmartTableHeader className='sticky top-0 rounded-t-lg bg-accent overflow-hidden z-5 ' />
+                        <SmartTableBody className='' />
+                    </SmartTable>
+                </ScrollArea>
+
+            </div>
+        </TableContainer>
+        // </div>
     )
 }
 
