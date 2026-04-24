@@ -1,0 +1,12 @@
+import { AnimatedNumber } from '@/components/other/animated-number'
+import { useMyPoints } from '@/features/users/hooks/me/queries'
+
+export function PointsNumber() {
+    const { data, isRefetching, isLoading } = useMyPoints()
+    return (
+        <AnimatedNumber
+            num={data}
+            className="text-xl md:text-3xl font-rubik"
+        />
+    )
+}

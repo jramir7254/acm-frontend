@@ -1,0 +1,89 @@
+
+
+import Gradient from '@/components/layout/gradient'
+import { Button } from '@/components/ui/button';
+import { useAppNavigation } from '@/hooks';
+import { useUser } from '@/features/users/hooks/user/queries';
+import { ArrowLeft, Edit2 } from 'lucide-react';
+import { Paragraph } from '@/components/text/typography';
+import { Badge } from '@/components/ui/badge';
+import { useCourse } from '@/features/edu/hooks/queries';
+import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/ui/tabs';
+// import AttendanceTable from './components/attendance-table';
+import { Separator } from '@/components/ui/separator';
+import { RoleBadge } from '@/features/users/components/role-badge';
+import { Item } from '@/components/ui/item';
+import { AssignRoleOverlay, AddAttendanceOverlay } from '@/features/admin/components/overlays';
+import ReminderButton from '@/features/admin/components/buttons/reminder-button';
+import { EditUserPanel } from '@/features/admin/components/forms/edit-user-form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+import { UserCard } from '@/features/users/components/user/user-card';
+
+export default function UserView() {
+    const { toPrevious, reqUserId } = useAppNavigation()
+    const { data, isLoading } = useUser(reqUserId || '')
+
+
+
+    if (!data) return <p>load</p>
+
+    // const { firstName, lastName, epccEmail, epccId, rsvps, attendance, role, id } = data
+
+    return (
+        <Gradient via="rgba(50,50,50,0.20)" className=" py-5 px-10 size-full flex flex-col border-2 border-accent rounded-md">
+            <header className='h-[5%] '>
+                <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
+            </header>
+            <div className='flex flex-col flex-1'>
+
+                <div className=' w-full pr-3'>
+                    <UserCard user={data} />
+                </div>
+                <Separator className='' />
+                <div className='w-2/3 px-2'>
+                    <Tabs defaultValue=''>
+                        <TabsList asChild >
+                            <Select>
+                                <SelectTrigger className="max-w-fit p-0! border-none bg-inherit! hover:underline hover:bg-none! font-nunit">
+                                    <TabsTrigger value='' asChild>
+
+                                        <SelectValue placeholder="Something" />
+                                    </TabsTrigger>
+
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <TabsTrigger value='rsvps' asChild>
+                                        <SelectItem value='rsvps'>RSVPS</SelectItem>
+                                    </TabsTrigger>
+                                    <TabsTrigger value='attendance' asChild>
+                                        <SelectItem value='attendance'>Attendance</SelectItem>
+                                    </TabsTrigger>
+                                </SelectContent>
+                            </Select>
+                            {/* <TabsTrigger value='rsvps'>Rsvps</TabsTrigger>
+                            <TabsTrigger value='attendance'>Attendance</TabsTrigger> */}
+                        </TabsList>
+                        <TabsContent value=''>
+                            <p>EMPTY</p>
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
+                            {/* <AttendanceTable attendance={attendance} /> */}
+                        </TabsContent>
+                        <TabsContent value='rsvps'>
+                            <p>RSVPS</p>
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
+                            {/* <AttendanceTable attendance={attendance} /> */}
+                        </TabsContent>
+                        <TabsContent value='attendance'>
+                            <p>Attendance</p>
+
+                            {/* <AddAttendanceOverlay attendance={attendance} epccId={epccId} /> */}
+                            {/* <AttendanceTable attendance={attendance} /> */}
+                        </TabsContent>
+                    </Tabs>
+
+                </div>
+            </div>
+        </Gradient>
+    )
+}

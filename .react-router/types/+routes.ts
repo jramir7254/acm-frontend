@@ -6,6 +6,7 @@ declare module "react-router" {
   interface Register {
     pages: Pages
     routeFiles: RouteFiles
+    routeModules: RouteModules
   }
 }
 
@@ -147,4 +148,25 @@ type RouteFiles = {
     id: "pages/dashboard/outlets/base/help-view";
     page: "/:userId/help";
   };
+};
+
+type RouteModules = {
+  "root": typeof import("./app/root.tsx");
+  "pages/public-layout": typeof import("./app/pages/public-layout.tsx");
+  "pages/home/page": typeof import("./app/pages/home/page.tsx");
+  "pages/events/page": typeof import("./app/pages/events/page.tsx");
+  "pages/about/page": typeof import("./app/pages/about/page.tsx");
+  "pages/auth/page": typeof import("./app/pages/auth/page.tsx");
+  "pages/auth/outlets/form-view": typeof import("./app/pages/auth/outlets/form-view.tsx");
+  "pages/auth/outlets/verify-view": typeof import("./app/pages/auth/outlets/verify-view.tsx");
+  "pages/dashboard/page": typeof import("./app/pages/dashboard/page.tsx");
+  "pages/dashboard/outlets/base/home-view": typeof import("./app/pages/dashboard/outlets/base/home-view.tsx");
+  "pages/dashboard/outlets/base/profile-view": typeof import("./app/pages/dashboard/outlets/base/profile-view.tsx");
+  "pages/dashboard/outlets/admin/users/users-view": typeof import("./app/pages/dashboard/outlets/admin/users/users-view.tsx");
+  "pages/dashboard/outlets/admin/users/user/user-view": typeof import("./app/pages/dashboard/outlets/admin/users/user/user-view.tsx");
+  "pages/dashboard/outlets/admin/events/events-view": typeof import("./app/pages/dashboard/outlets/admin/events/events-view.tsx");
+  "pages/dashboard/outlets/admin/events/event/event-view": typeof import("./app/pages/dashboard/outlets/admin/events/event/event-view.tsx");
+  "pages/dashboard/outlets/admin/auth-view": typeof import("./app/pages/dashboard/outlets/admin/auth-view.tsx");
+  "pages/dashboard/outlets/admin/instructor-view": typeof import("./app/pages/dashboard/outlets/admin/instructor-view.tsx");
+  "pages/dashboard/outlets/base/help-view": typeof import("./app/pages/dashboard/outlets/base/help-view.tsx");
 };
