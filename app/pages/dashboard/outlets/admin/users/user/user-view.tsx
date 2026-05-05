@@ -1,6 +1,5 @@
 
 
-import Gradient from '@/components/layout/gradient'
 import { Button } from '@/components/ui/button';
 import { useAppNavigation } from '@/hooks';
 import { useUser } from '@/features/users/hooks/user/queries';
@@ -31,7 +30,7 @@ export default function UserView() {
     // const { firstName, lastName, epccEmail, epccId, rsvps, attendance, role, id } = data
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className=" py-5 px-10 size-full flex flex-col border-2 border-accent rounded-md">
+        <div className=" py-5 px-10 size-full flex flex-col border-2 border-accent rounded-md">
             <header className='h-[5%] '>
                 <Button onClick={toPrevious} size='icon' variant={'ghost'}><ArrowLeft /></Button>
             </header>
@@ -84,6 +83,6 @@ export default function UserView() {
 
                 </div>
             </div>
-        </Gradient>
+        </div>
     )
 }

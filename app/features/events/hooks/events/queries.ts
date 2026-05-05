@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { backend } from "@/lib/backend-api";
 import { queryKeys } from "@/lib/query-keys";
 
-import type { Event, EventWithStats } from "../../types/event";
+import type { Event, EventWithStats } from "../../types";
 import type { RatedEvents } from "../../types";
 
 export function useEvents() {

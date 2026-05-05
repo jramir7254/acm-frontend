@@ -1,4 +1,3 @@
-import Gradient from '@/components/layout/gradient';
 import React from 'react'
 import {
     Accordion,
@@ -15,7 +14,7 @@ export default function HelpView() {
 
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className=" py-15 md:p-10 size-full flex flex-col md:flex-row border-2 border-accent rounded-md">
+        <div className=" py-15 md:p-10 size-full flex flex-col md:flex-row border-2 border-accent rounded-md">
             <div className='hidden flex-1 lg:flex px-5' >
                 <UnderConstructionCard className='flex-1 rounded-[12px] border-8' text='FAQ SOON'>
                     <Accordion
@@ -50,6 +49,6 @@ export default function HelpView() {
                 {/* <HelpForm /> */}
             </div>
 
-        </Gradient>
+        </div>
     );
 }

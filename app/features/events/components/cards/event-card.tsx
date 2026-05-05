@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks';
 import { Paragraph, Heading } from '@/components/text/typography';
 import { type Event } from '../../types';
 import { formatDateAndTime } from '@/lib/utils';
+import { CardAction } from '@/components/primitives/card';
 
 
 
@@ -44,7 +45,7 @@ export function EventCard({ event }: { event: Event }) {
 
 
 
-            <div className="absolute inset-0 z-30 aspect-video bg-black/35" >
+            <div className="absolute inset-0 z-30 cursor-pointer aspect-video bg-black/35" >
                 <div
                     style={style}
                     className=" md:block absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-black/20 opacity-0 hover:opacity-100 hover:h-full transition duration-600">
@@ -78,7 +79,10 @@ export function EventCard({ event }: { event: Event }) {
 
                     <Heading className="">{title}</Heading>
                 </CardTitle>
-                <Separator />
+                <CardAction>
+                    Action
+                </CardAction>
+                {/* <Separator /> */}
             </CardHeader>
 
 
@@ -100,7 +104,7 @@ export function EventCard({ event }: { event: Event }) {
                         <Paragraph>{location}</Paragraph>
                     </div>
                     <div className=''>
-                        <Paragraph>Presenter: {host}</Paragraph>
+                        <Paragraph>Host: {host}</Paragraph>
                     </div>
                 </div>
             </CardContent>

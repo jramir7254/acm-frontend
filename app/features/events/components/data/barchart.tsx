@@ -1,25 +1,16 @@
 
 
 import {
-    ChartLegend,
     ChartTooltip,
     ChartContainer,
-    ChartLegendContent,
     ChartTooltipContent,
     type ChartConfig
 } from '@/components/ui/chart'
 
-import { Bar, BarChart, BarStack, AreaChart, Area, LineChart, Line, XAxis, YAxis } from 'recharts'
+import { LineChart, Line, XAxis } from 'recharts'
 
-import { FEEDBACK_QUESTIONS } from '@/lib/constants';
-import { useEventField } from '../../hooks/event/queries';
-import { logger } from '@/lib/logger';
-import { useAdminEvents, useStats } from '../../hooks/events/queries';
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { AnimatedNumber } from '@/components/other';
-import { Plus, TrendingUp, TrendingDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useAdminEvents } from '../../hooks/events/queries';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 
 
@@ -41,7 +32,7 @@ export function BChart({ semesterId = 'current' }) {
     const { eventsData } = data
 
 
-    const d = eventsData?.map(e => ({
+    const d = eventsData.filter(ev => ev.type === 'workshop')?.map(e => ({
         ...e,
         date: new Date(e.date).toLocaleString('en-us', { month: 'short', day: '2-digit' })
     }))

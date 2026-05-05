@@ -1,5 +1,4 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Centered } from '@/components/layout';
 import { Skeleton } from '@/components/ui/skeleton'
 import { Image } from "lucide-react";
 
@@ -7,9 +6,9 @@ export function SkeletonCard() {
     return (
         <Card className="flex flex-col overflow-hidden pt-0 h-[50vh]">
             <CardHeader className='h-1/2 bg-white/10 block'>
-                <Centered className='size-full'>
+                <div className='size-full grid place-items-center'>
                     <Image className='text-white/50' size={50} />
-                </Centered>
+                </div>
             </CardHeader>
             <CardContent className="space-y-5">
                 <CardTitle className='space-y-2'>

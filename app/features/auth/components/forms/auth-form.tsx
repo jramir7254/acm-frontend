@@ -1,5 +1,5 @@
 // features/auth/components/auth-form.tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // Added useState
 import { useSearchParams, useNavigate } from "react-router";
 import { authSchemas } from "../../types/form-schema";
 import { useAuthActions } from "../../hooks/use-auth";
@@ -16,10 +16,9 @@ import type z from "zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EyeOffIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon } from "lucide-react"; // Added EyeIcon
+
 type Mode = "login" | "register" | 'reset' | 'forgot'
-
-
 
 export function AuthForm() {
     const navigate = useNavigate();
@@ -27,9 +26,10 @@ export function AuthForm() {
     const [searchParams] = useSearchParams();
     const mode = (searchParams.get("type") as Mode) ?? "login";
 
+    // New state for password visibility
+    const [showPassword, setShowPassword] = useState(false);
+
     const currentSchema = authSchemas[mode] as typeof authSchemas[Mode];
-
-
 
     const form = useForm<z.infer<typeof currentSchema>>({
         resolver: zodResolver(currentSchema),
@@ -43,7 +43,6 @@ export function AuthForm() {
         mode: 'onSubmit',
     })
 
-
     useEffect(() => {
         form.reset({
             epccId: '',
@@ -52,8 +51,8 @@ export function AuthForm() {
             passwordConfirmed: ''
         })
         form.clearErrors()
+        setShowPassword(false); // Reset visibility when switching modes
     }, [mode])
-
 
     const setType = (next: Mode) => {
         const sp = new URLSearchParams(searchParams);
@@ -62,7 +61,6 @@ export function AuthForm() {
     };
 
     const onSubmit = async (vals: z.infer<typeof currentSchema>) => {
-
         try {
             logger.debug({ mode, vals })
             await mutateAsync({
@@ -73,13 +71,10 @@ export function AuthForm() {
             logger.debug('form error', err)
             form.setError("root", {
                 type: "server",
-                message:
-                    err?.data?.message || "An unexpected error occurred. Please try again.",
+                message: err?.data?.message || "An unexpected error occurred. Please try again.",
             });
         }
-
     }
-
 
     const isLogin = mode === 'login'
     const isForgot = mode === 'forgot'
@@ -126,7 +121,6 @@ export function AuthForm() {
 
     const error = form.formState?.errors?.root?.message ?? null
 
-
     return (
         <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -146,17 +140,27 @@ export function AuthForm() {
                             {f.name.includes('password') ? (
                                 <InputGroup>
                                     <InputGroupInput
-                                        type={f.type}
+                                        // Dynamically change type between password and text
+                                        type={showPassword ? "text" : "password"}
                                         placeholder={f.placeholder}
                                         {...field}
                                     />
                                     <InputGroupAddon align="inline-end">
-                                        <EyeOffIcon />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="flex items-center justify-center text-muted-foreground hover:text-foreground focus:outline-none"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
+                                        >
+                                            {showPassword ? (
+                                                <EyeIcon className="size-4" />
+                                            ) : (
+                                                <EyeOffIcon className="size-4" />
+                                            )}
+                                        </button>
                                     </InputGroupAddon>
                                 </InputGroup>
-
                             ) : (
-
                                 <Input
                                     type={f.type}
                                     placeholder={f.placeholder}
@@ -193,9 +197,7 @@ export function AuthForm() {
                 >
                     Forgot your password?
                 </p>
-
             )}
-
 
             <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? 'Please wait...' : isLogin ? "Sign in" : isForgot || isReset ? "Reset Password" : "Create account"}

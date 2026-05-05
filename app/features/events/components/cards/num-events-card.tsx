@@ -12,7 +12,6 @@ export function EventsNumberCard({ semesterId = 'current' }) {
     const { data, isLoading } = useAdminEvents(semesterId)
 
 
-    console.log(data?.eventsData?.length)
 
     return (
         <Card className='w-87.5'>

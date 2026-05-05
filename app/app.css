@@ -13,14 +13,17 @@
     [role="button"]:not(:disabled) {
         cursor: pointer;
     }
-  * {
-    @apply border-border outline-ring/50;
+
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
-  html {
-    @apply font-sans;
+
+    html {
+        @apply font-sans;
     }
 }
 
@@ -389,17 +392,7 @@ main {
     --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
-@custom-variant screen-16-9 {
-    @media (aspect-ratio: 16/9) {
-        @slot;
-    }
-}
 
-@custom-variant screen-16-10 {
-    @media (aspect-ratio: 16/10) {
-        @slot;
-    }
-}
 
 .dark {
     --background: oklch(0.141 0.005 285.823);

@@ -12,7 +12,7 @@ export default function Footer() {
 
     if (hideFooter) return null
     return (
-        <footer className="relative p-6 w-full h-[500px] flex flex-col border-t gap-5 items-center justify-center bg-background z-10">
+        <footer className="relative p-6 w-full h-125 flex flex-col border-t gap-5 items-center justify-center bg-background z-10">
             <nav >
                 <ul className="flex items-center justify-center gap-5">
                     <Link to='/' className="list-item"><Bold>Home</Bold></Link>
@@ -30,7 +30,7 @@ export default function Footer() {
 
             <div className="absolute bottom-5 left-5">
                 <a href="https://www.jesusramirez.dev/" className="hover:underline">
-                    <Paragraph >Created by: Jesus Ramirez</Paragraph>
+                    <Paragraph >Developed by: Jesus Ramirez</Paragraph>
                 </a>
             </div>
 

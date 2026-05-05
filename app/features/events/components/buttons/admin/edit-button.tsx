@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Edit } from "lucide-react";
 import { EventFormOverlay } from '../../forms/event-form/form-overlay'
-import type { Event } from "@/features/events/types/event";
+import type { Event } from "@/features/events/types";
 import { PermissionGuard } from "@/components/layout/permission";
 
 

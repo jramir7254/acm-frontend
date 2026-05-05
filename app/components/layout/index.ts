@@ -1,5 +1,3 @@
-export * from './centered'
-export * from './gradient'
 export * from './page'
 export * from './permission'
 export * from './unfinished'

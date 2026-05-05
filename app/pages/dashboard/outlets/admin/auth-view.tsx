@@ -1,4 +1,3 @@
-import Gradient from '@/components/layout/gradient'
 import { useRoles } from '@/features/auth/hooks/use-roles'
 import React from 'react'
 import { CustomBadge } from '@/components/other/custom-badge'
@@ -14,13 +13,13 @@ export default function AuthView() {
     if (!data) return
 
     return (
-        <Gradient via="rgba(50,50,50,0.20)" className="p-10 size-full flex  border-2 border-accent rounded-md">
+        <div className="p-10 size-full flex  border-2 border-accent rounded-md">
             <div className='flex flex-col'>
                 {data.map(r => <CustomBadge config={roleBadgeConfig} itemKey={r.role} key={`${r.role}-${r.id}`} />)}
 
             </div>
 
             <ChangeSemesterOverlay />
-        </Gradient>
+        </div>
     )
 }

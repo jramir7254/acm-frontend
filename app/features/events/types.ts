@@ -22,6 +22,13 @@ export interface Event {
 
 export type EventIdentifiers = Pick<Event, 'id' | 'title'>
 
+export type EventWithStats = Pick<Event, 'title' | 'id' | 'type'> & {
+    date: string,
+    rsvps: number,
+    attended: number
+}
+
+
 
 
 export type EventRating = EventIdentifiers & { avgRating: number }

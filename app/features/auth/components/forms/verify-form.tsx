@@ -11,10 +11,10 @@ import {
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { useAuthActions, type Purpose } from "../../hooks/use-auth";
+import { useAuthActions } from "../../hooks/use-auth";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
-
+import type { Purpose } from "../../types";
 
 
 const formSchema = z.object({
