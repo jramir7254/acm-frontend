@@ -37,7 +37,7 @@ export type Permission =
 /** Props: pass required roles, the resource, and actions you need on it */
 type PermissionGuardProps = {
     children: React.ReactNode;
-    resource: Resource;
+    resource?: Resource;
     requiredRoles?: Role[];         // optional; omit if only permission-based
     requiredActions?: Action[];     // optional; omit if only role-based
 };

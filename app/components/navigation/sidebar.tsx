@@ -12,7 +12,7 @@ import {
     SidebarMenuButton
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2, BadgeHelp, Users } from "lucide-react"
+import { Home, PersonStanding, UserCircle2, BadgeHelp, Users, Hammer, Settings } from "lucide-react"
 import { MdEventNote } from "react-icons/md";
 
 import { FaChalkboardTeacher } from "react-icons/fa";
@@ -60,9 +60,9 @@ export function DashboardSidebar() {
                         <Text>Home</Text>
                     </SidebarItem>
 
-                    <SidebarItem to='profile'>
-                        <UserCircle2 className="size-3.5 shrink-0" />
-                        <Text>Profile</Text>
+                    <SidebarItem to='settings'>
+                        <Settings className="size-3.5 shrink-0" />
+                        <Text>Settings</Text>
                     </SidebarItem>
 
 
@@ -89,11 +89,11 @@ export function DashboardSidebar() {
                 <PermissionGuard resource="users" requiredRoles={['advisor', 'president']}>
                     <Separator />
                     <SidebarGroup label="Admin">
-                        <SidebarItem to='admin/users'>
+                        <SidebarItem to='users'>
                             <Users className="h-4 w-4" />
                             <Text>Users</Text>
                         </SidebarItem>
-                        <SidebarItem to='admin/events'>
+                        <SidebarItem to='events'>
                             <MdEventNote className="h-4 w-4" />
                             <Text>Events</Text>
                         </SidebarItem>
@@ -103,8 +103,17 @@ export function DashboardSidebar() {
                                 <Text>Admin</Text>
                             </SidebarItem>
                         </PermissionGuard>
+                        <PermissionGuard requiredRoles={['owner']}>
+                            <SidebarItem to='dev'>
+                                <Hammer className="h-4 w-4" />
+                                <Text>Dev</Text>
+                            </SidebarItem>
+                        </PermissionGuard>
                     </SidebarGroup>
                 </PermissionGuard>
+
+
+
 
             </SidebarContent>
 

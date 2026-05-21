@@ -20,8 +20,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { UserCard } from '@/features/users/components/user/user-card';
 
 export default function UserView() {
-    const { toPrevious, reqUserId } = useAppNavigation()
-    const { data, isLoading } = useUser(reqUserId || '')
+    const { toPrevious, userId } = useAppNavigation()
+    const { data, isLoading } = useUser(userId || '')
 
 
 

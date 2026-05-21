@@ -2,6 +2,7 @@ import { tokenStore } from "@/features/auth/lib/token-store";
 import axios, { type AxiosInstance, type AxiosRequestConfig, } from "axios";
 import { logger } from "@/lib/logger";
 import { redirect, redirectDocument } from "react-router";
+import { useNavigate } from 'react-router';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const apiLogger = logger.create('API')

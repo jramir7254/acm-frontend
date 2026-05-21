@@ -14,6 +14,7 @@ import { TableContainer, FilteredColumn, SmartTable, SmartTableBody, SmartTableH
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type ColumnFiltersState, type FilterFn, type SortingState } from '@tanstack/react-table'
 import { CustomBadge } from '@/components/other/custom-badge'
 import { roleBadgeConfig } from '@/components/other/badge-configs'
+import { Link } from 'react-router'
 
 export const arrayIncludesSome: FilterFn<any> = (row, columnId, filterValues) => {
     // filterValues is your array of selected options
@@ -85,7 +86,9 @@ function DropNav({ userId }: { userId: string }) {
 
     return (
         <RowActions>
-            <DropdownMenuItem onClick={() => toUser(userId)}>View</DropdownMenuItem>
+            <Link to={userId}>
+                <DropdownMenuItem >View</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem variant='destructive' onClick={() => { toast('User Deleted') }}>Delete</DropdownMenuItem>
         </RowActions>
     )

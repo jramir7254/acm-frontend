@@ -55,7 +55,7 @@ function Links() {
         { to: "/", text: "Home" },
         { to: "/events", text: "Events" },
         { to: "/about", text: "About" },
-        { to: user ? `/${user.epccId}` : "/auth", text: user ? "Profile" : "Join Now" },
+        { to: user ? `/dashboard` : "/auth", text: user ? "Profile" : "Join Now" },
     ]
 
     return (

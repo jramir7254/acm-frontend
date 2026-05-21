@@ -26,63 +26,55 @@ type Pages = {
   "/auth/verify": {
     params: {};
   };
-  "/:userId": {
+  "/*": {
+    params: {
+      "*": string;
+    };
+  };
+  "/dashboard": {
+    params: {};
+  };
+  "/dashboard/settings": {
+    params: {};
+  };
+  "/dashboard/users": {
+    params: {};
+  };
+  "/dashboard/users/:userId": {
     params: {
       "userId": string;
     };
   };
-  "/:userId/profile": {
-    params: {
-      "userId": string;
-    };
+  "/dashboard/events": {
+    params: {};
   };
-  "/:userId/admin/users": {
-    params: {
-      "userId": string;
-    };
+  "/dashboard/dev": {
+    params: {};
   };
-  "/:userId/admin/users/:reqUserId": {
+  "/dashboard/events/:eventId": {
     params: {
-      "userId": string;
-      "reqUserId": string;
-    };
-  };
-  "/:userId/admin/events": {
-    params: {
-      "userId": string;
-    };
-  };
-  "/:userId/admin/events/:eventId": {
-    params: {
-      "userId": string;
       "eventId": string;
     };
   };
-  "/:userId/auth": {
-    params: {
-      "userId": string;
-    };
+  "/dashboard/auth": {
+    params: {};
   };
-  "/:userId/instructor": {
-    params: {
-      "userId": string;
-    };
+  "/dashboard/instructor": {
+    params: {};
   };
-  "/:userId/help": {
-    params: {
-      "userId": string;
-    };
+  "/dashboard/help": {
+    params: {};
   };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
+    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/*" | "/dashboard" | "/dashboard/settings" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/dev" | "/dashboard/events/:eventId" | "/dashboard/auth" | "/dashboard/instructor" | "/dashboard/help";
   };
   "pages/public-layout.tsx": {
     id: "pages/public-layout";
-    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify";
+    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/*";
   };
   "pages/home/page.tsx": {
     id: "pages/home/page";
@@ -108,45 +100,53 @@ type RouteFiles = {
     id: "pages/auth/outlets/verify-view";
     page: "/auth/verify";
   };
+  "pages/not-found.tsx": {
+    id: "pages/not-found";
+    page: "/*";
+  };
   "pages/dashboard/page.tsx": {
     id: "pages/dashboard/page";
-    page: "/:userId" | "/:userId/profile" | "/:userId/admin/users" | "/:userId/admin/users/:reqUserId" | "/:userId/admin/events" | "/:userId/admin/events/:eventId" | "/:userId/auth" | "/:userId/instructor" | "/:userId/help";
+    page: "/dashboard" | "/dashboard/settings" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/dev" | "/dashboard/events/:eventId" | "/dashboard/auth" | "/dashboard/instructor" | "/dashboard/help";
   };
   "pages/dashboard/outlets/base/home-view.tsx": {
     id: "pages/dashboard/outlets/base/home-view";
-    page: "/:userId";
+    page: "/dashboard";
   };
   "pages/dashboard/outlets/base/profile-view.tsx": {
     id: "pages/dashboard/outlets/base/profile-view";
-    page: "/:userId/profile";
+    page: "/dashboard/settings";
   };
   "pages/dashboard/outlets/admin/users/users-view.tsx": {
     id: "pages/dashboard/outlets/admin/users/users-view";
-    page: "/:userId/admin/users";
+    page: "/dashboard/users";
   };
   "pages/dashboard/outlets/admin/users/user/user-view.tsx": {
     id: "pages/dashboard/outlets/admin/users/user/user-view";
-    page: "/:userId/admin/users/:reqUserId";
+    page: "/dashboard/users/:userId";
   };
   "pages/dashboard/outlets/admin/events/events-view.tsx": {
     id: "pages/dashboard/outlets/admin/events/events-view";
-    page: "/:userId/admin/events";
+    page: "/dashboard/events";
+  };
+  "pages/dashboard/outlets/admin/dev-view.tsx": {
+    id: "pages/dashboard/outlets/admin/dev-view";
+    page: "/dashboard/dev";
   };
   "pages/dashboard/outlets/admin/events/event/event-view.tsx": {
     id: "pages/dashboard/outlets/admin/events/event/event-view";
-    page: "/:userId/admin/events/:eventId";
+    page: "/dashboard/events/:eventId";
   };
   "pages/dashboard/outlets/admin/auth-view.tsx": {
     id: "pages/dashboard/outlets/admin/auth-view";
-    page: "/:userId/auth";
+    page: "/dashboard/auth";
   };
   "pages/dashboard/outlets/admin/instructor-view.tsx": {
     id: "pages/dashboard/outlets/admin/instructor-view";
-    page: "/:userId/instructor";
+    page: "/dashboard/instructor";
   };
   "pages/dashboard/outlets/base/help-view.tsx": {
     id: "pages/dashboard/outlets/base/help-view";
-    page: "/:userId/help";
+    page: "/dashboard/help";
   };
 };
 
@@ -159,12 +159,14 @@ type RouteModules = {
   "pages/auth/page": typeof import("./app/pages/auth/page.tsx");
   "pages/auth/outlets/form-view": typeof import("./app/pages/auth/outlets/form-view.tsx");
   "pages/auth/outlets/verify-view": typeof import("./app/pages/auth/outlets/verify-view.tsx");
+  "pages/not-found": typeof import("./app/pages/not-found.tsx");
   "pages/dashboard/page": typeof import("./app/pages/dashboard/page.tsx");
   "pages/dashboard/outlets/base/home-view": typeof import("./app/pages/dashboard/outlets/base/home-view.tsx");
   "pages/dashboard/outlets/base/profile-view": typeof import("./app/pages/dashboard/outlets/base/profile-view.tsx");
   "pages/dashboard/outlets/admin/users/users-view": typeof import("./app/pages/dashboard/outlets/admin/users/users-view.tsx");
   "pages/dashboard/outlets/admin/users/user/user-view": typeof import("./app/pages/dashboard/outlets/admin/users/user/user-view.tsx");
   "pages/dashboard/outlets/admin/events/events-view": typeof import("./app/pages/dashboard/outlets/admin/events/events-view.tsx");
+  "pages/dashboard/outlets/admin/dev-view": typeof import("./app/pages/dashboard/outlets/admin/dev-view.tsx");
   "pages/dashboard/outlets/admin/events/event/event-view": typeof import("./app/pages/dashboard/outlets/admin/events/event/event-view.tsx");
   "pages/dashboard/outlets/admin/auth-view": typeof import("./app/pages/dashboard/outlets/admin/auth-view.tsx");
   "pages/dashboard/outlets/admin/instructor-view": typeof import("./app/pages/dashboard/outlets/admin/instructor-view.tsx");

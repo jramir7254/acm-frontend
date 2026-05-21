@@ -12,23 +12,27 @@ export default [
             index("pages/auth/outlets/form-view.tsx"),
             route("verify", "pages/auth/outlets/verify-view.tsx"),
         ]),
+        route("*", "pages/not-found.tsx")
+
+
     ]),
-    route(":userId/", "pages/dashboard/page.tsx", [
+    route("dashboard", "pages/dashboard/page.tsx", [
         index("pages/dashboard/outlets/base/home-view.tsx"),
-        route("profile", "pages/dashboard/outlets/base/profile-view.tsx"),
-
-        // route("admin", "features/dashboard/page/views/admin-view.tsx"),
-
-        route("admin/users", "pages/dashboard/outlets/admin/users/users-view.tsx"),
-        route("admin/users/:reqUserId", "pages/dashboard/outlets/admin/users/user/user-view.tsx"),
-
-        route("admin/events", "pages/dashboard/outlets/admin/events/events-view.tsx"),
-        // route("admin/events/report", "features/dashboard/page/views/admin/events/report-view.tsx"),
-        route("admin/events/:eventId", "pages/dashboard/outlets/admin/events/event/event-view.tsx"),
-
-
-        route("auth", "pages/dashboard/outlets/admin/auth-view.tsx"),
-        route("instructor", "pages/dashboard/outlets/admin/instructor-view.tsx"),
+        route("settings", "pages/dashboard/outlets/base/profile-view.tsx"),
         route("help", "pages/dashboard/outlets/base/help-view.tsx"),
+
+        route("instructor", "pages/dashboard/outlets/admin/instructor-view.tsx"),
+
+        route("users", "pages/dashboard/outlets/admin/users/users-view.tsx"),
+        route("users/:userId", "pages/dashboard/outlets/admin/users/user/user-view.tsx"),
+
+        route("events", "pages/dashboard/outlets/admin/events/events-view.tsx"),
+        route("events/:eventId", "pages/dashboard/outlets/admin/events/event/event-view.tsx"),
+
+        route("dev", "pages/dashboard/outlets/admin/dev-view.tsx"),
+        route("auth", "pages/dashboard/outlets/admin/auth-view.tsx"),
+
+
     ]),
+
 ] satisfies RouteConfig;

@@ -3,8 +3,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { useAdminEvents } from '@/features/events/hooks/events/queries';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAppNavigation } from '@/hooks';
-import type { EventWithStats } from '@/features/events/types/event';
+import type { EventWithStats } from '@/features/events/types';
 import { logger } from '@/lib/logger';
+import { Link } from 'react-router';
 
 export function EventsTable({ semesterId = 'current' }) {
     const { data, isLoading } = useAdminEvents(semesterId)
@@ -19,13 +20,15 @@ export function EventsTable({ semesterId = 'current' }) {
                         <TableHead className="first:pl-6  font-nunit ">Title</TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody className="" isLoading={isLoading} cols={1}>
+                <TableBody className="" >
 
-                    {data && data?.eventsData?.map((e) => {
-                        return (
-                            <EventRow event={e} key={`event-table-${e.id}`} />
-                        );
-                    })}
+                    {data && data?.eventsData?.map((e) =>
+                        <TableRow className="  cursor-pointer">
+                            <Link to={String(e.id)} className='w-full'>
+                                <TableCell className="first:pl-6 w-full ">{e.title || 'Null'}</TableCell>
+                            </Link>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
         </ScrollArea>

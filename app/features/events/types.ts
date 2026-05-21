@@ -4,7 +4,7 @@ export type EventFields = 'rsvps' | 'attendance' | 'feedback' | 'base' | 'all' |
 export type EventType = "meeting" | "workshop" | "external" | "major" | "recurring" | "hackathon" | "datathon" | "extra_credit"
 
 export interface Event {
-    id: number,
+    id: string,
     title: string,
     location: string,
     host: string,

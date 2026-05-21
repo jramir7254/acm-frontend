@@ -3,14 +3,14 @@ import type { Purpose } from "@/features/auth/types";
 
 export function useAppNavigation() {
     const navigate = useNavigate();
-    const { userId, reqUserId, eventId } = useParams()
+    const { userId, eventId } = useParams()
 
 
-    const toDashboard = (epccId: string) => navigate(`/${epccId}`);
+    const toDashboard = () => navigate(`/dashboard`);
     const toAuth = (type: string) => navigate(`/auth?type=${type}`)
     const toHome = () => navigate("/");
     const toUsers = () => navigate(`/${userId}/admin/users`);
-    const toUser = (reqUserId: string) => navigate(`/${userId}/admin/users/${reqUserId}`);
+    const toUser = (reqUserId: string) => navigate(`/users/${reqUserId}`);
     const toEvents = () => navigate(`/${userId}/admin/events`);
     const toEvent = (eventId: number) => navigate(`/${userId}/admin/events/${eventId}`);
     const toVerify = (token: string, purpose: Purpose) => navigate(`/auth/verify?token=${encodeURIComponent(token)}&purpose=${purpose}`);
@@ -27,7 +27,6 @@ export function useAppNavigation() {
         toEvent,
         toPrevious,
         userId,
-        reqUserId,
         eventId
     };
 }

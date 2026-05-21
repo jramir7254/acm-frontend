@@ -73,6 +73,10 @@ export function AuthForm() {
                 type: "server",
                 message: err?.data?.message || "An unexpected error occurred. Please try again.",
             });
+            if (err?.data?.redirectUrl) {
+                navigate(err?.data?.redirectUrl)
+
+            }
         }
     }
 

@@ -7,12 +7,15 @@ import { backend } from "@/lib/backend-api";
 
 import type { AuthMode, Purpose, AuthResponse } from "../types";
 import { useAppNavigation } from "@/hooks";
+import { useNavigate } from "react-router";
 
 
 
 
 
 export function useAuthActions() {
+    const navigate = useNavigate();
+
     const { toVerify, toDashboard, toAuth } = useAppNavigation();
     const queryClient = useQueryClient();
 
@@ -22,7 +25,7 @@ export function useAuthActions() {
 
         onSuccess: async (data, variables) => {
             const { mode } = variables;
-            const { token, epccId } = data;
+            const { token } = data;
 
             if (["login", "reset", "verify"].includes(mode)) {
                 tokenStore.set(token);
@@ -35,7 +38,7 @@ export function useAuthActions() {
                 }
 
 
-                return toDashboard(epccId);
+                return toDashboard();
             }
 
             if (mode === "register") {
@@ -46,6 +49,12 @@ export function useAuthActions() {
                 return toVerify(token, "reset");
             }
         },
+
+        onError: (data) => {
+            if (data && data?.redirectUrl) {
+                navigate(data?.redirectUrl)
+            }
+        }
     });
 }
 
