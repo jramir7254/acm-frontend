@@ -5,20 +5,22 @@ import { toast } from "sonner";
 import { type Course } from "../types";
 
 
-export function useAddCourse() {
-    const qc = useQueryClient();
+export function useCreateOrUpdateCourse(courseId?: number) {
+    const queryClient = useQueryClient();
+    const mode: 'create' | 'update' = courseId ? 'update' : 'create'
+
     return useMutation({
 
-        mutationFn: (form: Course) => backend.post(
-            '/public/courses',
-            form
-        ),
+        mutationFn: (form: Course) => {
+            return mode === 'create' ? backend.post('/admin/courses', form) : backend.patch(`/admin/courses/${courseId}`, form)
+        },
         onSuccess: () => {
-            qc.invalidateQueries({ queryKey: ['courses'] });
-            toast.success("Course Added")
+            queryClient.invalidateQueries({ queryKey: ['courses'] });
+            toast.success(`Course ${mode}d`)
+
         },
         onError: () => {
-            toast.error("Failed to add course")
+            toast.error(`Error ${mode.substring(0, 5)}ing course`)
         }
     });
 }

@@ -3,7 +3,7 @@ import { logger } from "@/lib/logger";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { tokenStore } from "../lib/token-store";
 import { clearPersistedQueryCache } from "@/providers/query-client";
-import { backend } from "@/lib/backend-api";
+import { backend, client } from "@/lib/backend-api";
 
 import type { AuthMode, Purpose, AuthResponse } from "../types";
 import { useAppNavigation } from "@/hooks";
@@ -17,15 +17,17 @@ export function useAuthActions() {
     const navigate = useNavigate();
 
     const { toVerify, toDashboard, toAuth } = useAppNavigation();
-    const queryClient = useQueryClient();
 
     return useMutation<AuthResponse, Error, { mode: AuthMode; data: any }>({
 
         mutationFn: ({ mode, data }) => backend.post(`/auth/${mode}`, data),
 
-        onSuccess: async (data, variables) => {
+        onSuccess: (data, variables) => {
+            logger.warn('in here')
             const { mode } = variables;
             const { token } = data;
+
+            logger.debug("TOKEN", { token, data })
 
             if (["login", "reset", "verify"].includes(mode)) {
                 tokenStore.set(token);
@@ -51,6 +53,8 @@ export function useAuthActions() {
         },
 
         onError: (data) => {
+            logger.warn('should be here here')
+
             if (data && data?.redirectUrl) {
                 navigate(data?.redirectUrl)
             }

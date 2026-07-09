@@ -19,6 +19,11 @@ export function useUpdateUser(epccId: string) {
             // qc.setQueryData(userKeys.me, (prev: any) => ({ ...prev, ...data }));
             // Option B (or in addition): refetch fresh data
             qc.invalidateQueries({ queryKey: queryKeys.users.detail.base(epccId) })
+        },
+        onError: () => {
+            console.log('wtf')
+            toast.error("An error occured")
+
         }
     });
 }

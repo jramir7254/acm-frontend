@@ -22,6 +22,7 @@ export default [
         route("help", "pages/dashboard/outlets/base/help-view.tsx"),
 
         route("instructor", "pages/dashboard/outlets/admin/instructor-view.tsx"),
+        route("courses", "pages/dashboard/outlets/admin/courses-view.tsx"),
 
         route("users", "pages/dashboard/outlets/admin/users/users-view.tsx"),
         route("users/:userId", "pages/dashboard/outlets/admin/users/user/user-view.tsx"),

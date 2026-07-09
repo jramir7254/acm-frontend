@@ -7,9 +7,11 @@ import { useUpdateMe } from '@/features/users/hooks/me/mutations';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MeCard } from '@/features/users/components/me/cards/me-card';
 import { PointsNumber } from '@/features/users/components/me/numbers';
-
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from '@/components/ui/combobox';
+import { useMyCourses } from '@/features/users/hooks/me/queries';
 export default function ProfileSettings() {
     const { data: user, isLoading } = useMe();
+    const { data: courses, } = useMyCourses();
     const { mutateAsync } = useUpdateMe()
 
     if (!user) return null
@@ -25,11 +27,11 @@ export default function ProfileSettings() {
     return (
         <ScrollArea className="size-full h-[85vh] grid grid-cols-1 ">
             <div className="space-y-4 flex flex-col">
-                <div>
+                {/* <div>
                     <h2 hidden={accountComplete} className='font-bold text-xl mb-2'>
                         Finish setting up your profile to earn 20 points!
                     </h2>
-                </div>
+                </div> */}
                 <div className="border bg-card flex flex-col gap-5  p-5 rounded-xl  ">
                     <div className='flex gap-3'>
 
@@ -46,6 +48,10 @@ export default function ProfileSettings() {
                         <InputDisplay name='epccId' label='EPCC ID' value={user?.epccId} />
                         <InputDisplay name='email' label='EPCC Email' value={user?.epccEmail} />
                     </div>
+
+
+
+
 
                 </div>
 

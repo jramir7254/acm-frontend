@@ -43,6 +43,8 @@ export function EventActionButton({ event }: { event: Event }) {
     else if (isRsvpd) {
         label = "RSVP Confirmed";
         disabled = true;
+    } else if (!user.accountComplete) {
+        disabled = true;
     }
 
     return (

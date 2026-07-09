@@ -71,7 +71,7 @@ export function AuthForm() {
             logger.debug('form error', err)
             form.setError("root", {
                 type: "server",
-                message: err?.data?.message || "An unexpected error occurred. Please try again.",
+                message: err?.message || "An unexpected error occurred. Please try again.",
             });
             if (err?.data?.redirectUrl) {
                 navigate(err?.data?.redirectUrl)

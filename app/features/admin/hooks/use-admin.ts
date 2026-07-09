@@ -97,3 +97,22 @@ export function useChangeSemester() {
         }
     });
 }
+
+
+
+export function useDeleteCourse() {
+    const qc = useQueryClient();
+    return useMutation({
+        mutationFn: (courseId: number) => backend.delete(
+            `/admin/courses/${courseId}`
+        ),
+        onSuccess: () => {
+            toast.success("Course Deleted")
+            qc.invalidateQueries({ queryKey: ['courses'] });
+
+        },
+        onError: () => {
+            toast.error('Could not delete course')
+        }
+    });
+}

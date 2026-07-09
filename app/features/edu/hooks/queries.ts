@@ -1,13 +1,13 @@
 import { backend } from "@/lib/backend-api"
 import { useQuery } from "@tanstack/react-query"
-import type { Course } from "../types";
+import type { GroupedCourse, CourseWithName } from "../types";
 
 
 
 export function useCourses() {
     return useQuery({
         queryKey: ['courses'],
-        queryFn: () => backend.get<Course[]>(
+        queryFn: () => backend.get<CourseWithName[]>(
             '/public/courses',
         ),
         placeholderData: [],

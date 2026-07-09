@@ -13,7 +13,7 @@ export interface User {
 
 export type BaseUser = User & {
     role: string
-    courseId: number,
+    courses: number[],
     fullName: string,
 }
 

@@ -12,3 +12,9 @@ export interface Course {
 export type CourseWithName = Course & {
     name: string
 }
+
+
+export type GroupedCourse = {
+    professor: string,
+    courses: CourseWithName[]
+}

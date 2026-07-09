@@ -6,18 +6,18 @@ import { useSemesters, useCurrentSemester } from '@/features/app/use-semester'
 import ChangeSemesterOverlay from '@/features/admin/components/overlays/change-semester-overlay'
 
 export default function AuthView() {
-    const { data } = useRoles()
+    // const { data } = useRoles()
     const { data: semesters } = useSemesters()
     const { data: semester } = useCurrentSemester()
 
-    if (!data) return
+    // if (!data) return
 
     return (
         <div className="p-10 size-full flex  border-2 border-accent rounded-md">
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
                 {data.map(r => <CustomBadge config={roleBadgeConfig} itemKey={r.role} key={`${r.role}-${r.id}`} />)}
 
-            </div>
+            </div> */}
 
             <ChangeSemesterOverlay />
         </div>

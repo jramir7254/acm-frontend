@@ -1,8 +1,7 @@
 import { tokenStore } from "@/features/auth/lib/token-store";
 import axios, { type AxiosInstance, type AxiosRequestConfig, } from "axios";
 import { logger } from "@/lib/logger";
-import { redirect, redirectDocument } from "react-router";
-import { useNavigate } from 'react-router';
+
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const apiLogger = logger.create('API')
@@ -54,8 +53,11 @@ client.interceptors.response.use(
     },
 
     (error) => {
-        apiLogger.error('<Raw Error>:', error)
-        const err = error.response || {
+        apiLogger.debug(error);                // AxiosError
+        apiLogger.debug(error.response);       // Axios response
+        apiLogger.debug(error.response?.data); // Your backend JSON
+        apiLogger.error('<Raw Error>:', error?.response)
+        const err = error?.response?.data ?? {
             success: false,
             message: "Unknown error",
             code: "UNKNOWN",
@@ -93,6 +95,8 @@ client.interceptors.response.use(
                 });
             });
         }
+        return Promise.reject(err);
+
     }
 );
 

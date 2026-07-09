@@ -58,10 +58,6 @@ function EventsPageInner() {
                     xl:grid-cols-3 
                 ">
                     <EventsList filters={filters} />
-                    {/* 
-                    <PermissionGuard resource="events" requiredActions={["create"]}>
-                        <AddEventCard />
-                    </PermissionGuard> */}
                 </div>
             </div>
         </Page>
@@ -74,14 +70,14 @@ function EventsList({ filters }: { filters: EventFilters }) {
     const { data: events, isLoading, isFetching } = useEvents();
     const { data: semester } = useCurrentSemester()
 
-    if (!events) return
+    // if (!events) return
 
 
     const visibleEvents = useMemo<Event[]>(() => {
         const showPast = filters.past;
         const showUpcoming = filters.upcoming;
 
-        let list = events.filter((e) => {
+        let list = (events ? events : []).filter((e) => {
             const endTime = new Date(e.endAt).getTime();
             const now = Date.now();
             const isPast = endTime < now || e.semesterCreatedId !== semester?.id;

@@ -69,3 +69,14 @@ export function useMyRsvps() {
 }
 
 
+export function useMyCourses() {
+
+    return useQuery<Array<{ eventId: number }>>({
+        queryKey: queryKeys.me.field('courses'),
+        queryFn: () => backend.get('/users/me/courses'),
+        enabled: !!tokenStore.get(),
+
+        staleTime: 60 * 60 * 1000,
+        gcTime: 7 * 24 * 60 * 60 * 1000,
+    });
+}

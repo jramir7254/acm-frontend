@@ -21,7 +21,7 @@ type Props = {
 export default function ConfirmationModal({ children, title, description, onConfirm }: Props) {
 
     return (
-        <AlertDialog>
+        <AlertDialog >
             <AlertDialogTrigger asChild>
                 {children}
             </AlertDialogTrigger>

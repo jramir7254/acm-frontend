@@ -12,7 +12,7 @@ import {
     SidebarMenuButton
 } from "@/components/layout"
 
-import { Home, PersonStanding, UserCircle2, BadgeHelp, Users, Hammer, Settings } from "lucide-react"
+import { Home, PersonStanding, UserCircle2, BadgeHelp, Users, Hammer, Settings, School } from "lucide-react"
 import { MdEventNote } from "react-icons/md";
 
 import { FaChalkboardTeacher } from "react-icons/fa";
@@ -81,6 +81,10 @@ export function DashboardSidebar() {
                             <SidebarItem to='instructor'>
                                 <FaChalkboardTeacher className="h-4 w-4" />
                                 <Text>Students</Text>
+                            </SidebarItem>
+                            <SidebarItem to='courses'>
+                                <School className="h-4 w-4" />
+                                <Text>Courses</Text>
                             </SidebarItem>
                         </FeatureFlag>
                     </SidebarGroup>

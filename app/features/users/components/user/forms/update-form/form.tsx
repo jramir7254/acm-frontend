@@ -1,6 +1,6 @@
 
 import z from 'zod';
-import { useForm, type UseFormReturn } from 'react-hook-form';
+import { Controller, useForm, type UseFormReturn } from 'react-hook-form';
 import type { BaseUser } from '@/features/users/types';
 import { CourseField } from './fields/course-field';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,12 +9,16 @@ import { useEffect, useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/form/form-input';
+import { Label } from '@/components/ui/label';
+import { Field } from '@/components/ui/field';
+import { CourseSelect } from '@/features/edu/components/course-select';
+import { logger } from '@/lib/logger';
 
 export const profileSchema = (admin: boolean) => z.object({
     ...(admin && { epccId: z.string().min(8).max(8), epccEmail: z.email() }),
     firstName: z.string().min(1, "First name cannot be empty").max(80, "cannot be more than 80 characters"),
     lastName: z.string().min(1, "Last name cannot be empty").max(80, "cannot be more than 80 characters"),
-    course: z.string(),
+    courses: z.array(z.any()),
 })
 
 export type ProfileFormValues = z.infer<ReturnType<typeof profileSchema>>;
@@ -45,7 +49,7 @@ export default function ProfileForm({
         defaultValues: {
             firstName: user.firstName ?? "",
             lastName: user.lastName ?? "",
-            course: String(user.courseId || ""),
+            courses: user.courses || [],
             ...(admin ? { epccId: user.epccId, epccEmail: user.epccEmail } : {})
         },
         mode: 'onChange',
@@ -60,9 +64,17 @@ export default function ProfileForm({
     }, [isUpdating]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        await handleSubmit(values)
-        form.reset(values)
-        setIsUpdating(false)
+        try {
+
+            logger.debug(values, user.courses)
+            await handleSubmit(values)
+            form.reset(values)
+            setIsUpdating(false)
+        } catch (error) {
+            logger.error(error)
+            setIsUpdating(false)
+
+        }
     }
 
 
@@ -81,7 +93,9 @@ export default function ProfileForm({
             </div>
 
             <div className='mt-5'>
-                <CourseField form={form} />
+                {/* <CourseField form={form} /> */}
+                <CourseSelect form={form} />
+
             </div>
 
             <div className='flex mt-auto'>

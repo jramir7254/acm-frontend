@@ -36,8 +36,8 @@ export function FormInput<T extends FieldValues>({
                         id={name}
                         type={type || 'text'}
                         {...field}
-                        //    value={field.value ?? ''} // Prevents React warning
-                        onChange={(e) => field.onChange(type === 'number' ? e.target.valueAsNumber : e.target)}
+                        // value={field.value ?? ''} // Prevents React warning
+                        onChange={(e) => field.onChange(type === 'number' ? e.target.valueAsNumber : e.target.value)}
                     />
                     {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
