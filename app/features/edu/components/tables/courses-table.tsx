@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useCourses } from '@/features/edu/hooks/queries';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { Edit, MoreHorizontal, Plus, TrashIcon } from 'lucide-react';
+import { Edit, Eye, MoreHorizontal, Plus, TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDeleteCourse } from '@/features/admin/hooks/use-admin';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, Sheet } from '@/components/ui/sheet';
 import { CourseForm } from '../course-form';
 import type { Course } from '../../types';
+import { Link } from 'react-router';
 
 
 export function CoursesTable() {
@@ -23,18 +24,18 @@ export function CoursesTable() {
         <>
             <Table>
                 <TableCaption>A list of your rsvp'd events.</TableCaption>
-                <TableHeader>
+                <TableHeader className='sticky top-0 rounded-t-lg bg-accent overflow-hidden z-5 '>
                     <TableRow className='hover:bg-inherit'>
                         <TableHead>First Name</TableHead>
                         <TableHead>Last Name</TableHead>
                         <TableHead>Course Title</TableHead>
                         <TableHead>Course Subject</TableHead>
                         <TableHead>Course Number</TableHead>
-                        <TableHead></TableHead>
+                        <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {courses && courses.map(c => (
+                    {courses && courses.map(c => c.id == -1 ? null : (
                         <TableRow key={c.name + c.id}>
                             <TableCell>{c.instructorFirstName}</TableCell>
                             <TableCell>{c.instructorLastName}</TableCell>
@@ -62,6 +63,18 @@ export function CoursesTable() {
                                             <Edit />
                                             Edit
                                         </DropdownMenuItem>
+                                        <Link to={String(c.id)} className='w-full'>
+                                            <DropdownMenuItem
+                                            // onSelect={(e) => {
+                                            //     e.preventDefault()
+                                            //     setSelectedCourse(c)
+                                            //     setEditOpen(true)
+                                            // }}
+                                            >
+                                                <Eye />
+                                                View
+                                            </DropdownMenuItem>
+                                        </Link>
 
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem

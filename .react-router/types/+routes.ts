@@ -46,6 +46,11 @@ type Pages = {
   "/dashboard/courses": {
     params: {};
   };
+  "/dashboard/courses/:courseId": {
+    params: {
+      "courseId": string;
+    };
+  };
   "/dashboard/users": {
     params: {};
   };
@@ -73,7 +78,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/*" | "/dashboard" | "/dashboard/settings" | "/dashboard/help" | "/dashboard/instructor" | "/dashboard/courses" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/events/:eventId" | "/dashboard/dev" | "/dashboard/auth";
+    page: "/" | "/events" | "/about" | "/auth" | "/auth/verify" | "/*" | "/dashboard" | "/dashboard/settings" | "/dashboard/help" | "/dashboard/instructor" | "/dashboard/courses" | "/dashboard/courses/:courseId" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/events/:eventId" | "/dashboard/dev" | "/dashboard/auth";
   };
   "pages/public-layout.tsx": {
     id: "pages/public-layout";
@@ -109,7 +114,7 @@ type RouteFiles = {
   };
   "pages/dashboard/page.tsx": {
     id: "pages/dashboard/page";
-    page: "/dashboard" | "/dashboard/settings" | "/dashboard/help" | "/dashboard/instructor" | "/dashboard/courses" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/events/:eventId" | "/dashboard/dev" | "/dashboard/auth";
+    page: "/dashboard" | "/dashboard/settings" | "/dashboard/help" | "/dashboard/instructor" | "/dashboard/courses" | "/dashboard/courses/:courseId" | "/dashboard/users" | "/dashboard/users/:userId" | "/dashboard/events" | "/dashboard/events/:eventId" | "/dashboard/dev" | "/dashboard/auth";
   };
   "pages/dashboard/outlets/base/home-view.tsx": {
     id: "pages/dashboard/outlets/base/home-view";
@@ -130,6 +135,10 @@ type RouteFiles = {
   "pages/dashboard/outlets/admin/courses-view.tsx": {
     id: "pages/dashboard/outlets/admin/courses-view";
     page: "/dashboard/courses";
+  };
+  "pages/dashboard/outlets/admin/course-view.tsx": {
+    id: "pages/dashboard/outlets/admin/course-view";
+    page: "/dashboard/courses/:courseId";
   };
   "pages/dashboard/outlets/admin/users/users-view.tsx": {
     id: "pages/dashboard/outlets/admin/users/users-view";
@@ -173,6 +182,7 @@ type RouteModules = {
   "pages/dashboard/outlets/base/help-view": typeof import("./app/pages/dashboard/outlets/base/help-view.tsx");
   "pages/dashboard/outlets/admin/instructor-view": typeof import("./app/pages/dashboard/outlets/admin/instructor-view.tsx");
   "pages/dashboard/outlets/admin/courses-view": typeof import("./app/pages/dashboard/outlets/admin/courses-view.tsx");
+  "pages/dashboard/outlets/admin/course-view": typeof import("./app/pages/dashboard/outlets/admin/course-view.tsx");
   "pages/dashboard/outlets/admin/users/users-view": typeof import("./app/pages/dashboard/outlets/admin/users/users-view.tsx");
   "pages/dashboard/outlets/admin/users/user/user-view": typeof import("./app/pages/dashboard/outlets/admin/users/user/user-view.tsx");
   "pages/dashboard/outlets/admin/events/events-view": typeof import("./app/pages/dashboard/outlets/admin/events/events-view.tsx");

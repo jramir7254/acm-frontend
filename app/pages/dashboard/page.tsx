@@ -1,14 +1,31 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { capitalize } from 'es-toolkit/string';
 
-import { Outlet } from 'react-router'
+
+import { Link, Outlet } from 'react-router'
 import { DashboardSidebar } from '@/components/navigation/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { SemesterSelect } from '@/components/other/semester-select'
 import { ScrollArea } from '@/components/ui/scroll-area'
-
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { useLocation } from "react-router";
 
 export default function DashboardPage() {
+    const location = useLocation();
 
+
+    console.log(location.pathname); // Output: "/dashboard"
+
+    const paths = location.pathname.split('/').slice(2)
+
+    console.log({ paths }); // Output: "/dashboard"
 
 
 
@@ -24,9 +41,34 @@ export default function DashboardPage() {
                             className="data-[orientation=vertical]:h-8"
                             orientation="vertical"
                         />
-                        <div>
-                            <SemesterSelect />
-                        </div>
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink render={<Link to={`/dashboard`}>Dashboard</Link>} />
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+
+                                {paths.map((path, index) => {
+                                    if (index === paths.length - 1) {
+                                        return (
+                                            <BreadcrumbItem>
+                                                <BreadcrumbPage>{capitalize(path)}</BreadcrumbPage>
+                                            </BreadcrumbItem>
+                                        )
+                                    }
+
+                                    return (
+                                        <>
+                                            <BreadcrumbItem>
+                                                <BreadcrumbLink render={<Link to={`/dashboard/${path}`}>{capitalize(path)}</Link>} />
+                                            </BreadcrumbItem>
+                                            <BreadcrumbSeparator />
+                                        </>
+                                    )
+                                })}
+
+                            </BreadcrumbList>
+                        </Breadcrumb>
                     </div>
                 </header>
                 <Separator />

@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { TableBody, TableCell, TableHead, TableHeader, TableRow, Table as STable } from '@/components/ui/table';
+import { TableBody, TableCell, TableHead, TableHeader, TableRow, Table as STable, TableCaption } from '@/components/ui/table';
 // import { columns } from '@/features/dashboard/page/views/instructors/instructor-view';
 import { logger } from '@/lib/logger';
 import { Separator } from '../ui/separator';
@@ -103,11 +103,8 @@ export function SmartTableBody({ ...props }: React.ComponentProps<"tbody">) {
                     </TableRow >
                 ))
             ) : (
-                <TableRow >
-                    <TableCell className="h-24 text-center">
-                        No results.
-                    </TableCell>
-                </TableRow>
+                <TableCaption>A list of your recent invoices.</TableCaption>
+
             )}
         </TableBody>
     )

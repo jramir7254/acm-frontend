@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/combobox"
 import { Checkbox } from '@/components/ui/checkbox'
 
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import type { ReactProfileForm } from '@/features/users/components/user/forms/update-form/form'
 import { Controller } from 'react-hook-form'
 import { Label } from '@/components/ui/label'
@@ -48,6 +48,17 @@ export function CourseSelect({ form }: ReactProfileForm) {
     if (!courses) return null;
 
     const organizedCourses = courses.reduce<ProfessorGroup[]>((acc, curr) => {
+        if (curr.id === -1) {
+            const profGroup = { professor: "Other", courses: [] };
+            acc.push(profGroup);
+            profGroup.courses.push({
+                id: curr.id,
+                name: "None/Graduated",
+            });
+
+            return acc;
+
+        }
         const profName = `${curr.instructorFirstName} ${curr.instructorLastName}`.trim();
         let profGroup = acc.find(p => p.professor === profName);
         if (!profGroup) {
@@ -75,7 +86,7 @@ export function CourseSelect({ form }: ReactProfileForm) {
             control={form.control}
             render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className="font-nunit">
-                    <Label htmlFor="course">Courses</Label>
+                    <FieldLabel htmlFor="course">Courses</FieldLabel>
                     <Combobox
                         multiple
                         items={organizedCourses}
@@ -121,6 +132,9 @@ export function CourseSelect({ form }: ReactProfileForm) {
                             </ComboboxList>
                         </ComboboxContent>
                     </Combobox>
+                    {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                    )}
                 </Field>
             )}
         />

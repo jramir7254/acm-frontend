@@ -16,6 +16,18 @@ export function useCourses() {
     });
 }
 
+export function useStudentsFromCourse(courseId: number) {
+    return useQuery({
+        queryKey: ['courses', courseId, 'students'],
+        queryFn: () => backend.get<CourseWithName[]>(
+            `/admin/courses/${courseId}/students`,
+        ),
+        placeholderData: [],
+        staleTime: 5 * 60_000,
+        gcTime: 24 * 60 * 60_000,
+    });
+}
+
 
 
 export function useCourse(courseId: number) {

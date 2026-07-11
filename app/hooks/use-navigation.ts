@@ -3,7 +3,7 @@ import type { Purpose } from "@/features/auth/types";
 
 export function useAppNavigation() {
     const navigate = useNavigate();
-    const { userId, eventId } = useParams()
+    const { userId, eventId, courseId } = useParams()
 
 
     const toDashboard = () => navigate(`/dashboard`);
@@ -27,6 +27,7 @@ export function useAppNavigation() {
         toEvent,
         toPrevious,
         userId,
-        eventId
+        eventId,
+        courseId
     };
 }

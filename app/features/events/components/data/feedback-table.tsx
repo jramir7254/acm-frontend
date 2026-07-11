@@ -1,6 +1,6 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-import { useEventField } from '../../hooks/event/queries'
+import { useEventFeedback, useEventField } from '../../hooks/event/queries'
 import { Italic } from '@/components/text/typography'
 import { useAppNavigation } from '@/hooks'
 
@@ -18,7 +18,7 @@ interface DataModel {
 }
 
 export function FeedbackTable({ eventId }: { eventId: number }) {
-    const { data, isLoading } = useEventField(eventId, 'feedback')
+    const { data, isLoading } = useEventFeedback(eventId)
     const { toUser } = useAppNavigation()
 
     if (!data || !Array.isArray(data)) return <p>no data</p>

@@ -43,6 +43,8 @@ export function useEventField(eventId: number, field: EventFields = 'base') {
     });
 }
 
+
+
 export function useEventAttendance(eventId: number) {
 
     return useQuery({

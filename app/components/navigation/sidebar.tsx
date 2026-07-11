@@ -78,10 +78,10 @@ export function DashboardSidebar() {
                     <Separator />
                     <SidebarGroup label="Instructors">
                         <FeatureFlag ready>
-                            <SidebarItem to='instructor'>
+                            {/* <SidebarItem to='instructor'>
                                 <FaChalkboardTeacher className="h-4 w-4" />
                                 <Text>Students</Text>
-                            </SidebarItem>
+                            </SidebarItem> */}
                             <SidebarItem to='courses'>
                                 <School className="h-4 w-4" />
                                 <Text>Courses</Text>
