@@ -1,5 +1,5 @@
 import { Italic, Paragraph } from '@/components/text/typography'
-import { useStudents } from '@/features/users/hooks/users/queries'
+import { useStudents } from '@/features/users/hooks/queries'
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type FilterFn, type SortingState } from '@tanstack/react-table'
 
 import { InfoIcon, ListFilter, RefreshCwIcon } from 'lucide-react'
