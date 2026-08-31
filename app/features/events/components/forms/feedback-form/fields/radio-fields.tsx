@@ -12,7 +12,6 @@ import { Paragraph } from '@/components/text/typography'
 import { Separator } from '@/components/ui/separator'
 
 export function RadioFields({ form }: ReactFeedbackForm) {
-    const isMobile = useIsMobile()
 
     return FEEDBACK_QUESTIONS_ARRAY.map((q, i) => (
         <>
@@ -29,6 +28,7 @@ export function RadioFields({ form }: ReactFeedbackForm) {
                             className='flex flex-col '
                             name={field.name}
                             value={field.value}
+                            disabled={field.disabled}
                             onValueChange={field.onChange}
                         >
                             {q.options.map((o, i) => (

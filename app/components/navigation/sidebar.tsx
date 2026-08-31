@@ -33,7 +33,7 @@ export function DashboardSidebar() {
 
 
     return (
-        <Sidebar className="" collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="inset" className="">
             <SidebarHeader className="">
                 <SidebarMenu>
                     <SidebarMenuItem>

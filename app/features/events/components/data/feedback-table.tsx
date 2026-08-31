@@ -1,6 +1,6 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-import { useEventFeedback, useEventField } from '../../hooks/event/queries'
+import { useEventFeedback, useEventField } from '../../hooks/queries'
 import { Italic } from '@/components/text/typography'
 import { useAppNavigation } from '@/hooks'
 
@@ -50,7 +50,7 @@ export function FeedbackTable({ eventId }: { eventId: number }) {
                             <TableCell >{u.q2}</TableCell>
                             <TableCell >{u.q3}</TableCell>
                             <TableCell >{u.q4}</TableCell>
-                            <TableCell className='overflow-ellipsis max-w-20'>{u.q5 || <Italic muted>None</Italic>}</TableCell>
+                            <TableCell className='text-ellipsis max-w-20'>{u.q5 || <Italic muted>None</Italic>}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

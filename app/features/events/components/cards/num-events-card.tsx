@@ -1,25 +1,25 @@
 import { AnimatedNumber } from '@/components/other';
-import { useUsers, useUsersStats } from '@/features/users/hooks/users/queries'
 import { Plus, TrendingUp } from 'lucide-react'
 import { MdOutlineTrendingFlat } from "react-icons/md";
-import { useAdminEvents, useEvents } from '@/features/events/hooks/events/queries'
+import { useAdminEvents, useEvents, useStats } from '@/features/events/hooks/queries'
 import { SemestersName } from '@/components/text/semester-name';
 import React from 'react'
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 export function EventsNumberCard({ semesterId = 'current' }) {
     const { data: allEvents } = useEvents()
-    const { data, isLoading } = useAdminEvents(semesterId)
+    const { data } = useStats()
 
+    if (!data) return <></>
 
 
     return (
-        <Card className='w-87.5'>
+        <Card className='w-full'>
             <CardHeader>
                 <CardDescription>Total Events</CardDescription>
-                <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl grid place-items-center">
+                <CardTitle className=" font-semibold tabular-nums @[250px]/card:text-3xl grid place-items-center">
                     <AnimatedNumber
-                        num={allEvents?.length || 0}
+                        num={data.totalEvents}
                         className="font-rubik"
                     />
                 </CardTitle>
@@ -27,7 +27,7 @@ export function EventsNumberCard({ semesterId = 'current' }) {
             </CardHeader>
             <CardFooter className="flex-col items-start gap-1.5 text-sm mb-">
                 <div className=" font-medium">
-                    {data?.eventsData.length} Events this semester
+                    {data.numSemEvents} Events this semester
                 </div>
                 <div className="text-muted-foreground">
                     <SemestersName semesterId={semesterId} />

@@ -10,10 +10,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { useCheckIn } from '../../hooks/event/mutations'
+import { useCheckIn } from '../../hooks/mutations'
 
 import { CheckInForm } from '../forms/check-in-form/check-in-form'
-import type { Event } from '../../types/event'
 import type { EventIdentifiers } from '../../types'
 export function CheckInOverlay({ event, children }: { event: EventIdentifiers, children: React.ReactNode }) {
     const { mutateAsync } = useCheckIn(event.id)

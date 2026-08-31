@@ -3,8 +3,10 @@ export type EventFields = 'rsvps' | 'attendance' | 'feedback' | 'base' | 'all' |
 
 export type EventType = "meeting" | "workshop" | "external" | "major" | "recurring" | "hackathon" | "datathon" | "extra_credit"
 
+type Boolean = 1 | 0
+
 export interface Event {
-    id: string,
+    id: number,
     title: string,
     location: string,
     host: string,
@@ -13,6 +15,7 @@ export interface Event {
     endAt: string,
     imageUrl: string,
     code: string,
+    requireSurvey: Boolean,
     type: EventType;
     externalLink: string,
     semesterCreatedId: number
@@ -36,6 +39,22 @@ export type EventRating = EventIdentifiers & { avgRating: number }
 export type RatedEvents = {
     highestRated: EventRating
     lowestRated: EventRating
+}
+
+export type RatedEvent = {
+    id: number,
+    title: string,
+    avgRating: number,
+    semesterCreatedId: number,
+    isCurrent: number
+}
+
+
+export type EventsStats = {
+    totalEvents: number,
+    numSemEvents: number,
+    highestRated: RatedEvent,
+    lowestRated: RatedEvent
 }
 
 export interface EventFeedback {

@@ -1,7 +1,7 @@
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardAction } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { PermissionGuard } from '@/components/layout';
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, Edit } from "lucide-react";
 import { DeleteEventButton, EditEventButton, ShowCodeButton } from '../buttons/admin';
 import { InfoButton } from '../buttons';
 import { EventActionButton } from '../buttons/users';
@@ -10,7 +10,8 @@ import { useIsMobile } from '@/hooks';
 import { Paragraph, Heading } from '@/components/text/typography';
 import { type Event } from '../../types';
 import { formatDateAndTime } from '@/lib/utils';
-import { CardAction } from '@/components/primitives/card';
+import { EventFormSheet } from '../overlays/event-form-sheet';
+import { Button } from '@/components/ui/button';
 
 
 
@@ -58,7 +59,10 @@ export function EventCard({ event }: { event: Event }) {
                 <PermissionGuard resource='events' requiredRoles={['president']}>
                     <div className='absolute flex top-2 right-2 z-10 gap-2 text-lg'>
                         <DeleteEventButton eventId={id} />
-                        <EditEventButton event={event} />
+                        <EventFormSheet event={event}>
+                            <Button variant='secondary' size='icon'><Edit /></Button>
+
+                        </EventFormSheet>
                         <ShowCodeButton isLive={isLive} event={event} />
                     </div>
                 </PermissionGuard>

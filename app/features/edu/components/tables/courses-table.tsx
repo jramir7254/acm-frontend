@@ -10,7 +10,9 @@ import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, 
 import { CourseForm } from '../course-form';
 import type { Course } from '../../types';
 import { Link } from 'react-router';
-
+import clsx from 'clsx';
+import { CustomBadge } from '@/components/other/custom-badge';
+import { capitalize } from 'es-toolkit/string';
 
 export function CoursesTable() {
     const [deleteOpen, setDeleteOpen] = useState(false)
@@ -22,7 +24,7 @@ export function CoursesTable() {
 
     return (
         <>
-            <Table>
+            <Table className='rounded-t-lg'>
                 <TableCaption>A list of your rsvp'd events.</TableCaption>
                 <TableHeader className='sticky top-0 rounded-t-lg bg-accent overflow-hidden z-5 '>
                     <TableRow className='hover:bg-inherit'>
@@ -31,17 +33,24 @@ export function CoursesTable() {
                         <TableHead>Course Title</TableHead>
                         <TableHead>Course Subject</TableHead>
                         <TableHead>Course Number</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {courses && courses.map(c => c.id == -1 ? null : (
-                        <TableRow key={c.name + c.id}>
+                        <TableRow className={clsx(!c.active && 'text-muted-foreground')} key={c.name + c.id}>
                             <TableCell>{c.instructorFirstName}</TableCell>
                             <TableCell>{c.instructorLastName}</TableCell>
                             <TableCell>{c.title}</TableCell>
                             <TableCell>{c.subject}</TableCell>
                             <TableCell>{c.courseNumber}</TableCell>
+                            <TableCell>
+                                <CustomBadge itemKey={c.active ? 'active' : 'inactive'} config={{
+                                    'active': { color: 'green', variant: 'outline' },
+                                    'inactive': { color: 'red', variant: 'outline' },
+                                }} />
+                            </TableCell>
                             <TableCell>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>

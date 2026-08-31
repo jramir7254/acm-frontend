@@ -16,7 +16,7 @@ import type { Role } from '@/components/layout';
 import { MdArrowRight } from 'react-icons/md';
 import { Separator } from '@/components/ui/separator';
 import { HiArrowLongRight } from "react-icons/hi2";
-import { useEvents } from '@/features/events/hooks/events/queries';
+import { useEvents } from '@/features/events/hooks/queries';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import { Checkbox } from '@/components/ui/checkbox';

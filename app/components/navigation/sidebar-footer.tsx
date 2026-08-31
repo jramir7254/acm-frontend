@@ -28,7 +28,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { MeCard } from "@/features/users/components/me/cards/me-card"
+import { MeCard } from "@/features/users/components/ui/me-card"
 import { LogoutButton } from "@/features/auth/components/buttons/logout-button"
 
 export function SidebarUserFooter() {

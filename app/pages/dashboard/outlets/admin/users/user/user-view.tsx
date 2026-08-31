@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import { useAppNavigation } from '@/hooks';
-import { useUser } from '@/features/users/hooks/user/queries';
 import { ArrowLeft, Edit2 } from 'lucide-react';
 import { Paragraph } from '@/components/text/typography';
 import { Badge } from '@/components/ui/badge';
@@ -10,18 +9,19 @@ import { useCourse } from '@/features/edu/hooks/queries';
 import { Tabs, TabsTrigger, TabsList, TabsContent } from '@/components/ui/tabs';
 // import AttendanceTable from './components/attendance-table';
 import { Separator } from '@/components/ui/separator';
-import { RoleBadge } from '@/features/users/components/role-badge';
+import { RoleBadge } from '@/features/users/components/ui/role-badge';
 import { Item } from '@/components/ui/item';
 import { AssignRoleOverlay, AddAttendanceOverlay } from '@/features/admin/components/overlays';
 import ReminderButton from '@/features/admin/components/buttons/reminder-button';
 import { EditUserPanel } from '@/features/admin/components/forms/edit-user-form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-import { UserCard } from '@/features/users/components/user/user-card';
+import { UserCard } from '@/features/users/components/ui/user-card';
+import { useBaseUser } from '@/features/users/hooks/queries';
 
 export default function UserView() {
     const { toPrevious, userId } = useAppNavigation()
-    const { data, isLoading } = useUser(userId || '')
+    const { data, isLoading } = useBaseUser(userId || '')
 
 
 

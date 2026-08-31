@@ -19,8 +19,6 @@ export const client: AxiosInstance = axios.create({
 
 
 
-
-
 client.interceptors.request.use((config) => {
     const token = tokenStore.get();
 
@@ -36,6 +34,7 @@ client.interceptors.request.use((config) => {
         body: config.data,
         headers: config.headers
     })
+
 
     return config;
 });

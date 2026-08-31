@@ -30,11 +30,11 @@ export default function DashboardPage() {
 
 
     return (
-        <SidebarProvider className=' min-h-screen bg-background'>
+        <SidebarProvider className='max-h-screen  bg-black '>
             <DashboardSidebar />
             <SidebarInset className=''>
 
-                <header className="flex h-16 shrink-0 items-center gap-3 px-4 sm:px-5 lg:px-6">
+                <header className="flex sticky top-0 h-16 shrink-0 items-center gap-3 px-4 sm:px-5 lg:px-6  bg-black z-10 rounded-t-xl ">
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                         <SidebarTrigger className="size-8" />
                         <Separator
@@ -73,7 +73,7 @@ export default function DashboardPage() {
                 </header>
                 <Separator />
 
-                <ScrollArea className='p-5 h-[80vh] lg:p-7 2xl:p-8 flex-1 relative '>
+                <ScrollArea className='p-5 h-[90vh] lg:p-7 2xl:p-8 max-w-[100vw]'>
                     <Outlet />
                 </ScrollArea>
             </SidebarInset>

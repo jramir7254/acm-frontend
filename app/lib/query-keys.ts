@@ -1,4 +1,4 @@
-import type { EventFields } from "@/features/events/types/event";
+import type { EventFields } from "@/features/events/types";
 
 export type UserFields = 'rsvps' | 'attendance' | 'points' | 'events'
 
@@ -12,12 +12,7 @@ export const queryKeys = {
         currentSemester: () => [...queryKeys.app.all, "semesters", "current"] as const,
     },
 
-    auth: {
-        all: ['auth'] as const,
-        roles: () => [...queryKeys.auth.all, "roles"] as const,
-        permissions: () => [...queryKeys.auth.all, "perms"] as const,
-
-    },
+    auth: ['auth'],
     me: {
         all: ['me'] as const,
         base: () => [...queryKeys.me.all, "base"] as const,
@@ -36,9 +31,16 @@ export const queryKeys = {
         detail: {
             base: (epccId: string) =>
                 [...queryKeys.users.all, "detail", epccId] as const,
-
-            field: (epccId: string, field: EventFields) =>
-                [...queryKeys.users.detail.base(epccId), field] as const,
+            points: (epccId: string) =>
+                [...queryKeys.users.detail.base(epccId), 'points'] as const,
+            courses: (epccId: string) =>
+                [...queryKeys.users.detail.base(epccId), 'courses'] as const,
+            rsvps: (epccId: string) =>
+                [...queryKeys.users.detail.base(epccId), 'rsvps'] as const,
+            attendance: (epccId: string) =>
+                [...queryKeys.users.detail.base(epccId), 'attendance'] as const,
+            feedback: (epccId: string, surveyId: number) =>
+                [...queryKeys.users.detail.base(epccId), 'feedback', surveyId]
         },
     },
 
@@ -51,6 +53,16 @@ export const queryKeys = {
             semesterId?: string | 'current'
         }) =>
             [...queryKeys.events.lists(), params ?? {}] as const,
+        attendance: (params?: {
+            filters?: Record<string, unknown>
+            view?: 'public' | 'admin' | 'stats'
+            semesterId?: string | 'current'
+        }) => [...queryKeys.events.all, 'attendance', params] as const,
+        stats: (params?: {
+            filters?: Record<string, unknown>
+            view?: 'public' | 'admin' | 'stats'
+            semesterId?: string | 'current'
+        }) => [...queryKeys.events.all, 'stats', params] as const,
 
         detail: {
             base: (id: number) =>

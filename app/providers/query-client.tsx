@@ -4,7 +4,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
 // Export these for use in root and logout cleanup
-export const PERSIST_KEY = "rq-cache:v1"; // bump when you need to invalidate persisted cache
+export const PERSIST_KEY = "rq-cache:v2"; // bump when you need to invalidate persisted cache
 
 export const queryClient = new QueryClient({
     defaultOptions: {

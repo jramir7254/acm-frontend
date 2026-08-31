@@ -7,8 +7,12 @@ export type Purpose = 'verify' | 'reset'
 
 export interface AuthResponse {
     token: string,
-    epccId: string,
-    purpose?: Purpose
+    id: number;
+    epccEmail: string;
+    purpose: Purpose;
+    epccId: string;
+    emailVerifiedAt: string | null;
+    role: string;
 }
 
 

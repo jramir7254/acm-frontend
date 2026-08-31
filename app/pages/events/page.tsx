@@ -10,9 +10,12 @@ import { type Event } from "@/features/events/types";
 
 
 import { logger } from "@/lib/logger";
-import { useEvents } from "@/features/events/hooks/events/queries";
+import { useEvents, useEventsList } from "@/features/events/hooks/queries";
 import { CreateEventButton } from "@/features/events/components/buttons/admin/create-button";
 import { useCurrentSemester } from "@/features/app/use-semester";
+import { EventFormSheet } from "@/features/events/components/overlays/event-form-sheet";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 function GridSkeleton({ count = 6 }) {
     return (
@@ -46,7 +49,9 @@ function EventsPageInner() {
             <div className="min-h-screen bg-background py-20 pb-[100vh] px-[5vw] flex flex-col gap-5 border-y-2 border-accent">
                 <div className="ml-auto space-x-3">
                     <FilterEventsButton filters={filters} onChange={setFilters} />
-                    <CreateEventButton />
+                    <EventFormSheet>
+                        <Button variant="default" size="icon"><Plus /></Button>
+                    </EventFormSheet>
                 </div>
 
                 <Separator />
@@ -67,10 +72,10 @@ function EventsPageInner() {
 
 
 function EventsList({ filters }: { filters: EventFilters }) {
-    const { data: events, isLoading, isFetching } = useEvents();
+    const { data: events, isLoading, isFetching } = useEventsList();
     const { data: semester } = useCurrentSemester()
 
-    // if (!events) return
+    if (!events) return
 
 
     const visibleEvents = useMemo<Event[]>(() => {

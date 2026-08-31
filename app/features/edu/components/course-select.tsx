@@ -27,13 +27,15 @@ import type { ReactProfileForm } from '@/features/users/components/user/forms/up
 import { Controller } from 'react-hook-form'
 import { Label } from '@/components/ui/label'
 import { logger } from '@/lib/logger'
+import type { ProfileFormValues } from '@/features/users/components/forms/courses-form'
 
 type CourseItem = {
-    id: string;
+    id: number;
     title: string;
     subject: string;
     courseNumber: string;
     name: string;
+    active: number
 };
 
 type ProfessorGroup = {
@@ -41,13 +43,15 @@ type ProfessorGroup = {
     courses: CourseItem[];
 };
 
-export function CourseSelect({ form }: ReactProfileForm) {
+export function CourseSelect({ form }: ProfileFormValues) {
     const anchor = useComboboxAnchor();
     const { data: courses } = useCourses();
 
     if (!courses) return null;
 
-    const organizedCourses = courses.reduce<ProfessorGroup[]>((acc, curr) => {
+    const activeCourses = courses.filter(c => c.active)
+
+    const organizedCourses = activeCourses.reduce<ProfessorGroup[]>((acc, curr) => {
         if (curr.id === -1) {
             const profGroup = { professor: "Other", courses: [] };
             acc.push(profGroup);
@@ -149,21 +153,3 @@ export function CourseSelect({ form }: ReactProfileForm) {
 
 
 
-
-// export function CourseSelect() {
-//     const { data: courses } = useCourses()
-
-//     if (!courses) return
-
-//     return (
-//         <SelectContent className='w-fit'>
-//             <SelectGroup>
-//                 {courses.map(course => (
-//                     <SelectItem key={`course_${course.id}`} value={String(course.id)}>
-//                         {createCourseName(course)}
-//                     </SelectItem>
-//                 ))}
-//             </SelectGroup>
-//         </SelectContent>
-//     )
-// }

@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import ConfirmationModal from "@/components/other/confirmation"
-import { useCancelRsvp } from "@/features/events/hooks/event/mutations";
+import { useCancelRsvp } from "@/features/events/hooks/mutations";
 export function CancelRsvpButton({ eventId }: { eventId: string | number }) {
 
     const cancelRsvpMutation = useCancelRsvp(eventId);

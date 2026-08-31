@@ -1,8 +1,7 @@
 import { AnimatedNumber } from '@/components/other';
-import { useUsers, useUsersStats } from '@/features/users/hooks/users/queries'
 import { TrendingUp } from 'lucide-react'
 import { MdOutlineTrendingFlat } from "react-icons/md";
-import { useAdminEvents, useEvents, useStats } from '@/features/events/hooks/events/queries'
+import { useAdminEvents, useEvents, useStats } from '@/features/events/hooks/queries'
 
 import React from 'react'
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'

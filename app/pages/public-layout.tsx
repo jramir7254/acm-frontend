@@ -34,7 +34,6 @@ export default function App() {
             />
             <Header />
             <main className="flex flex-col ">
-
                 <Outlet />
             </main>
             <Footer />

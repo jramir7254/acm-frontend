@@ -8,6 +8,23 @@ import { RadioFields } from './fields/radio-fields'
 import { TextField } from './fields/text-field'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
+// what the backend actually sends
+export type FeedbackDTO = {
+    question1: number;
+    question2: number;
+    question3: number;
+    question4: number;
+    question5: string | null;
+};
+
+const toFormValues = (dto: FeedbackDTO): FeedbackFormValues => ({
+    question1: String(dto.question1) as FeedbackFormValues["question1"],
+    question2: String(dto.question2) as FeedbackFormValues["question2"],
+    question3: String(dto.question3) as FeedbackFormValues["question3"],
+    question4: String(dto.question4) as FeedbackFormValues["question4"],
+    question5: dto.question5 ?? "",
+});
+
 const formSchema = z.object({
     question1: z.enum(["1", "2", "3", "4", "5"], {
         error: "Please select an option",
@@ -34,7 +51,15 @@ export type ReactFeedbackForm = {
 
 
 
-export default function FeedbackForm({ handleSubmit }: { handleSubmit: (form: FeedbackFormValues) => Promise<void>, }) {
+export default function FeedbackForm({
+    handleSubmit,
+    data
+}: {
+    handleSubmit: (form: FeedbackFormValues) => Promise<void>,
+    data?: FeedbackFormValues | null
+}) {
+
+    console.log({ data })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -45,8 +70,11 @@ export default function FeedbackForm({ handleSubmit }: { handleSubmit: (form: Fe
             question4: undefined,
             question5: "",
         },
+        values: data ? toFormValues(data) : undefined,
         mode: 'onSubmit',
-        reValidateMode: 'onSubmit'
+        reValidateMode: 'onSubmit',
+        disabled: !!data
+
     })
 
 

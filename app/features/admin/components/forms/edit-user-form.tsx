@@ -14,10 +14,10 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Edit2 } from 'lucide-react'
 import { type BaseUser } from '@/features/users/types'
-import ProfileForm from '@/features/users/components/user/forms/update-form/form'
+// import ProfileForm from '@/features/users/components/user/forms/update-form/form'
 import { Separator } from '@/components/ui/separator'
 import { AssignRoleOverlay } from '../overlays'
-import { useUpdateUser } from '@/features/users/hooks/user/mutations'
+import { useUpdateUser } from '@/features/users/hooks/mutations'
 
 export function EditUserPanel({ user }: { user: BaseUser }) {
 
@@ -40,7 +40,7 @@ export function EditUserPanel({ user }: { user: BaseUser }) {
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid flex-1 auto-rows-min gap-6 px-4">
-                    <ProfileForm user={user} handleSubmit={mutateAsync} admin />
+                    {/* <ProfileForm user={user} handleSubmit={mutateAsync} admin /> */}
                     <Separator />
                     <AssignRoleOverlay userId={user.id} epccId={user.epccId} currentRole={user.role} />
                 </div>

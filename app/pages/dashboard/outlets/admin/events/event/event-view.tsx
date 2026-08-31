@@ -1,7 +1,7 @@
 
 
 import { Button } from '@/components/ui/button';
-import { useEvent } from '@/features/events/hooks/event/queries';
+import { useEvent } from '@/features/events/hooks/queries';
 import { useAppNavigation } from '@/hooks';
 import { ArrowLeft, MoreHorizontal } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -29,16 +29,15 @@ export default function EventView() {
     const { date, time } = formatDateAndTime(event?.startAt, event?.endAt)
 
     return (
-        <Card className="relative mx-auto w pt-0  rounded-2xl overflow-hidden border">
+        <div>
 
-            <div className='absolute top-5 left-5 z-10'>
+            <img
+                src={event.imageUrl}
+                alt={event.title}
+                className="h-50 w-full  top-0 left-0 object-cover brightness-60   dark:brightness-40  "
+            />
 
-                <Button onClick={toPrevious} size='icon' variant={'default'} >
-                    <ArrowLeft />
-                </Button>
-            </div>
-
-            <div className='absolute top-5 right-5 z-10'>
+            {/* <div className='absolute top-5 right-5 z-10'>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -56,42 +55,21 @@ export default function EventView() {
 
                     </DropdownMenuContent>
                 </DropdownMenu>
-            </div>
+            </div> */}
 
+            <div className=''>
+                <h3 className='font-bold text-xl md:text-2xl'>{event.title}</h3>
 
-            <img
-                src={event.imageUrl}
-                alt={event.title}
-                className="h-50 w-full  object-cover brightness-60  dark:brightness-40"
-            />
-            <CardHeader>
-                <CardAction>
-                    <Badge variant="secondary">{event?.type}</Badge>
-                </CardAction>
-                <CardTitle className='text-lg md:text-3xl -translate-y-7.5'>
-                    {event?.title || 'null'}
-                    {/* <EditEventButton event={event} /> */}
-                </CardTitle>
-                <CardDescription className='flex'>
-                    <div>
+                <Paragraph>
+                    {event?.description}
+                </Paragraph>
+                <Item>
+                    Date: <Italic muted>{date} {time}</Italic>
+                </Item>
+                <Item>Location: <Italic muted>{event?.location}</Italic></Item>
+                <Item>Host: <Italic muted>{event?.host}</Italic></Item>
+                <Tabs defaultValue="rsvps" className="size-full ">
 
-                        <Item>
-                            Date: <Italic muted>{date} {time}</Italic>
-                        </Item>
-                        <Item>Location: <Italic muted>{event?.location}</Italic></Item>
-                        <Item>Host: <Italic muted>{event?.host}</Italic></Item>
-                        <Paragraph>
-                            {event?.description}
-                        </Paragraph>
-                    </div>
-                    <div>
-                        Numbers
-                    </div>
-                </CardDescription>
-            </CardHeader>
-            <Separator />
-            <CardContent>
-                <Tabs defaultValue="rsvps" className="size-full">
                     <TabsList variant={'line'}>
                         <TabsTrigger value="rsvps">RSVPS</TabsTrigger>
                         <TabsTrigger value="attendance">Attendance</TabsTrigger>
@@ -128,9 +106,9 @@ export default function EventView() {
 
                     </ScrollArea>
                 </Tabs>
+            </div>
 
-            </CardContent>
 
-        </Card>
+        </div>
     )
 }

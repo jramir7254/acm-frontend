@@ -1,6 +1,5 @@
 import { NavLink } from "react-router"
 import { capitalize, cn } from "@/lib/utils"
-import { useMe } from "@/features/users/hooks/me/queries"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { MenuIcon } from "lucide-react"
 import { Button } from "../ui/button"
@@ -19,6 +18,8 @@ import {
 } from "@/components/ui/sheet"
 import { SemesterName } from "../text/semester-name"
 import { Separator } from "../ui/separator"
+// import { useAuth } from "@/features/auth/hooks/use-auth"
+import { useBaseUser } from "@/features/users/hooks/queries"
 
 
 export default function Header() {
@@ -49,7 +50,7 @@ export default function Header() {
 
 
 function Links() {
-    const { data: user } = useMe()
+    const { data: user } = useBaseUser("me")
 
     const pages = [
         { to: "/", text: "Home" },

@@ -36,10 +36,10 @@ export const eventSchema = z
         startAt: true ? z.date() : dateField.min(startOfToday, "Start cannot be earlier than today"),
         endAt: true ? z.date() : dateField.min(startOfToday, "End cannot be earlier than today"),
         type: z.enum(['meeting', 'workshop', 'external', 'major', 'recurring', 'hackathon', 'datathon', 'extra_credit']),
+        requireSurvey: z.boolean(),
         resources: z.string().optional().nullable(),
         requirements: z.string().optional().nullable(),
         externalLink: z.string().optional().nullable(),
-
         description: z
             .string()
             .min(1, "Description cannot be empty")

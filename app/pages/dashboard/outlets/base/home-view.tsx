@@ -1,5 +1,4 @@
-import { MyEventsTable } from '@/features/users/components/me/tables/my-events-table';
-import { AttendanceNumber, PointsNumber } from '@/features/users/components/me/numbers';
+import { AttendanceNumber, PointsNumber } from '@/features/users/components/ui';
 import { useSemsterSelect } from '@/features/app/components/use-semester-select';
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,21 +8,28 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useUserAttendance, useUserRsvps } from '@/features/users/hooks/queries';
+import { UserRsvpsTable } from '@/features/users/components/tables/rsvps-table';
+import { UserAttendanceTable } from '@/features/users/components/tables/attendance-table';
+import { AnimatedNumber } from '@/components/other/animated-number';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 
 
 export default function HomeView() {
+    // const { data: test, isLoading } = useUserRsvps("me");
+    const { data, isRefetching, isLoading } = useUserAttendance("me")
 
-    const { value, onChange, setValue } = useSemsterSelect()
-
-
+    const pendingEvents = data?.filter(event => event.complete === 0).length || 0
+    const countedEvents = data?.filter(event => event.complete === 1).length || 0
 
     return (
-        <div className='size-full relative max-h-screen flex flex-col space-y-5 ' >
+        <div className='max-w-svw flex flex-col space-y-5 ' >
 
-            <div className='flex gap-5 flex-col md:flex-row  '>
+            <header className='flex gap-5 flex-col md:flex-row  '>
 
-                <Card size='sm' className='w-full max-w-2xs bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 bg-linear-to-r from-blue-600 to-blue-800 '>
+                <Card size='sm' className='w-full md:max-w-2xs bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 bg-linear-to-r from-blue-600 to-blue-800 '>
                     <CardHeader>
                         <CardTitle>Points</CardTitle>
                         <CardAction>
@@ -42,38 +48,53 @@ export default function HomeView() {
                     </CardHeader>
                     <CardContent>
                         <PointsNumber />
-
                     </CardContent>
                 </Card>
-                <Card size='sm' className='w-full max-w-2xs bg-linear-to-r from-indigo-500 to-indigo-700'>
+                <Card size='sm' className='w-full md:max-w-2xs bg-linear-to-r from-indigo-500 to-indigo-700'>
                     <CardHeader>
                         <CardTitle>Events Attended</CardTitle>
                         <CardAction className=''>
                             <Badge variant={'default'}>
-                                <AttendanceNumber type='missing' /> Pending
+                                <AnimatedNumber
+                                    num={pendingEvents}
+                                    className='text-base'
+                                />
+                                Pending
                             </Badge>
                         </CardAction>
                     </CardHeader>
                     <CardContent>
-                        <AttendanceNumber type='complete' />
-
-
+                        <AnimatedNumber
+                            num={countedEvents}
+                            className='text-xl md:text-3xl'
+                        />
                     </CardContent>
                 </Card>
-
-
-
-            </div>
+            </header>
 
 
 
 
-            <div className='  overflow-hidden'>
-                <div className='size-full space-y-5'>
+            <div className=''>
+                <div className=' space-y-5'>
                     <div className='inline-flex items-center gap-5'>
                         <h2 className='font-nunit text-xl font-bold'>My events</h2>
                     </div>
-                    <MyEventsTable semesterId={value} />
+                    <Tabs defaultValue="rsvps" className="">
+                        <TabsList variant={'line'}>
+                            <TabsTrigger value="rsvps">RSVPS</TabsTrigger>
+                            <TabsTrigger value="attendance">Attendance</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="rsvps">
+                            <UserRsvpsTable />
+                        </TabsContent>
+                        <TabsContent value="attendance" className=''>
+                            <ScrollArea className=" h-100 max-w-100 md:max-w-full">
+                                <UserAttendanceTable />
+                                <ScrollBar orientation='horizontal' />
+                            </ScrollArea>
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </div>
         </div>

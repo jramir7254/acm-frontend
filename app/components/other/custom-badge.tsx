@@ -27,7 +27,17 @@ const colorMap = {
 }
 
 
-export function CustomBadge({ itemKey, config, className }: { itemKey: keyof BadgeConfig, config: BadgeConfig, className?: string }) {
+export function CustomBadge({
+    itemKey,
+    config,
+    className,
+    children
+}: {
+    itemKey: keyof BadgeConfig,
+    config: BadgeConfig,
+    className?: string,
+    children?: React.ReactNode
+}) {
 
     if (!itemKey) {
         return (
@@ -41,7 +51,7 @@ export function CustomBadge({ itemKey, config, className }: { itemKey: keyof Bad
     return (
         <Badge variant={config[itemKey]?.variant} className={`font-nunit size-fit ${className}`}>
             <Circle fill={colorMap[config[itemKey]?.color]} stroke='none' />
-            {snakeToTitle(itemKey)}
+            {children ? children : snakeToTitle(itemKey)}
         </Badge>
     )
 }

@@ -12,7 +12,7 @@ import {
 
 import { EventForm } from "."
 import { useState } from "react"
-import { useCreateOrUpdateEvent } from "@/features/events/hooks/event/mutations"
+import { useCreateOrUpdateEvent } from "@/features/events/hooks/mutations"
 import type { Event } from "@/features/events/types"
 import type { EventFormValues } from "@/features/events/lib/schemas"
 

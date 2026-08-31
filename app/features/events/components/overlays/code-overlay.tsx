@@ -11,7 +11,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import OtpDisplay from "@/components/other/otp-display"
-import { useEventField } from "../../hooks/event/queries"
+import { useEventField } from "../../hooks/queries"
 import type { Event } from "../../types/event"
 export function ShowCodeOverlay({ event, children }: { children: React.ReactNode, event: Event }) {
     const { data } = useEventField(event.id, 'code')

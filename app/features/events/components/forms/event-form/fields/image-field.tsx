@@ -17,7 +17,7 @@ export function ImageField({ form }: EventReactForm) {
     const imgUrl = form.watch("imageUrl");
 
     return (
-        <Empty className="border-2 rounded h-fit max-h-1/2 overflow-hidden relative aspect-video w-full">
+        <Empty className="border-2 rounded h-fit  overflow-hidden relative aspect-video w-full">
             <Controller
                 name='imageUrl'
                 control={form.control}

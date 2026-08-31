@@ -1,6 +1,7 @@
 import React from 'react'
-import { UsersNumberCard } from '@/features/users/components/users/cards/num-users-card';
-import UsersTable from '@/features/users/components/users/tables/users-table';
+import { UsersNumberCard } from '@/features/users/components/ui/num-users-card';
+import UsersTable from '@/features/users/components/tables/users-table';
+// import UsersTable from '@/features/users/components/users/tables/users-table';
 
 
 

@@ -1,5 +1,5 @@
 import { AnimatedNumber } from '@/components/other/animated-number'
-import { useEvents } from '@/features/events/hooks/events/queries'
+import { useEvents } from '@/features/events/hooks/queries'
 
 export function EventsNumber() {
     const { data } = useEvents()

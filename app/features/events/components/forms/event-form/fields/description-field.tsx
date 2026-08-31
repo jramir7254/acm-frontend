@@ -24,7 +24,7 @@ export function DescriptionField({ form }: EventReactForm) {
                     </FieldLabel>
                     <Textarea
                         id='description'
-                        className="resize-none h-[200px] md:h-full text-xs"
+                        className="resize-none h-50 text-xs"
                         {...field}
                     />
                     {fieldState.invalid && isMobile && (

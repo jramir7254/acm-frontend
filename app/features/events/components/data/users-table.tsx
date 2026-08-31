@@ -1,6 +1,6 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-import { useEventAttendance, useEventField, useEventRsvps } from '../../hooks/event/queries'
+import { useEventAttendance, useEventField, useEventRsvps } from '../../hooks/queries'
 import { Italic } from '@/components/text/typography'
 import { CustomBadge, type BadgeConfig } from '@/components/other/custom-badge'
 import { useAppNavigation } from '@/hooks'
@@ -62,9 +62,9 @@ export function UsersTable({
                         <TableHead>Status</TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody className="border" isLoading={isLoading}>
+                <TableBody className="" >
                     {data.map((u: DataModel, idx) => (
-                        <TableRow className=" bg-background cursor-pointer" key={`event_${eventId}_${idx}`} onClick={() => toUser(u.epccId)}>
+                        <TableRow className="" key={`event_${eventId}_${idx}`} onClick={() => toUser(u.epccId)}>
                             <TableCell className="first:pl-6 ">{u.epccId}</TableCell>
                             <TableCell>{u.firstName || <Italic muted>First Name</Italic>}</TableCell>
                             <TableCell>{u.lastName || <Italic muted>Last Name</Italic>}</TableCell>

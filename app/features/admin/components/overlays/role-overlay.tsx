@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button'
 
-import { RoleBadge } from '@/features/users/components/role-badge';
+import { RoleBadge } from '@/features/users/components/ui/role-badge';
 import { ArrowRight, Edit2 } from 'lucide-react';
 import type { Role } from '@/components/layout';
 import { MdArrowRight } from 'react-icons/md';

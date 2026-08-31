@@ -1,6 +1,6 @@
 // app/routes.ts
 
-import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, layout, route, prefix } from "@react-router/dev/routes";
 
 export default [
     layout("pages/public-layout.tsx", [
@@ -16,6 +16,7 @@ export default [
 
 
     ]),
+
     route("dashboard", "pages/dashboard/page.tsx", [
         index("pages/dashboard/outlets/base/home-view.tsx"),
         route("settings", "pages/dashboard/outlets/base/profile-view.tsx"),

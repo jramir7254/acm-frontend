@@ -1,6 +1,6 @@
 import { logger } from "@/lib/logger";
 
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation, useSuspenseQueries } from "@tanstack/react-query";
 import { tokenStore } from "../lib/token-store";
 import { clearPersistedQueryCache } from "@/providers/query-client";
 import { backend, client } from "@/lib/backend-api";
@@ -8,13 +8,25 @@ import { backend, client } from "@/lib/backend-api";
 import type { AuthMode, Purpose, AuthResponse } from "../types";
 import { useAppNavigation } from "@/hooks";
 import { useNavigate } from "react-router";
+import { queryKeys } from "@/lib/query-keys";
 
 
+
+// export function useAuth() {
+//     return useQuery<AuthResponse>({
+//         queryKey: queryKeys.auth,
+//         queryFn: () => backend.post(`/auth/refresh`),
+//         enabled: !!tokenStore.get(),
+//         staleTime: 60 * 60 * 1000, // 1h fresh
+//         gcTime: 7 * 24 * 60 * 60 * 1000, // keep cached for 7 days
+//     });
+//}
 
 
 
 export function useAuthActions() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient()
 
     const { toVerify, toDashboard, toAuth } = useAppNavigation();
 
@@ -31,6 +43,8 @@ export function useAuthActions() {
 
             if (["login", "reset", "verify"].includes(mode)) {
                 tokenStore.set(token);
+
+                queryClient.setQueryData(queryKeys.auth, () => data)
 
                 if (mode === 'verify') {
                     const { purpose } = data
@@ -74,6 +88,7 @@ export function useLogout() {
             );
         } finally {
             tokenStore.clear();
+
             queryClient.removeQueries({ queryKey: ['users'], });
             queryClient.removeQueries({ queryKey: ['user'], });
             queryClient.removeQueries({ queryKey: ['me'], exact: false });

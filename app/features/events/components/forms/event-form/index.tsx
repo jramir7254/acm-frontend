@@ -76,9 +76,9 @@ export function EventForm({
 
                         <SelectTypeField form={form} />
                         <ExtraFields name="externalLink" form={form} />
-
+                        {/* 
                         <ExtraFields name="resources" form={form} />
-                        <ExtraFields name="requirements" form={form} />
+                        <ExtraFields name="requirements" form={form} /> */}
                     </div>
 
                 ) : (
@@ -103,9 +103,9 @@ export function EventForm({
                                     <SelectTypeField form={form} />
                                     <ExtraFields name="externalLink" form={form} />
                                 </div>
-
+                                {/* 
                                 <ExtraFields name="resources" form={form} />
-                                <ExtraFields name="requirements" form={form} />
+                                <ExtraFields name="requirements" form={form} /> */}
                             </div>
                         </div>
                     </>

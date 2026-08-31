@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import ConfirmationModal from "@/components/other/confirmation";
 import { Trash } from "lucide-react";
-import { useDeleteEvent } from "@/features/events/hooks/event/mutations";
+import { useDeleteEvent } from "@/features/events/hooks/mutations";
 import { PermissionGuard } from "@/components/layout/permission";
 
 export function DeleteEventButton({ eventId }: { eventId: number }) {

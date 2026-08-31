@@ -12,25 +12,39 @@ import {
 
 import FeedbackForm from "./feedback-form"
 import { useState } from "react"
-import { useEventFeedback } from "@/features/events/hooks/event/mutations"
+import { useEventFeedback } from "@/features/events/hooks/mutations"
 import type { FeedbackFormValues } from "./feedback-form"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Heading } from "@/components/text/typography"
 import type { EventIdentifiers } from '@/features/events/types'
+import { useUserFeedbackById } from "@/features/users/hooks/queries"
 
 
-export function FeedbackFormOverlay({ children, event }: { children: React.ReactNode, event: EventIdentifiers }) {
+export function FeedbackFormOverlay({
+    children,
+    event,
+    surveyId
+}: {
+    children: React.ReactNode,
+    event: EventIdentifiers,
+    surveyId: number | null
+
+}) {
     const [open, setOpen] = useState(false)
-    const { mutateAsync, isPending } = useEventFeedback(event.id)
+    const { mutateAsync, isPending } = useEventFeedback(event?.eventId)
+    const { data } = useUserFeedbackById('me', surveyId)
 
     const handleSubmit = async (form: FeedbackFormValues) => {
         await mutateAsync(form)
         setOpen(false)
     }
 
+
+
+
     return (
         <Dialog modal open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild >
+            <DialogTrigger  >
                 {children}
             </DialogTrigger>
             <DialogContent
@@ -47,15 +61,15 @@ export function FeedbackFormOverlay({ children, event }: { children: React.React
                         Complete this feedback form to fully account your attendance for this event.
                     </DialogDescription>
                 </DialogHeader>
-                <FeedbackForm handleSubmit={handleSubmit} />
+                <FeedbackForm handleSubmit={handleSubmit} data={data} />
 
 
 
-                <DialogFooter>
+                <DialogFooter hidden={!!data}>
                     <DialogClose asChild disabled={isPending}>
                         <Button variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button form="feedback-form" type="submit" disabled={isPending}>
+                    <Button form="feedback-form" type="submit" disabled={isPending || !!data}>
                         {isPending ? "Please Wait" : "Submit"}
                     </Button>
                 </DialogFooter>
